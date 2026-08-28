@@ -1,0 +1,140 @@
+[float_model]
+path=F:\ZJU_intership\task\4\WakeWord-Studio\phase1\artifacts\models\livekit_repcnn_xxlarge_smoke\livekit_repcnn_xxlarge_smoke.tflite
+bytes=231068
+sha256=f60f8210aece3d3382b3225ec125c4731c8e73247825cdffea99c312b3c48049
+input=float32 [1, 99, 40] quant=[0.0, 0]
+output=float32 [1, 1] quant=[0.0, 0]
+operators_in_order:
+  00: RESHAPE
+  01: CONV_2D
+  02: DEPTHWISE_CONV_2D
+  03: CONV_2D
+  04: ADD
+  05: DEPTHWISE_CONV_2D
+  06: CONV_2D
+  07: ADD
+  08: DEPTHWISE_CONV_2D
+  09: CONV_2D
+  10: ADD
+  11: DEPTHWISE_CONV_2D
+  12: CONV_2D
+  13: ADD
+  14: DEPTHWISE_CONV_2D
+  15: CONV_2D
+  16: ADD
+  17: DEPTHWISE_CONV_2D
+  18: CONV_2D
+  19: ADD
+  20: DEPTHWISE_CONV_2D
+  21: CONV_2D
+  22: ADD
+  23: DEPTHWISE_CONV_2D
+  24: CONV_2D
+  25: ADD
+  26: DEPTHWISE_CONV_2D
+  27: CONV_2D
+  28: ADD
+  29: DEPTHWISE_CONV_2D
+  30: CONV_2D
+  31: ADD
+  32: DEPTHWISE_CONV_2D
+  33: CONV_2D
+  34: ADD
+  35: MEAN
+  36: FULLY_CONNECTED
+  37: LOGISTIC
+unique_operators=ADD, CONV_2D, DEPTHWISE_CONV_2D, FULLY_CONNECTED, LOGISTIC, MEAN, RESHAPE
+
+[official_quant_model]
+path=F:\ZJU_intership\task\4\WakeWord-Studio\phase1\artifacts\models\livekit_repcnn_xxlarge_smoke\livekit_repcnn_xxlarge_smoke_int8.tflite
+bytes=104616
+sha256=05669e52be3e93126c548c433ad8b368ba0c6900103f9aa5ac4e9df44f2cd043
+input=float32 [1, 99, 40] quant=[0.0, 0]
+output=float32 [1, 1] quant=[0.0, 0]
+operators_in_order:
+  00: RESHAPE
+  01: CONV_2D
+  02: DEPTHWISE_CONV_2D
+  03: CONV_2D
+  04: ADD
+  05: DEPTHWISE_CONV_2D
+  06: CONV_2D
+  07: ADD
+  08: DEPTHWISE_CONV_2D
+  09: CONV_2D
+  10: ADD
+  11: DEPTHWISE_CONV_2D
+  12: CONV_2D
+  13: ADD
+  14: DEPTHWISE_CONV_2D
+  15: CONV_2D
+  16: ADD
+  17: DEPTHWISE_CONV_2D
+  18: CONV_2D
+  19: ADD
+  20: DEPTHWISE_CONV_2D
+  21: CONV_2D
+  22: ADD
+  23: DEPTHWISE_CONV_2D
+  24: CONV_2D
+  25: ADD
+  26: DEPTHWISE_CONV_2D
+  27: CONV_2D
+  28: ADD
+  29: DEPTHWISE_CONV_2D
+  30: CONV_2D
+  31: ADD
+  32: DEPTHWISE_CONV_2D
+  33: CONV_2D
+  34: ADD
+  35: MEAN
+  36: FULLY_CONNECTED
+  37: LOGISTIC
+unique_operators=ADD, CONV_2D, DEPTHWISE_CONV_2D, FULLY_CONNECTED, LOGISTIC, MEAN, RESHAPE
+
+[full_int8_model]
+path=F:\ZJU_intership\task\4\WakeWord-Studio\phase1\artifacts\models\livekit_repcnn_xxlarge_smoke\livekit_repcnn_xxlarge_smoke_full_int8.tflite
+bytes=112808
+sha256=0511c2137210c63cde862115b49a36d16b91924fb89acc1a0edf2c8df62b6030
+input=int8 [1, 99, 40] quant=[0.1018688753247261, -128]
+output=int8 [1, 1] quant=[0.00390625, -128]
+operators_in_order:
+  00: RESHAPE
+  01: CONV_2D
+  02: DEPTHWISE_CONV_2D
+  03: CONV_2D
+  04: ADD
+  05: DEPTHWISE_CONV_2D
+  06: CONV_2D
+  07: ADD
+  08: DEPTHWISE_CONV_2D
+  09: CONV_2D
+  10: ADD
+  11: DEPTHWISE_CONV_2D
+  12: CONV_2D
+  13: ADD
+  14: DEPTHWISE_CONV_2D
+  15: CONV_2D
+  16: ADD
+  17: DEPTHWISE_CONV_2D
+  18: CONV_2D
+  19: ADD
+  20: DEPTHWISE_CONV_2D
+  21: CONV_2D
+  22: ADD
+  23: DEPTHWISE_CONV_2D
+  24: CONV_2D
+  25: ADD
+  26: DEPTHWISE_CONV_2D
+  27: CONV_2D
+  28: ADD
+  29: DEPTHWISE_CONV_2D
+  30: CONV_2D
+  31: ADD
+  32: DEPTHWISE_CONV_2D
+  33: CONV_2D
+  34: ADD
+  35: MEAN
+  36: FULLY_CONNECTED
+  37: LOGISTIC
+unique_operators=ADD, CONV_2D, DEPTHWISE_CONV_2D, FULLY_CONNECTED, LOGISTIC, MEAN, RESHAPE

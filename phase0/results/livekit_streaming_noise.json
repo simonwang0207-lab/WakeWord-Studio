@@ -1,0 +1,331 @@
+{
+  "streaming_input_samples": 56000,
+  "streaming_score_count": 76,
+  "streaming_score_min": 0.21753224730491638,
+  "streaming_score_max": 0.319535493850708,
+  "streaming_scores": [
+    {
+      "sample_offset": 31680,
+      "score": 0.2511037588119507
+    },
+    {
+      "sample_offset": 32000,
+      "score": 0.250478595495224
+    },
+    {
+      "sample_offset": 32320,
+      "score": 0.2496732920408249
+    },
+    {
+      "sample_offset": 32640,
+      "score": 0.248849019408226
+    },
+    {
+      "sample_offset": 32960,
+      "score": 0.2480170875787735
+    },
+    {
+      "sample_offset": 33280,
+      "score": 0.24703602492809296
+    },
+    {
+      "sample_offset": 33600,
+      "score": 0.2462385594844818
+    },
+    {
+      "sample_offset": 33920,
+      "score": 0.24551339447498322
+    },
+    {
+      "sample_offset": 34240,
+      "score": 0.24451112747192383
+    },
+    {
+      "sample_offset": 34560,
+      "score": 0.24353575706481934
+    },
+    {
+      "sample_offset": 34880,
+      "score": 0.24286507070064545
+    },
+    {
+      "sample_offset": 35200,
+      "score": 0.24198289215564728
+    },
+    {
+      "sample_offset": 35520,
+      "score": 0.24132642149925232
+    },
+    {
+      "sample_offset": 35840,
+      "score": 0.2406403124332428
+    },
+    {
+      "sample_offset": 36160,
+      "score": 0.23992592096328735
+    },
+    {
+      "sample_offset": 36480,
+      "score": 0.2391502857208252
+    },
+    {
+      "sample_offset": 36800,
+      "score": 0.23836775124073029
+    },
+    {
+      "sample_offset": 37120,
+      "score": 0.23764479160308838
+    },
+    {
+      "sample_offset": 37440,
+      "score": 0.23655207455158234
+    },
+    {
+      "sample_offset": 37760,
+      "score": 0.2355184704065323
+    },
+    {
+      "sample_offset": 38080,
+      "score": 0.23470021784305573
+    },
+    {
+      "sample_offset": 38400,
+      "score": 0.23398271203041077
+    },
+    {
+      "sample_offset": 38720,
+      "score": 0.23319008946418762
+    },
+    {
+      "sample_offset": 39040,
+      "score": 0.23247893154621124
+    },
+    {
+      "sample_offset": 39360,
+      "score": 0.2318841814994812
+    },
+    {
+      "sample_offset": 39680,
+      "score": 0.2312648594379425
+    },
+    {
+      "sample_offset": 40000,
+      "score": 0.2304404228925705
+    },
+    {
+      "sample_offset": 40320,
+      "score": 0.22958393394947052
+    },
+    {
+      "sample_offset": 40640,
+      "score": 0.22867780923843384
+    },
+    {
+      "sample_offset": 40960,
+      "score": 0.2279215008020401
+    },
+    {
+      "sample_offset": 41280,
+      "score": 0.22700831294059753
+    },
+    {
+      "sample_offset": 41600,
+      "score": 0.22623620927333832
+    },
+    {
+      "sample_offset": 41920,
+      "score": 0.2255086749792099
+    },
+    {
+      "sample_offset": 42240,
+      "score": 0.22469142079353333
+    },
+    {
+      "sample_offset": 42560,
+      "score": 0.22379887104034424
+    },
+    {
+      "sample_offset": 42880,
+      "score": 0.2228507548570633
+    },
+    {
+      "sample_offset": 43200,
+      "score": 0.22220727801322937
+    },
+    {
+      "sample_offset": 43520,
+      "score": 0.22137866914272308
+    },
+    {
+      "sample_offset": 43840,
+      "score": 0.22047843039035797
+    },
+    {
+      "sample_offset": 44160,
+      "score": 0.21962222456932068
+    },
+    {
+      "sample_offset": 44480,
+      "score": 0.21877773106098175
+    },
+    {
+      "sample_offset": 44800,
+      "score": 0.21820934116840363
+    },
+    {
+      "sample_offset": 45120,
+      "score": 0.21793267130851746
+    },
+    {
+      "sample_offset": 45440,
+      "score": 0.21773825585842133
+    },
+    {
+      "sample_offset": 45760,
+      "score": 0.2175593227148056
+    },
+    {
+      "sample_offset": 46080,
+      "score": 0.21761366724967957
+    },
+    {
+      "sample_offset": 46400,
+      "score": 0.21753224730491638
+    },
+    {
+      "sample_offset": 46720,
+      "score": 0.21760982275009155
+    },
+    {
+      "sample_offset": 47040,
+      "score": 0.21905553340911865
+    },
+    {
+      "sample_offset": 47360,
+      "score": 0.2320951372385025
+    },
+    {
+      "sample_offset": 47680,
+      "score": 0.23511049151420593
+    },
+    {
+      "sample_offset": 48000,
+      "score": 0.23680736124515533
+    },
+    {
+      "sample_offset": 48320,
+      "score": 0.24142779409885406
+    },
+    {
+      "sample_offset": 48640,
+      "score": 0.2465055286884308
+    },
+    {
+      "sample_offset": 48960,
+      "score": 0.2471378594636917
+    },
+    {
+      "sample_offset": 49280,
+      "score": 0.2502897381782532
+    },
+    {
+      "sample_offset": 49600,
+      "score": 0.25390708446502686
+    },
+    {
+      "sample_offset": 49920,
+      "score": 0.25705909729003906
+    },
+    {
+      "sample_offset": 50240,
+      "score": 0.26035410165786743
+    },
+    {
+      "sample_offset": 50560,
+      "score": 0.2637902796268463
+    },
+    {
+      "sample_offset": 50880,
+      "score": 0.2675357460975647
+    },
+    {
+      "sample_offset": 51200,
+      "score": 0.27120211720466614
+    },
+    {
+      "sample_offset": 51520,
+      "score": 0.2751713991165161
+    },
+    {
+      "sample_offset": 51840,
+      "score": 0.2787521183490753
+    },
+    {
+      "sample_offset": 52160,
+      "score": 0.2827876806259155
+    },
+    {
+      "sample_offset": 52480,
+      "score": 0.28708750009536743
+    },
+    {
+      "sample_offset": 52800,
+      "score": 0.2899860739707947
+    },
+    {
+      "sample_offset": 53120,
+      "score": 0.2939032316207886
+    },
+    {
+      "sample_offset": 53440,
+      "score": 0.29767045378685
+    },
+    {
+      "sample_offset": 53760,
+      "score": 0.30120113492012024
+    },
+    {
+      "sample_offset": 54080,
+      "score": 0.30549535155296326
+    },
+    {
+      "sample_offset": 54400,
+      "score": 0.3090013861656189
+    },
+    {
+      "sample_offset": 54720,
+      "score": 0.3118814527988434
+    },
+    {
+      "sample_offset": 55040,
+      "score": 0.31327342987060547
+    },
+    {
+      "sample_offset": 55360,
+      "score": 0.3193730413913727
+    },
+    {
+      "sample_offset": 55680,
+      "score": 0.319535493850708
+    }
+  ],
+  "parallel_binary_api_scores": {
+    "qingxiaojia": 0.3453861474990845,
+    "xiaoan": 0.3453861474990845,
+    "xiaorui": 0.3453861474990845
+  },
+  "snr_trials": [
+    {
+      "target_snr_db": 5.0,
+      "measured_snr_db": 4.998724937438965
+    },
+    {
+      "target_snr_db": 10.0,
+      "measured_snr_db": 9.998723983764648
+    },
+    {
+      "target_snr_db": 15.0,
+      "measured_snr_db": 14.998722076416016
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wakeword-studio"
+version = "0.1.0"
+description = "Phase 1 wake-word dataset, backend, and streaming runtime core"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24", "scipy>=1.10", "soundfile>=0.12", "webrtcvad>=2.0.10"]
+
+[project.optional-dependencies]
+demo = ["sounddevice>=0.5"]
+test = ["pytest>=7"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

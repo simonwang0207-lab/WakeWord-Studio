@@ -1,0 +1,44 @@
+model_name: livekit_repcnn_xxlarge_smoke
+
+target_phrases: ["你好，青小甲"]
+
+n_samples: 40
+n_samples_val: 10
+tts_batch_size: 8
+
+custom_negative_phrases:
+  - "你好，小安"
+  - "你好，小瑞"
+  - "你好，青小佳"
+  - "你好，青小家"
+
+data_dir: ./phase0/artifacts/livekit_data
+output_dir: ./phase1/artifacts/models
+
+augmentation:
+  clip_duration: 2.0
+  batch_size: 8
+  rounds: 1
+  background_paths: [./phase0/artifacts/livekit_data/backgrounds]
+  rir_paths: [./phase0/artifacts/livekit_data/rirs]
+  window_size_ms: 30
+  window_step_ms: 20
+  num_channels: 40
+
+model:
+  model_type: repcnn
+  model_size: xxlarge
+
+# Deliberately minimal Phase 0.5 smoke training, not an accuracy run.
+steps: 30
+learning_rate: 0.001
+weight_decay: 0.01
+label_smoothing: 0.05
+max_negative_weight: 20
+target_fp_per_hour: 1000.0
+
+batch_n_per_class:
+  positive: 8
+  adversarial_negative: 8
+  negative_speech: 0
+

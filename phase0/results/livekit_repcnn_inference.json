@@ -1,0 +1,162 @@
+{
+  "training_parameter_count": 2241,
+  "fused_classifier_parameter_count": 1473,
+  "models": {
+    "float_model": {
+      "path": "F:\\ZJU_intership\\task\\4\\WakeWord-Studio\\phase0\\artifacts\\models\\livekit_repcnn_smoke\\livekit_repcnn_smoke.tflite",
+      "bytes": 12288,
+      "kib": 12.0,
+      "sha256": "c38b4052129c555304d8082f13bb37bd41f78970b9326bbdc11fbc4fa0238bcf",
+      "input_shape": [
+        1,
+        99,
+        40
+      ],
+      "input_dtype": "float32",
+      "input_quantization": [
+        0.0,
+        0
+      ],
+      "output_shape": [
+        1,
+        1
+      ],
+      "output_dtype": "float32",
+      "output_quantization": [
+        0.0,
+        0
+      ],
+      "operators_in_order": [
+        "RESHAPE",
+        "CONV_2D",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "ADD",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "ADD",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "ADD",
+        "MEAN",
+        "FULLY_CONNECTED",
+        "LOGISTIC"
+      ],
+      "unique_operators": [
+        "ADD",
+        "CONV_2D",
+        "DEPTHWISE_CONV_2D",
+        "FULLY_CONNECTED",
+        "LOGISTIC",
+        "MEAN",
+        "RESHAPE"
+      ],
+      "positive_probability": 0.34538620710372925,
+      "negative_probability": 0.23132500052452087
+    },
+    "official_quant_model": {
+      "path": "F:\\ZJU_intership\\task\\4\\WakeWord-Studio\\phase0\\artifacts\\models\\livekit_repcnn_smoke\\livekit_repcnn_smoke_int8.tflite",
+      "bytes": 12304,
+      "kib": 12.015625,
+      "sha256": "9dcd201ae295bd0881d98f790750025580c5ad1c68787a38dd78a6c112b06a80",
+      "input_shape": [
+        1,
+        99,
+        40
+      ],
+      "input_dtype": "float32",
+      "input_quantization": [
+        0.0,
+        0
+      ],
+      "output_shape": [
+        1,
+        1
+      ],
+      "output_dtype": "float32",
+      "output_quantization": [
+        0.0,
+        0
+      ],
+      "operators_in_order": [
+        "RESHAPE",
+        "CONV_2D",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "ADD",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "ADD",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "ADD",
+        "MEAN",
+        "FULLY_CONNECTED",
+        "LOGISTIC"
+      ],
+      "unique_operators": [
+        "ADD",
+        "CONV_2D",
+        "DEPTHWISE_CONV_2D",
+        "FULLY_CONNECTED",
+        "LOGISTIC",
+        "MEAN",
+        "RESHAPE"
+      ],
+      "positive_probability": 0.34538620710372925,
+      "negative_probability": 0.23132500052452087
+    },
+    "full_int8_model": {
+      "path": "F:\\ZJU_intership\\task\\4\\WakeWord-Studio\\phase0\\artifacts\\models\\livekit_repcnn_smoke\\livekit_repcnn_smoke_full_int8.tflite",
+      "bytes": 11856,
+      "kib": 11.578125,
+      "sha256": "bf8718a8cb53d835e1756961325c7aea91d897f179c202c08ffe0671b0cfd234",
+      "input_shape": [
+        1,
+        99,
+        40
+      ],
+      "input_dtype": "int8",
+      "input_quantization": [
+        0.1018688753247261,
+        -128
+      ],
+      "output_shape": [
+        1,
+        1
+      ],
+      "output_dtype": "int8",
+      "output_quantization": [
+        0.00390625,
+        -128
+      ],
+      "operators_in_order": [
+        "RESHAPE",
+        "CONV_2D",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "ADD",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "ADD",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "ADD",
+        "MEAN",
+        "FULLY_CONNECTED",
+        "LOGISTIC"
+      ],
+      "unique_operators": [
+        "ADD",
+        "CONV_2D",
+        "DEPTHWISE_CONV_2D",
+        "FULLY_CONNECTED",
+        "LOGISTIC",
+        "MEAN",
+        "RESHAPE"
+      ],
+      "positive_probability": 0.34765625,
+      "negative_probability": 0.23046875
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "model": "F:\\ZJU_intership\\task\\4\\WakeWord-Studio\\phase1\\artifacts\\models\\microwakeword_qingxiaojia_300_run\\tflite_stream_state_internal_quant\\stream_state_internal_quant.tflite",
+  "bytes": 52944,
+  "kib": 51.703125,
+  "sha256": "7cffb69e71af5418d8ba5325bce1ff0df202edac3206622699822efbe2ab8df3",
+  "input_dtype": "int8",
+  "output_dtype": "uint8",
+  "unique_operators": [
+    "ASSIGN_VARIABLE",
+    "CALL_ONCE",
+    "CONCATENATION",
+    "CONV_2D",
+    "DEPTHWISE_CONV_2D",
+    "FULLY_CONNECTED",
+    "LOGISTIC",
+    "QUANTIZE",
+    "READ_VARIABLE",
+    "RESHAPE",
+    "SPLIT_V",
+    "STRIDED_SLICE",
+    "VAR_HANDLE"
+  ],
+  "test_records": [
+    {
+      "record_id": "generated-000018",
+      "label": "positive",
+      "score": 0.8980392156862745
+    },
+    {
+      "record_id": "generated-000019",
+      "label": "hard_negative",
+      "score": 0.7450980392156863
+    },
+    {
+      "record_id": "generated-000038",
+      "label": "positive",
+      "score": 0.7294117647058823
+    },
+    {
+      "record_id": "generated-000041",
+      "label": "negative",
+      "score": 0.7411764705882353
+    },
+    {
+      "record_id": "generated-000058",
+      "label": "positive",
+      "score": 0.7372549019607844
+    },
+    {
+      "record_id": "generated-000067",
+      "label": "hard_negative",
+      "score": 0.8156862745098039
+    },
+    {
+      "record_id": "generated-000078",
+      "label": "positive",
+      "score": 0.7647058823529411
+    },
+    {
+      "record_id": "generated-000083",
+      "label": "negative",
+      "score": 0.7450980392156863
+    },
+    {
+      "record_id": "generated-000098",
+      "label": "positive",
+      "score": 0.8431372549019608
+    }
+  ],
+  "positive_min": 0.7294117647058823,
+  "positive_mean": 0.7945098039215687,
+  "negative_max": 0.8156862745098039,
+  "negative_mean": 0.7617647058823529
+}

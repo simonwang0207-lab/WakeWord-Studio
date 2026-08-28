@@ -1,0 +1,195 @@
+{
+  "parameter_count": 2390,
+  "models": {
+    "float": {
+      "path": "F:\\ZJU_intership\\task\\4\\WakeWord-Studio\\phase0\\artifacts\\models\\kws_streaming_smoke\\tflite\\ds_tc_resnet_nonstream_float.tflite",
+      "bytes": 66224,
+      "kib": 64.671875,
+      "sha256": "af180301b82163f29dadc75028201d643d7d5e797475e85ef28332d8656eb229",
+      "input_shape": [
+        1,
+        16000
+      ],
+      "input_dtype": "float32",
+      "input_quantization": [
+        0.0,
+        0
+      ],
+      "output_shape": [
+        1,
+        2
+      ],
+      "output_dtype": "float32",
+      "output_quantization": [
+        0.0,
+        0
+      ],
+      "operators_in_order": [
+        "RESHAPE",
+        "GATHER",
+        "RESHAPE",
+        "MUL",
+        "PAD",
+        "RESHAPE",
+        "RFFT2D",
+        "RESHAPE",
+        "COMPLEX_ABS",
+        "FULLY_CONNECTED",
+        "MAXIMUM",
+        "LOG",
+        "FULLY_CONNECTED",
+        "RESHAPE",
+        "PAD",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "CONV_2D",
+        "PAD",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "ADD",
+        "CONV_2D",
+        "PAD",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "ADD",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "MEAN",
+        "FULLY_CONNECTED"
+      ],
+      "unique_operators": [
+        "ADD",
+        "COMPLEX_ABS",
+        "CONV_2D",
+        "DEPTHWISE_CONV_2D",
+        "FULLY_CONNECTED",
+        "GATHER",
+        "LOG",
+        "MAXIMUM",
+        "MEAN",
+        "MUL",
+        "PAD",
+        "RESHAPE",
+        "RFFT2D"
+      ],
+      "positive": {
+        "logits": [
+          -0.038549765944480896,
+          0.6414934992790222
+        ],
+        "softmax": [
+          0.33625164631444204,
+          0.663748353685558
+        ]
+      },
+      "negative": {
+        "logits": [
+          -0.015031745657324791,
+          0.37004896998405457
+        ],
+        "softmax": [
+          0.4049020770354238,
+          0.5950979229645762
+        ]
+      }
+    },
+    "full_int8": {
+      "path": "F:\\ZJU_intership\\task\\4\\WakeWord-Studio\\phase0\\artifacts\\models\\kws_streaming_smoke\\tflite\\ds_tc_resnet_nonstream_full_int8.tflite",
+      "bytes": 31928,
+      "kib": 31.1796875,
+      "sha256": "58647ed5403c2c93ccfa846fd23ea4c8092d2db0ec223a1ba69be8bc3fff1d7c",
+      "input_shape": [
+        1,
+        16000
+      ],
+      "input_dtype": "int8",
+      "input_quantization": [
+        0.0035285500343889,
+        13
+      ],
+      "output_shape": [
+        1,
+        2
+      ],
+      "output_dtype": "int8",
+      "output_quantization": [
+        0.003919791895896196,
+        -115
+      ],
+      "operators_in_order": [
+        "RESHAPE",
+        "GATHER",
+        "RESHAPE",
+        "MUL",
+        "PAD",
+        "RESHAPE",
+        "DEQUANTIZE",
+        "RFFT2D",
+        "RESHAPE",
+        "COMPLEX_ABS",
+        "QUANTIZE",
+        "FULLY_CONNECTED",
+        "MAXIMUM",
+        "DEQUANTIZE",
+        "LOG",
+        "QUANTIZE",
+        "FULLY_CONNECTED",
+        "RESHAPE",
+        "PAD",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "CONV_2D",
+        "PAD",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "ADD",
+        "CONV_2D",
+        "PAD",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "ADD",
+        "DEPTHWISE_CONV_2D",
+        "CONV_2D",
+        "MEAN",
+        "FULLY_CONNECTED"
+      ],
+      "unique_operators": [
+        "ADD",
+        "COMPLEX_ABS",
+        "CONV_2D",
+        "DEPTHWISE_CONV_2D",
+        "DEQUANTIZE",
+        "FULLY_CONNECTED",
+        "GATHER",
+        "LOG",
+        "MAXIMUM",
+        "MEAN",
+        "MUL",
+        "PAD",
+        "QUANTIZE",
+        "RESHAPE",
+        "RFFT2D"
+      ],
+      "positive": {
+        "logits": [
+          -0.050957296043634415,
+          0.7330011129379272
+        ],
+        "softmax": [
+          0.31346738599615714,
+          0.6865326140038429
+        ]
+      },
+      "negative": {
+        "logits": [
+          -0.050957296043634415,
+          0.9485896229743958
+        ],
+        "softmax": [
+          0.26903051182297455,
+          0.7309694881770256
+        ]
+      }
+    }
+  }
+}

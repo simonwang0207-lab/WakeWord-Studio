@@ -1,0 +1,106 @@
+{
+  "float": {
+    "path": "F:\\ZJU_intership\\task\\4\\WakeWord-Studio\\phase0\\artifacts\\models\\kws_streaming_smoke\\tflite\\ds_tc_resnet_classifier_float.tflite",
+    "bytes": 15548,
+    "kib": 15.18359375,
+    "sha256": "3ef733969ca1119e39078164d92e9f547951596c759917b4104e58e05c65a19f",
+    "input_shape": [
+      1,
+      98,
+      20
+    ],
+    "input_dtype": "float32",
+    "input_quantization": [
+      0.0,
+      0
+    ],
+    "output_dtype": "float32",
+    "output_quantization": [
+      0.0,
+      0
+    ],
+    "unique_operators": [
+      "ADD",
+      "CONV_2D",
+      "DEPTHWISE_CONV_2D",
+      "FULLY_CONNECTED",
+      "MEAN",
+      "PAD",
+      "RESHAPE"
+    ],
+    "predictions": {
+      "positive": {
+        "logits": [
+          -0.03854958713054657,
+          0.6414933204650879
+        ],
+        "softmax": [
+          0.33625173568725586,
+          0.6637482643127441
+        ]
+      },
+      "negative": {
+        "logits": [
+          -0.015031715855002403,
+          0.37004902958869934
+        ],
+        "softmax": [
+          0.40490207076072693,
+          0.5950978994369507
+        ]
+      }
+    }
+  },
+  "full_int8": {
+    "path": "F:\\ZJU_intership\\task\\4\\WakeWord-Studio\\phase0\\artifacts\\models\\kws_streaming_smoke\\tflite\\ds_tc_resnet_classifier_full_int8.tflite",
+    "bytes": 14872,
+    "kib": 14.5234375,
+    "sha256": "95742ab7c5e86b8cffa11508624b23e0819766d1df00d7eef57df573593b129e",
+    "input_shape": [
+      1,
+      98,
+      20
+    ],
+    "input_dtype": "int8",
+    "input_quantization": [
+      1.0250155925750732,
+      113
+    ],
+    "output_dtype": "int8",
+    "output_quantization": [
+      0.003919791430234909,
+      -115
+    ],
+    "unique_operators": [
+      "ADD",
+      "CONV_2D",
+      "DEPTHWISE_CONV_2D",
+      "FULLY_CONNECTED",
+      "MEAN",
+      "PAD",
+      "RESHAPE"
+    ],
+    "predictions": {
+      "positive": {
+        "logits": [
+          -0.03527812287211418,
+          0.6193270683288574
+        ],
+        "softmax": [
+          0.34195253252983093,
+          0.6580474972724915
+        ]
+      },
+      "negative": {
+        "logits": [
+          -0.011759374290704727,
+          0.36062079668045044
+        ],
+        "softmax": [
+          0.4079660475254059,
+          0.5920339822769165
+        ]
+      }
+    }
+  }
+}

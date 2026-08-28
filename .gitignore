@@ -1,0 +1,63 @@
+# Python environments and bytecode
+.envs/
+.venv/
+venv/
+.python/
+.uv-cache/
+**/__pycache__/
+*.py[cod]
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# IDE and OS state
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Generated datasets, outputs, caches, and training runs
+datasets/
+outputs/
+cache/
+caches/
+runs/
+phase0/artifacts/
+phase0/logs/
+phase1/artifacts/
+**/hf-cache/
+**/huggingface/
+**/.cache/
+
+# Models, checkpoints, feature stores, and numerical artifacts
+*.tflite
+*.onnx
+*.pb
+*.ckpt
+*.h5
+*.hdf5
+*.keras
+*.mmap
+*.npy
+*.npz
+checkpoint
+
+# Training and TensorBoard logs
+*.log
+events.out.tfevents.*
+tensorboard/
+
+# Generated audio is data, except the small fixed acknowledgement asset
+*.wav
+!assets/i_am_awake.wav
+
+# Temporary and download files
+*.tmp
+*.temp
+*.part
+*.partial
+*.download
+*.crdownload
+*~

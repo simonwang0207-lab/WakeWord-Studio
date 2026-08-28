@@ -1,0 +1,68 @@
+[float_model]
+path=F:\ZJU_intership\task\4\WakeWord-Studio\phase0\artifacts\models\livekit_repcnn_smoke\livekit_repcnn_smoke.tflite
+bytes=12288
+sha256=c38b4052129c555304d8082f13bb37bd41f78970b9326bbdc11fbc4fa0238bcf
+input=float32 [1, 99, 40] quant=[0.0, 0]
+output=float32 [1, 1] quant=[0.0, 0]
+operators_in_order:
+  00: RESHAPE
+  01: CONV_2D
+  02: DEPTHWISE_CONV_2D
+  03: CONV_2D
+  04: ADD
+  05: DEPTHWISE_CONV_2D
+  06: CONV_2D
+  07: ADD
+  08: DEPTHWISE_CONV_2D
+  09: CONV_2D
+  10: ADD
+  11: MEAN
+  12: FULLY_CONNECTED
+  13: LOGISTIC
+unique_operators=ADD, CONV_2D, DEPTHWISE_CONV_2D, FULLY_CONNECTED, LOGISTIC, MEAN, RESHAPE
+
+[official_quant_model]
+path=F:\ZJU_intership\task\4\WakeWord-Studio\phase0\artifacts\models\livekit_repcnn_smoke\livekit_repcnn_smoke_int8.tflite
+bytes=12304
+sha256=9dcd201ae295bd0881d98f790750025580c5ad1c68787a38dd78a6c112b06a80
+input=float32 [1, 99, 40] quant=[0.0, 0]
+output=float32 [1, 1] quant=[0.0, 0]
+operators_in_order:
+  00: RESHAPE
+  01: CONV_2D
+  02: DEPTHWISE_CONV_2D
+  03: CONV_2D
+  04: ADD
+  05: DEPTHWISE_CONV_2D
+  06: CONV_2D
+  07: ADD
+  08: DEPTHWISE_CONV_2D
+  09: CONV_2D
+  10: ADD
+  11: MEAN
+  12: FULLY_CONNECTED
+  13: LOGISTIC
+unique_operators=ADD, CONV_2D, DEPTHWISE_CONV_2D, FULLY_CONNECTED, LOGISTIC, MEAN, RESHAPE
+
+[full_int8_model]
+path=F:\ZJU_intership\task\4\WakeWord-Studio\phase0\artifacts\models\livekit_repcnn_smoke\livekit_repcnn_smoke_full_int8.tflite
+bytes=11856
+sha256=bf8718a8cb53d835e1756961325c7aea91d897f179c202c08ffe0671b0cfd234
+input=int8 [1, 99, 40] quant=[0.1018688753247261, -128]
+output=int8 [1, 1] quant=[0.00390625, -128]
+operators_in_order:
+  00: RESHAPE
+  01: CONV_2D
+  02: DEPTHWISE_CONV_2D
+  03: CONV_2D
+  04: ADD
+  05: DEPTHWISE_CONV_2D
+  06: CONV_2D
+  07: ADD
+  08: DEPTHWISE_CONV_2D
+  09: CONV_2D
+  10: ADD
+  11: MEAN
+  12: FULLY_CONNECTED
+  13: LOGISTIC
+unique_operators=ADD, CONV_2D, DEPTHWISE_CONV_2D, FULLY_CONNECTED, LOGISTIC, MEAN, RESHAPE
