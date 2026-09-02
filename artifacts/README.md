@@ -6,8 +6,8 @@
 
 | Model ID | 文件 | 任务 | 角色 | 大小 | SHA256 |
 |---|---|---|---|---:|---|
-| `model_a` | `models/binary/microwakeword_mixednet_full_int8.tflite` | Binary | HISTORICAL | 52,840 B | `994f08b799364f02f6fc06273cccd4a155722af25f1b61a88f4e5b2621a2d41c` |
-| `model_b` | `models/binary/repcnn_full_int8.tflite` | Binary | HISTORICAL | 112,816 B | `6acfecf7cc8651c1fba52809eee1d89abbcffa0a48bd46662b2e58ac23ce064f` |
+| `model_a`（兼容 ID） | `models/binary/microwakeword_mixednet_full_int8.tflite` | microWakeWord Tiny / Binary | HISTORICAL | 52,840 B | `994f08b799364f02f6fc06273cccd4a155722af25f1b61a88f4e5b2621a2d41c` |
+| `model_b`（兼容 ID） | `models/binary/repcnn_full_int8.tflite` | RepCNN / Binary | HISTORICAL | 112,816 B | `6acfecf7cc8651c1fba52809eee1d89abbcffa0a48bd46662b2e58ac23ce064f` |
 | `bcresnet_binary_formal` | `models/binary/bcresnet_binary_full_int8.tflite` | Binary | HISTORICAL | 108,784 B | `474ad90681a75acfd51fa41df1c69d43aa27ce1e2bf6f97054fa1529f370cc87` |
 | `convmixer_binary_formal` | `models/binary/convmixer_binary_full_int8.tflite` | Binary | HISTORICAL | 59,984 B | `236893035d0806aef6b085079f5ac706403bfb2889f74881d6dda70b23cd1580` |
 | `teacher_six_bcresnet` | `models/teacher_six/teacher_six_bcresnet_full_int8.tflite` | Multi-KWS | COMPUTE_LIGHT_BASELINE | 108,080 B | `1176f3752b0a7a7056efa8dad5a917f1177d50e3ebeef434d1a87af387a2070a` |

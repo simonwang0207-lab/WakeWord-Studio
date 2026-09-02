@@ -102,7 +102,7 @@ def test_training_launcher_is_dry_run_only_and_model_specific() -> None:
         PROJECT_ROOT,
         TrainingRequest(
             PROJECT_ROOT / "datasets/projects/qingxiaojia_v3_fasttrack",
-            "Model B — RepCNN Performance",
+            "Legacy RepCNN Binary",
             "你好，青小甲",
             PROJECT_ROOT / "runs/teacher_ui/dry_run",
         ),
@@ -115,7 +115,7 @@ def test_training_launcher_is_dry_run_only_and_model_specific() -> None:
             PROJECT_ROOT,
             TrainingRequest(
                 PROJECT_ROOT / "datasets/projects/qingxiaojia_v2",
-                "Model B — RepCNN Performance",
+                "Legacy RepCNN Binary",
                 "你好，青小甲",
                 PROJECT_ROOT / "runs/teacher_ui/invalid",
             ),
@@ -126,7 +126,7 @@ def test_teacher_demo_defaults_to_final_model_b_v2() -> None:
     config = yaml.safe_load(
         (PROJECT_ROOT / "configs/demo/teacher_demo.yaml").read_text(encoding="utf-8")
     )
-    model = config["models"]["Model B — RepCNN Performance"]
+    model = config["models"]["Legacy RepCNN Binary"]
     assert model["backend"] == "repcnn"
     assert model["threshold"] == 0.21875
     assert model["window_seconds"] == pytest.approx(2.0)

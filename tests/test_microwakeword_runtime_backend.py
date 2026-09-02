@@ -11,7 +11,7 @@ from wakeword_studio.backends.microwakeword import MicroWakeWordBackend
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = PROJECT_ROOT / "configs/demo/teacher_demo.yaml"
-MODEL_KEY = "Model A — MicroWakeWord Tiny"
+MODEL_KEY = "Legacy microWakeWord Tiny"
 
 
 def _model_config() -> dict[str, object]:
@@ -44,7 +44,7 @@ def test_model_a_tflite_loads_and_infers_without_training_package() -> None:
 
 def test_model_b_deployment_binding_is_unchanged() -> None:
     config = yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8"))
-    model = config["models"]["Model B — RepCNN Performance"]
+    model = config["models"]["Legacy RepCNN Binary"]
     assert float(model["threshold"]) == pytest.approx(0.21875)
     assert model["deployment"]["sha256"] == (
         "6acfecf7cc8651c1fba52809eee1d89abbcffa0a48bd46662b2e58ac23ce064f"

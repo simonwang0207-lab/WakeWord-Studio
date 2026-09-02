@@ -10,9 +10,9 @@ audio:
   frame_ms: 30
   pre_roll_seconds: 2.0
 models:
-  "Model A — MicroWakeWord Tiny":
+  "Legacy microWakeWord Tiny":
     id: model_a
-    display_name: Model A — microWakeWord Tiny
+    display_name: microWakeWord Tiny（历史二分类）
     backend: microwakeword
     path: artifacts/models/binary/microwakeword_mixednet_full_int8.tflite
     threshold: 0.3671875
@@ -40,9 +40,9 @@ models:
       input_dtype: int8
       output_shape: [1, 1]
       output_dtype: uint8
-  "Model B — RepCNN Performance":
+  "Legacy RepCNN Binary":
     id: model_b
-    display_name: Model B — RepCNN
+    display_name: RepCNN（历史二分类）
     backend: repcnn
     path: artifacts/models/binary/repcnn_full_int8.tflite
     threshold_freeze: artifacts/metadata/repcnn_threshold_freeze.json

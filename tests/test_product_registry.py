@@ -20,7 +20,7 @@ def _config() -> dict[str, object]:
 
 def test_model_a_and_b_are_loaded_through_one_registry() -> None:
     registry = ModelRegistry.from_config(PROJECT_ROOT, _config())
-    assert registry.display_names[:2] == ("Model A — microWakeWord Tiny", "Model B — RepCNN")
+    assert registry.display_names[:2] == ("microWakeWord Tiny（历史二分类）", "RepCNN（历史二分类）")
     assert {"BC-ResNet Binary Formal", "ConvMixer Binary Formal"} <= set(registry.display_names)
 
     model_a = registry.by_id("model_a")

@@ -5,7 +5,7 @@ const pageNames={generation:'数据集生成',training:'模型训练',live:'实�
 async function api(path,body){const options=body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)};const response=await fetch(path,options);const data=await response.json();if(!response.ok||data.ok===false)throw new Error(data.error||`HTTP ${response.status}`);return data}
 function toast(title,message=''){const el=$('#toast');el.querySelector('strong').textContent=title;el.querySelector('span').textContent=message;el.classList.add('show');clearTimeout(el._timer);el._timer=setTimeout(()=>el.classList.remove('show'),3200)}
 function model(id){return boot.models.find(item=>item.id===id)}
-function shortName(item){if(item.id==='model_a')return'Model A';if(item.id==='model_b')return'Model B';return item.name}
+function shortName(item){return item.name}
 function modelGroups(){
   const multi=boot.models.filter(item=>item.task_type==='multi_kws'&&!item.user_imported).sort((a,b)=>({teacher_six_convmixer:0,teacher_six_bcresnet:1}[a.id]??9)-({teacher_six_convmixer:0,teacher_six_bcresnet:1}[b.id]??9));
   const binary=boot.models.filter(item=>item.task_type!=='multi_kws'&&!item.user_imported);

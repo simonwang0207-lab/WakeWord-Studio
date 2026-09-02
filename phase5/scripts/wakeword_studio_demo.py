@@ -37,8 +37,8 @@ from wakeword_studio.dataset.product_plan import build_product_plan  # noqa: E40
 from wakeword_studio.ui.theme import apply_modern_theme  # noqa: E402
 from wakeword_studio.registry import ModelRegistry, resolve_project_path  # noqa: E402
 
-MODEL_A = "Model A — microWakeWord Tiny"
-MODEL_B = "Model B — RepCNN"
+MODEL_A = "microWakeWord Tiny（历史二分类）"
+MODEL_B = "RepCNN（历史二分类）"
 STATE_TEXT = {
     "IDLE": "● 等待语音", "SOUND": "● 检测到声音", "SPEECH": "● 检测到语音",
     "EVALUATING": "● 正在识别", "TAIL": "● 尾部识别", "WAKE": "✓ 唤醒成功", "COOLDOWN": "◷ 冷却中", "STOPPED": "■ 已停止",
