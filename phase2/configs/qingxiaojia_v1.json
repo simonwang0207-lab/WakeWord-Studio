@@ -1,0 +1,49 @@
+{
+  "schema": "wakeword-studio.dataset-build-config/v1",
+  "project": "qingxiaojia_v1",
+  "wake_word": "你好，青小甲",
+  "seed": 20260829,
+  "output_root": "datasets/projects/qingxiaojia_v1",
+  "targets": {
+    "positive": 2000,
+    "negative": 4000,
+    "hard_negative": 2000,
+    "ambient": 1000
+  },
+  "split_ratios": {
+    "train": 0.8,
+    "validation": 0.1,
+    "test": 0.1
+  },
+  "mean_duration_seconds": {
+    "positive": 1.8,
+    "negative": 2.5,
+    "hard_negative": 1.8,
+    "ambient": 2.0
+  },
+  "source_groups": [
+    {"id": "kokoro:zf_001", "family": "kokoro", "speaker_id": "zf_001", "split": "train", "gender": "female", "age_group": null, "age_source": "unknown"},
+    {"id": "kokoro:zf_003", "family": "kokoro", "speaker_id": "zf_003", "split": "train", "gender": "female", "age_group": null, "age_source": "unknown"},
+    {"id": "kokoro:zf_006", "family": "kokoro", "speaker_id": "zf_006", "split": "train", "gender": "female", "age_group": null, "age_source": "unknown"},
+    {"id": "kokoro:zf_017", "family": "kokoro", "speaker_id": "zf_017", "split": "train", "gender": "female", "age_group": null, "age_source": "unknown"},
+    {"id": "kokoro:zf_021", "family": "kokoro", "speaker_id": "zf_021", "split": "train", "gender": "female", "age_group": null, "age_source": "unknown"},
+    {"id": "kokoro:zm_009", "family": "kokoro", "speaker_id": "zm_009", "split": "train", "gender": "male", "age_group": null, "age_source": "unknown"},
+    {"id": "kokoro:zm_013", "family": "kokoro", "speaker_id": "zm_013", "split": "train", "gender": "male", "age_group": null, "age_source": "unknown"},
+    {"id": "kokoro:zm_020", "family": "kokoro", "speaker_id": "zm_020", "split": "train", "gender": "male", "age_group": null, "age_source": "unknown"},
+    {"id": "kokoro:zm_031", "family": "kokoro", "speaker_id": "zm_031", "split": "train", "gender": "male", "age_group": null, "age_source": "unknown"},
+    {"id": "kokoro:zm_041", "family": "kokoro", "speaker_id": "zm_041", "split": "validation", "gender": "male", "age_group": null, "age_source": "unknown"},
+    {"id": "kokoro:zm_053", "family": "kokoro", "speaker_id": "zm_053", "split": "test", "gender": "male", "age_group": null, "age_source": "unknown"},
+    {"id": "kokoro:zm_056", "family": "kokoro", "speaker_id": "zm_056", "split": "test", "gender": "male", "age_group": null, "age_source": "unknown"},
+    {"id": "melotts:ZH", "family": "melotts", "speaker_id": "ZH", "split": "test", "gender": null, "age_group": null, "age_source": "unknown"}
+  ],
+  "noise_categories": ["clean", "room", "office", "fan", "keyboard", "street", "tv_speech", "music"],
+  "snr_db": [20, 10, 5, 0],
+  "age_proxies": [null, "higher_pitch_and_faster", "lower_pitch_and_slower"],
+  "runtime_estimate": {
+    "tts_base_utterances": 729,
+    "tts_utterances_per_minute": 15,
+    "augmentations_per_minute": 600,
+    "fixed_overhead_minutes": 5,
+    "artifact_size_multiplier": 1.7
+  }
+}

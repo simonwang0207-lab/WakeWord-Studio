@@ -1,0 +1,127 @@
+{
+  "schema": "wakeword-studio.multikws-experiment/v2",
+  "experiment_id": "teacher_six_formal_multisource_12k",
+  "seed": 20260901,
+  "vocabulary": "configs/multikws/teacher_six_keywords.json",
+  "dataset": {
+    "profile": "formal_multisource_12k",
+    "dataset_id": "teacher_six_multikws_v2_formal_12k",
+    "manifest_profile": "formal_multisource_12k",
+    "experiment_stage": "first_formal_multikws",
+    "output_root": "datasets/projects/teacher_six_multikws_v2_formal_12k",
+    "production_quality": false,
+    "base_counts": {
+      "wakeword_per_keyword": {"train": 300, "validation": 150, "test": 150},
+      "ordinary_background": {"train": 600, "validation": 300, "test": 300},
+      "hard_negative": {"train": 300, "validation": 150, "test": 150}
+    },
+    "ambient_effective_counts": {"train": 900, "validation": 150, "test": 150},
+    "variants_per_base": {"train": 3, "validation": 1, "test": 1},
+    "speech_source_mix": {"kokoro": 0.5, "voxcpm15": 0.5},
+    "speech_sources": {
+      "kokoro": {
+        "provider": "kokoro",
+        "repo_id": "hexgrad/Kokoro-82M-v1.1-zh",
+        "lang_code": "z",
+        "speaker_splits": {
+          "train": ["zf_001", "zm_009", "zf_003", "zm_013", "zf_006", "zm_031", "zm_041", "zm_053"],
+          "validation": ["zf_017", "zm_056"],
+          "test": ["zm_020", "zf_021"]
+        }
+      },
+      "voxcpm15": {
+        "provider": "voxcpm15",
+        "python_executable": "../.vcp15/Scripts/python.exe",
+        "repo_src": "phase2/artifacts/permissive_multispeaker_poc/voxcpm15/repo/src",
+        "model_dir": "phase2/artifacts/permissive_multispeaker_poc/voxcpm15/model",
+        "reference_manifest": "phase2/artifacts/permissive_multispeaker_poc/aishell3_references/reference_manifest.json",
+        "reference_speaker_splits": {
+          "train": ["SSB0197", "SSB0273", "SSB0632", "SSB0710"],
+          "validation": ["SSB0393", "SSB0434"],
+          "test": ["SSB0737"]
+        },
+        "cfg_value": 2.0,
+        "inference_timesteps": 10,
+        "max_len": 512
+      }
+    },
+    "ordinary_background_phrases": [
+      "今天天气很适合散步", "请把客厅的灯打开", "播放一首轻音乐", "现在已经几点了",
+      "明天早上记得叫我", "帮我查看今天的日程", "窗外好像开始下雨", "厨房里的水烧开了",
+      "周末我们一起去公园", "请把电视声音调低", "我想听今天的新闻", "出门前别忘记带钥匙",
+      "会议将在下午三点开始", "桌上的咖啡已经凉了", "附近有没有便利商店", "下一班地铁什么时候到",
+      "请提醒我给花浇水", "今天晚饭想吃面条", "空调温度调高一度", "把卧室窗帘拉起来",
+      "手机电量只剩一半", "快递已经放在门口", "书架上有一本小说", "我们稍后再讨论这个问题",
+      "请查询明天的天气", "客厅需要打扫一下", "冰箱里还有一些水果", "今天路上的车有点多",
+      "音乐音量保持在中等", "请设置十分钟计时器", "我准备出去买点东西", "早餐放在餐桌上了",
+      "今天的会议临时取消", "请记录这个电话号码", "下午可能会有阵雨", "把书房的门关好",
+      "这家餐厅晚上几点关门", "我想预约明天的车", "请检查网络连接状态", "阳台上的衣服干了吗",
+      "晚上记得给家里打电话", "附近的公交站在哪里", "请把文件保存到桌面", "我们下周再安排时间",
+      "房间里有一点闷热", "请告诉我今天的日期", "电饭锅还需要十分钟", "现在可以开始播放了"
+    ],
+    "hard_negative_phrases": [
+      "你好豆", "你好逗逗", "你好抖抖", "豆豆你好", "你好豆豆豆", "你好豆点",
+      "你好点", "你好店店", "你好典典", "点点你好", "你好点点点", "你好点豆",
+      "你好多", "你好朵朵", "你好躲躲", "多多你好", "你好多多多", "你好多点",
+      "你好小锐", "你好小瑞瑞", "小瑞你好", "你好小睿", "你好晓瑞", "你好瑞瑞",
+      "青小甲你好", "你好青小佳", "你好轻小甲", "青小佳你好", "你好小甲", "你好青甲",
+      "你好吉娃", "吉智娃你好", "你好机智娃", "你好吉智", "你好智娃", "你好吉之娃"
+    ],
+    "train_augmentation": {
+      "speed_factors": [0.90, 0.97, 1.04, 1.10],
+      "gain_db_range": [-4.0, 3.0],
+      "leading_silence_ms_range": [40, 220],
+      "trailing_silence_ms_range": [40, 250],
+      "reverb_probability": 0.4,
+      "far_field_probability": 0.4,
+      "reverb_delay_ms": 55,
+      "reverb_decay": 0.17,
+      "far_field_gain": 0.55,
+      "snr_db_values": [5, 10, 15, 20],
+      "noise_types": ["office", "fan_ac", "keyboard", "tv_speech", "babble", "street", "car", "classroom", "cafe", "device_mic"]
+    },
+    "evaluation_augmentation": {
+      "speed_factors": [0.97, 1.00, 1.04],
+      "gain_db_range": [-2.0, 2.0],
+      "leading_silence_ms_range": [60, 180],
+      "trailing_silence_ms_range": [60, 180],
+      "reverb_probability": 0.3,
+      "far_field_probability": 0.3,
+      "reverb_delay_ms": 55,
+      "reverb_decay": 0.14,
+      "far_field_gain": 0.65,
+      "snr_db_values": [10, 15, 20],
+      "noise_types": ["office", "fan_ac", "tv_speech", "babble", "street", "car", "classroom", "cafe", "device_mic"]
+    },
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "subtype": "PCM_16",
+    "age_metadata_policy": "not_verified_for_generated_utterance"
+  },
+  "frontend": {"name": "TFLM_microfrontend", "input_shape": [99, 40], "clip_duration_ms": 2000, "sample_rate_hz": 16000},
+  "models": {
+    "bcresnet": {"architecture": "broadcasted_residual_network", "channels": 40, "depth": 8, "width_multiplier": 1.0, "subbands": 4, "temporal_dilations": [1, 2, 4], "dropout": 0.1, "activation": "relu"},
+    "convmixer": {"architecture": "acoustic_convmixer", "hidden_dim": 48, "depth": 6, "kernel_size": [7, 5], "patch_size": [3, 2], "stride": [2, 2], "dropout": 0.1, "activation": "relu"}
+  },
+  "training": {
+    "objective": "sparse_categorical_crossentropy",
+    "label_smoothing": 0.0,
+    "class_weight": false,
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "batch_size": 32,
+    "max_epochs": 30,
+    "validation_every_epochs": 1,
+    "early_stopping_patience_epochs": 6,
+    "effective_train_samples": 9000,
+    "sampler": {"kind": "deterministic_epoch_shuffle", "drop_last": false},
+    "require_gpu_for_formal": true,
+    "memory_growth": true,
+    "gpu_op_verification": true,
+    "cpu_fallback_allowed": false
+  },
+  "calibration": {"source": "validation_only", "global_top1_threshold": true, "global_margin_threshold": true, "per_keyword_threshold": false},
+  "quantization": {"method": "full_int8_ptq", "representative_split": "train", "input_type": "int8", "output_type": "int8", "input_shape": [1, 99, 40], "output_shape": [1, 7]},
+  "hardware_runtime_verified": false
+}

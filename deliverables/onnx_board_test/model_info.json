@@ -1,0 +1,204 @@
+{
+  "schema": "wakeword-studio.onnx-board-delivery/v1",
+  "created_at": "2026-09-02T00:40:46.657637+00:00",
+  "models": [
+    {
+      "model_id": "teacher_six_bcresnet",
+      "architecture": "BC-ResNet",
+      "architecture_config": {
+        "architecture": "broadcasted_residual_network",
+        "channels": 40,
+        "depth": 8,
+        "width_multiplier": 1.0,
+        "subbands": 4,
+        "temporal_dilations": [
+          1,
+          2,
+          4
+        ],
+        "dropout": 0.1,
+        "activation": "relu"
+      },
+      "task_type": "multi_kws",
+      "format": "ONNX",
+      "precision": "FP32",
+      "opset": 15,
+      "opset_imports": {
+        "ai.onnx": 15,
+        "ai.onnx.ml": 2
+      },
+      "input_name": "input_features",
+      "input_shape": [
+        1,
+        99,
+        40
+      ],
+      "input_dtype": "float32",
+      "output_name": "class_scores",
+      "output_shape": [
+        1,
+        7
+      ],
+      "output_dtype": "float32",
+      "num_classes": 7,
+      "class_ids": [
+        "background",
+        "qingxiaojia",
+        "doudou",
+        "diandian",
+        "xiaorui",
+        "duoduo",
+        "jizhiwa"
+      ],
+      "class_names": [
+        "background",
+        "你好，青小甲",
+        "你好，豆豆",
+        "你好，点点",
+        "你好，小瑞",
+        "你好，多多",
+        "你好，吉智娃"
+      ],
+      "sample_rate_hz": 16000,
+      "frontend": "TFLite Micro microfrontend / pymicro-features 2.0.2; see frontend_spec.md",
+      "frontend_parity_required": true,
+      "parameter_count": 19287,
+      "estimated_macs": 6589720,
+      "filename": "BCResNet_TeacherSix_MultiKWS_FP32.onnx",
+      "onnx_size_bytes": 127395,
+      "onnx_sha256": "f32f764ce6bbe90a43f272e794d6869c2861aeb573d02c6bccc9bee369382375",
+      "source_checkpoint": "runs/multikws/teacher_six/bcresnet/formal/v2_12k_user_run_02/checkpoints/best/best",
+      "source_checkpoint_reported": "/mnt/f/ZJU_intership/task/4/WakeWord-Studio/runs/multikws/teacher_six/bcresnet/formal/v2_12k_user_run_02/checkpoints/best/best",
+      "source_run": "runs/multikws/teacher_six/bcresnet/formal/v2_12k_user_run_02",
+      "source_tflite": "runs/multikws/teacher_six/bcresnet/formal/v2_12k_user_run_02/export/teacher_six_bcresnet_formal_full_int8.tflite",
+      "source_tflite_sha256": "1176f3752b0a7a7056efa8dad5a917f1177d50e3ebeef434d1a87af387a2070a",
+      "frozen_top1_threshold": 0.0,
+      "frozen_margin_threshold": 0.2,
+      "operating_point_changed": false,
+      "validation_summary": {
+        "macro_recall": 0.9,
+        "macro_precision": 0.8949379567656687,
+        "macro_f1": 0.8936609766622005,
+        "micro_accuracy": 0.882,
+        "worst_keyword_recall": 0.7866666666666666,
+        "background_false_accept_rate": 0.145
+      },
+      "test_summary": {
+        "macro_recall": 0.898888888888889,
+        "macro_precision": 0.8658738010061633,
+        "macro_f1": 0.87940588808417,
+        "micro_accuracy": 0.8813333333333333,
+        "worst_keyword_recall": 0.74,
+        "background_false_accept_rate": 0.145
+      },
+      "role": "COMPUTE_LIGHT_BASELINE",
+      "hardware_runtime_verified": false,
+      "chip_runtime_verified": false,
+      "esp32s3_runtime_verified": false
+    },
+    {
+      "model_id": "teacher_six_convmixer",
+      "architecture": "ConvMixer",
+      "architecture_config": {
+        "architecture": "acoustic_convmixer",
+        "hidden_dim": 48,
+        "depth": 6,
+        "kernel_size": [
+          7,
+          5
+        ],
+        "patch_size": [
+          3,
+          2
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "dropout": 0.1,
+        "activation": "relu"
+      },
+      "task_type": "multi_kws",
+      "format": "ONNX",
+      "precision": "FP32",
+      "opset": 15,
+      "opset_imports": {
+        "ai.onnx": 15,
+        "ai.onnx.ml": 2
+      },
+      "input_name": "input_features",
+      "input_shape": [
+        1,
+        99,
+        40
+      ],
+      "input_dtype": "float32",
+      "output_name": "class_scores",
+      "output_shape": [
+        1,
+        7
+      ],
+      "output_dtype": "float32",
+      "num_classes": 7,
+      "class_ids": [
+        "background",
+        "qingxiaojia",
+        "doudou",
+        "diandian",
+        "xiaorui",
+        "duoduo",
+        "jizhiwa"
+      ],
+      "class_names": [
+        "background",
+        "你好，青小甲",
+        "你好，豆豆",
+        "你好，点点",
+        "你好，小瑞",
+        "你好，多多",
+        "你好，吉智娃"
+      ],
+      "sample_rate_hz": 16000,
+      "frontend": "TFLite Micro microfrontend / pymicro-features 2.0.2; see frontend_spec.md",
+      "frontend_parity_required": true,
+      "parameter_count": 25783,
+      "estimated_macs": 24192336,
+      "filename": "ConvMixer_TeacherSix_MultiKWS_FP32.onnx",
+      "onnx_size_bytes": 119627,
+      "onnx_sha256": "c56b158b12cd654ff88d751992b945b3372df0c918f78eef29137bcb9aa18e70",
+      "source_checkpoint": "runs/multikws/teacher_six/convmixer/formal/v2_12k_user_run_01/checkpoints/best/best",
+      "source_checkpoint_reported": "/mnt/f/ZJU_intership/task/4/WakeWord-Studio/runs/multikws/teacher_six/convmixer/formal/v2_12k_user_run_01/checkpoints/best/best",
+      "source_run": "runs/multikws/teacher_six/convmixer/formal/v2_12k_user_run_01",
+      "source_tflite": "runs/multikws/teacher_six/convmixer/formal/v2_12k_user_run_01/export/teacher_six_convmixer_formal_full_int8.tflite",
+      "source_tflite_sha256": "acc517399e72a41f3161d700702fb71db4826face2be7184f90d91375034d476",
+      "frozen_top1_threshold": 0.4,
+      "frozen_margin_threshold": 0.0,
+      "operating_point_changed": false,
+      "validation_summary": {
+        "macro_recall": 0.9288888888888889,
+        "macro_precision": 0.8877198296379903,
+        "macro_f1": 0.9055625819710138,
+        "micro_accuracy": 0.9053333333333333,
+        "worst_keyword_recall": 0.8666666666666667,
+        "background_false_accept_rate": 0.13
+      },
+      "test_summary": {
+        "macro_recall": 0.9422222222222222,
+        "macro_precision": 0.8741064812442914,
+        "macro_f1": 0.9047366539647723,
+        "micro_accuracy": 0.8973333333333333,
+        "worst_keyword_recall": 0.88,
+        "background_false_accept_rate": 0.17
+      },
+      "role": "PRIMARY_CANDIDATE",
+      "hardware_runtime_verified": false,
+      "chip_runtime_verified": false,
+      "esp32s3_runtime_verified": false
+    }
+  ],
+  "MODEL_RETRAINED": false,
+  "FORMAL_TEST_RERUN": false,
+  "OPERATING_POINT_CHANGED": false,
+  "CHIP_RUNTIME_VERIFIED": false,
+  "ESP32S3_RUNTIME_VERIFIED": false
+}

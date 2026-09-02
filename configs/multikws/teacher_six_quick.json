@@ -1,0 +1,55 @@
+{
+  "schema": "wakeword-studio.multikws-experiment/v1",
+  "experiment_id": "teacher_six_quick",
+  "seed": 20260901,
+  "vocabulary": "configs/multikws/teacher_six_keywords.json",
+  "dataset": {
+    "profile": "quick",
+    "dataset_id": "teacher_six_multikws_v1_quick",
+    "manifest_profile": "quick_smoke",
+    "experiment_stage": "regression_smoke",
+    "output_root": "datasets/projects/teacher_six_multikws_v1",
+    "positive_per_keyword": 4,
+    "background_speech_count": 8,
+    "hard_negative_count": 4,
+    "ambient_count": 4,
+    "split_weights": {"train": 2, "validation": 1, "test": 1},
+    "speech_source_mix": {"kokoro": 1.0},
+    "speech_sources": {
+      "kokoro": {
+        "provider": "kokoro",
+        "repo_id": "hexgrad/Kokoro-82M-v1.1-zh",
+        "lang_code": "z",
+        "speaker_splits": {
+          "train": ["zf_001", "zm_009"],
+          "validation": ["zf_017"],
+          "test": ["zm_020"]
+        }
+      }
+    },
+    "background_phrases": ["今天天气不错", "请打开客厅的灯", "播放一首音乐", "现在几点了"],
+    "hard_negative_phrases": ["你好豆", "你好点", "你好多", "你好小锐", "青小甲你好", "你好吉娃"],
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "subtype": "PCM_16",
+    "augmentation": {
+      "speed_factors": [0.90, 0.97, 1.04, 1.10],
+      "gain_db_range": [-4.0, 3.0],
+      "leading_silence_ms_range": [40, 220],
+      "trailing_silence_ms_range": [40, 250],
+      "reverb_probability": 0.3333333333,
+      "far_field_probability": 0.3333333333,
+      "reverb_delay_ms": 55,
+      "reverb_decay": 0.17,
+      "far_field_gain": 0.55,
+      "snr_db_values": [5, 10, 15, 20],
+      "noise_types": ["office","fan_ac","keyboard","tv_speech","babble","street","car","classroom","cafe","device_mic"]
+    },
+    "age_metadata_policy": "not_verified_unless_provider_supplies_it"
+  },
+  "frontend": {"name":"TFLM_microfrontend","input_shape":[99,40],"clip_duration_ms":2000,"sample_rate_hz":16000},
+  "training": {"objective":"sparse_categorical_crossentropy","label_smoothing":0.0,"class_weight":false,"optimizer":"AdamW","learning_rate":0.001,"weight_decay":0.0001,"max_steps":2000,"early_stopping_patience":5,"require_gpu_for_formal":true},
+  "calibration": {"source":"validation_only","global_top1_threshold":true,"global_margin_threshold":true,"per_keyword_threshold":false},
+  "quantization": {"method":"full_int8_ptq","input_type":"int8","output_type":"int8"},
+  "hardware_runtime_verified": false
+}

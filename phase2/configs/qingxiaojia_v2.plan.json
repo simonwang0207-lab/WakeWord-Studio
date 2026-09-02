@@ -1,0 +1,58 @@
+{
+  "schema": "wakeword-studio.dataset-plan/v1",
+  "project": "qingxiaojia_v2",
+  "status": "BUILT_QA_PASSED_AWAITING_HUMAN_LISTENING",
+  "wake_word": "你好，青小甲",
+  "seed": 20260830,
+  "preserve": {
+    "dataset": "datasets/projects/qingxiaojia_v1",
+    "external_test": "datasets/projects/qingxiaojia_v1/DatasetManifest.json",
+    "phase2b_baseline": true,
+    "phase2c_diagnostics": "outputs/diagnostics/phase2c_full"
+  },
+  "counts": {
+    "train": {"positive": 3000, "negative": 4800, "hard_negative": 2700, "ambient": 1500},
+    "validation": {"positive": 400, "negative": 640, "hard_negative": 360, "ambient": 200},
+    "test": {"positive": 400, "negative": 640, "hard_negative": 360, "ambient": 200}
+  },
+  "source_policy": {
+    "train": ["kokoro", "voxcpm15_aishell3_references"],
+    "validation": ["kokoro_group_disjoint", "voxcpm15_group_disjoint"],
+    "test": ["kokoro_unseen_speakers", "voxcpm15_unseen_reference_speaker"],
+    "external_v1_test": ["kokoro_zm_053", "kokoro_zm_056", "melotts_ZH"],
+    "group_aware_split": true,
+    "formal_source_admission_requires_license_and_listening": true
+  },
+  "duration_seconds": {
+    "bins": [[1.5, 2.2], [2.2, 3.0], [3.0, 4.0], [4.0, 5.0]],
+    "ratios": [0.25, 0.35, 0.30, 0.10]
+  },
+  "leading_silence_seconds": {
+    "bins": [[0.0, 0.15], [0.15, 0.5], [0.5, 1.0], [1.0, 1.5]],
+    "ratios": [0.30, 0.30, 0.25, 0.15]
+  },
+  "trailing_silence_seconds": {
+    "bins": [[0.0, 0.2], [0.2, 0.6], [0.6, 1.1], [1.1, 1.5]],
+    "ratios": [0.25, 0.30, 0.30, 0.15]
+  },
+  "phrase_placement": {"front": 0.30, "middle": 0.40, "back": 0.30},
+  "streaming_objective": {
+    "architecture_change": false,
+    "random_phrase_position": true,
+    "window_level_labels": true,
+    "partial_phrase_policy": "ignore_band_first_round",
+    "deployment_aggregation_in_validation": "streaming_max_plus_consecutive_3"
+  },
+  "estimated_incremental_disk_gb": [2.7, 3.5],
+  "estimated_cpu_generation_hours": [3, 6],
+  "actual_build": {
+    "records": 15200,
+    "audio_hours": 12.579331,
+    "wav_bytes": 1449807774,
+    "kokoro_records": 6650,
+    "voxcpm15_records": 6650,
+    "ambient_records": 1900,
+    "qa_status": "PASSED_AWAITING_HUMAN_LISTENING"
+  },
+  "training_authorized": false
+}

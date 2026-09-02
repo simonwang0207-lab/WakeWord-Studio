@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WakeWord Studio</title>
+  <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="/overrides.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark"><i></i><i></i><i></i></span><div><strong>WakeWord</strong><small>STUDIO</small></div></div>
+      <nav>
+        <button class="nav-item" data-page="generation"><span class="nav-icon">✦</span><span>数据集</span></button>
+        <button class="nav-item" data-page="training"><span class="nav-icon">◇</span><span>模型训练</span></button>
+        <button class="nav-item active" data-page="live"><span class="nav-icon">◉</span><span>实时唤醒</span></button>
+        <button class="nav-item" data-page="deployment"><span class="nav-icon">⬡</span><span>模型部署</span></button>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="privacy-dot"></div>
+        <div><strong>完全离线</strong><small>音频仅在本机处理</small></div>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div><div class="eyebrow">中文离线唤醒词工具</div><h1 id="page-title">实时唤醒</h1></div>
+        <div class="top-actions"><span class="system-pill"><i></i> 本地服务已连接</span><div class="avatar">青</div></div>
+      </header>
+
+      <section class="page" id="page-generation">
+        <div class="page-intro"><div><h2>创建训练数据</h2><p>选择清晰的规模预设，生成四类样本并在生成阶段冻结 Test。</p></div><span class="soft-badge">16 kHz · Mono · PCM16</span></div>
+        <div class="grid grid-7-5">
+          <article class="card form-card">
+            <div class="card-title"><span>基础设置</span><span class="step-chip">01</span></div>
+            <label>唤醒词<input id="gen-keyword" value="你好，青小甲"></label>
+            <div class="two-col"><label>生成规模<select id="gen-mode"><option>快速测试</option><option>小规模实验</option><option>正式训练</option><option>自定义</option></select></label><label>语音来源<select id="gen-provider"></select></label></div>
+            <div class="custom-targets hidden" id="custom-targets"><label>正样本<input type="number" id="custom-positive" min="0" value="250"></label><label>困难负样本<input type="number" id="custom-hard" min="0" value="225"></label><label>普通负样本<input type="number" id="custom-negative" min="0" value="400"></label><label>环境样本<input type="number" id="custom-ambient" min="0" value="125"></label></div>
+            <label id="gen-local-wrap" class="hidden">真人语音目录<input id="gen-input" placeholder="dataset/child、young、middle、senior"></label>
+            <label>输出目录<input id="gen-output" value="outputs/teacher_generated"></label>
+            <div class="capability" id="gen-capability">多说话人；无可靠年龄标签</div>
+            <div class="toggle-row"><span><strong>统一数据增强</strong><small>背景噪声、混响、随机 SNR</small></span><label class="switch"><input id="gen-augmentation" type="checkbox" checked><i></i></label></div>
+          </article>
+          <article class="card plan-card">
+            <div class="card-title"><span>预计生成</span><span class="live-dot">LIVE</span></div>
+            <div class="big-number" id="plan-total">12</div><div class="big-caption">条音频样本</div>
+            <div class="donut-wrap"><div class="mini-donut"></div><div class="legend"><span><i class="pink"></i>正样本 <b id="plan-positive">3</b></span><span><i class="purple"></i>困难负样本 <b id="plan-hard">3</b></span><span><i class="cyan"></i>普通负样本 <b id="plan-negative">3</b></span><span><i class="yellow"></i>环境样本 <b id="plan-ambient">3</b></span></div></div>
+            <div class="split-strip"><span>Train <b id="plan-train">4</b></span><span>Validation <b id="plan-validation">4</b></span><span>Test <b id="plan-test">4</b></span></div>
+          </article>
+        </div>
+        <article class="card action-card"><div><strong>生成前一切就绪</strong><p>Test split 会被固定，后续训练流程不可读取。</p></div><div class="button-row"><button class="btn secondary" id="gen-preflight">生成前检查</button><button class="btn primary" id="gen-start">开始生成 <span>→</span></button></div></article>
+      </section>
+
+      <section class="page" id="page-training">
+        <div class="page-intro"><div><h2>训练你的唤醒模型</h2><p>只需要选择数据、模型和输出位置，技术细节会被安全管理。</p></div><span class="soft-badge">Train + Validation only</span></div>
+        <div class="grid grid-6-6">
+          <article class="card form-card"><div class="card-title"><span>训练项目</span><button class="text-btn" id="open-import-model">＋ 导入已有模型</button></div><label>数据集<input id="train-dataset" value="datasets/projects/qingxiaojia_v3_fasttrack"></label><label>输出目录<input id="train-output" value="runs/teacher_ui/manual_run"></label><div class="model-choice" id="train-models"></div><p class="model-import-note">导入的 TFLite 可用于实时推理与部署；只有注册了 trainer 的模型架构才会显示“可训练”。</p><div class="button-row training-actions"><button class="btn secondary" id="train-preflight">检查配置</button><button class="btn primary" id="train-start">开始训练 →</button></div></article>
+          <article class="card training-status"><div class="card-title"><span>训练状态</span><span class="status-badge done">已完成</span></div><div class="training-hero"><div class="progress-orbit"><span>750</span><small>/ 750</small></div><div><span class="muted">CURRENT STEP</span><h3>训练任务完成</h3><p>Test 保持冻结，没有被加载。</p></div></div><div class="metric-row"><div><small>Validation Recall</small><b>—</b></div><div><small>Validation FPR</small><b>—</b></div><div><small>预计剩余</small><b>0 分钟</b></div></div></article>
+        </div>
+        <article class="card phase10-add-keyword">
+          <div class="card-title"><span>＋ 新增提示词</span><span class="soft-badge">Multi-KWS</span></div>
+          <p><strong>新增提示词需要重新训练模型。</strong>第一次点击只生成数据与训练计划，不会启动长训练。</p>
+          <div class="two-col"><label>新提示词<input id="add-keyword-name" value="你好，小智"></label><label>训练架构<select id="add-keyword-architecture"><option value="convmixer">ConvMixer（当前 Test 综合更强）</option><option value="bcresnet">BC-ResNet（轻量 baseline）</option></select></label></div>
+          <div class="two-col"><label>新词正样本<input id="add-keyword-positive" type="number" value="600" min="1"></label><label>困难负样本<input id="add-keyword-hard" type="number" value="300" min="1"></label></div>
+          <div class="two-col"><label>数据方式<select id="add-keyword-input-mode"><option value="auto_generate">自动生成</option><option value="user_wav">导入自己的 WAV</option><option value="mixed">自动生成 + 用户 WAV</option></select></label><label>TTS source<select id="add-keyword-sources"><option value="both">Kokoro + VoxCPM1.5</option><option value="kokoro">Kokoro</option><option value="voxcpm15">VoxCPM1.5</option></select></label></div>
+          <div class="two-col"><label>用户 WAV 只读目录<input id="add-keyword-wav-directory" placeholder="仅 user_wav / mixed 时必填"></label><label>增强强度<select id="add-keyword-augmentation"><option value="standard">standard</option><option value="light">light</option><option value="none">none</option></select></label></div>
+          <div class="button-row"><button class="btn secondary" id="add-keyword-preflight">生成计划 / Training preflight</button><button class="btn primary" id="add-keyword-create-job">确认创建任务（不启动）</button></div>
+          <pre id="add-keyword-result" class="phase10-plan">尚未生成计划</pre>
+        </article>
+      </section>
+
+      <section class="page active" id="page-live">
+        <div class="live-toolbar card">
+          <div class="field compact"><span>麦克风</span><select id="microphone"><option>正在读取设备…</option></select></div>
+          <div class="field compact" id="binary-keyword-field"><span>唤醒词</span><input id="live-keyword" value="你好，青小甲"></div>
+          <div class="field compact hidden" id="multikws-vocabulary-summary"><span>当前词表</span><div class="vocabulary-summary">6 个提示词</div></div>
+          <div class="field compact model-picker"><span>当前模型 / 模型选择</span><select id="live-model-select" aria-label="当前模型"></select></div>
+          <button class="btn primary listen-btn" id="listen-toggle"><span class="pulse-icon"></span><span>开始监听</span></button>
+        </div>
+
+        <div class="grid live-hero-grid">
+          <article class="hero-card">
+            <div class="hero-glow"></div><div class="card-title over"><span>实时识别</span><span class="hero-status" id="hero-status">待机中</span></div>
+            <div class="hero-content"><div><div class="hero-kicker">FINAL DECISION</div><h2 id="hero-decision">准备好后<br>开始监听</h2><p id="hero-reason">音频始终在本地设备完成处理。</p></div><div class="score-ring" id="score-ring"><div><strong id="score-value">0.000</strong><small id="score-label">Wake score</small></div></div></div>
+            <div class="hero-meta"><span>Threshold <b id="live-threshold">0.21875</b></span><span>Model <b id="live-model-name">RepCNN</b></span><span>Model ID <b id="live-model-id">model_b</b></span></div>
+            <div class="phase10-runtime-grid multikws-runtime hidden" id="multikws-runtime"><span>Top1 <b id="runtime-top1">—</b></span><span>Top1 score <b id="runtime-top1-score">0.000</b></span><span>Top2 <b id="runtime-top2">—</b></span><span>Top2 score <b id="runtime-top2-score">0.000</b></span><span>Margin <b id="runtime-margin">0.000</b></span><span>Margin threshold <b id="runtime-margin-threshold">0.000</b></span><span>Background score <b id="runtime-background-score">0.000</b></span><span>Detection <b id="runtime-detection">WAITING</b></span><span>Rejection reason <b id="runtime-rejection">NO_NEW_SCORE</b></span><span>最终识别词 <b id="runtime-final-keyword">—</b></span></div>
+            <div class="phase10-model-meta"><span id="runtime-task-type">Binary</span><span id="runtime-architecture">RepCNN</span><span id="runtime-input-shape">Input [1,99,40]</span><span id="runtime-class-count">Classes 1</span><span id="runtime-model-version">—</span><span id="runtime-model-sha">SHA —</span><span id="runtime-int8">INT8</span></div>
+          </article>
+          <article class="card session-card"><div class="card-title"><span>本次会话</span><span class="live-dot">LIVE</span></div><div class="session-count"><div><strong id="wake-count">0</strong><span>成功唤醒</span></div><div><strong id="reject-count">0</strong><span>拒绝候选</span></div></div><div class="waveform" id="waveform"> <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="session-foot"><span><i class="ok"></i>模型已就绪</span><span id="playback-count">播放 0 次</span></div></article>
+        </div>
+
+        <div class="grid grid-5-7">
+          <article class="card pipeline-card"><div class="card-title"><span>三级语音前处理</span><span class="muted">PREPROCESSING</span></div><div class="stage-list"><div class="stage" id="stage-energy"><span>01</span><div><strong>能量检测</strong><small>自适应环境阈值</small></div><b>等待</b></div><div class="connector"></div><div class="stage" id="stage-vad"><span>02</span><div><strong>WebRTC VAD</strong><small>区分语音与噪声</small></div><b>等待</b></div><div class="connector"></div><div class="stage" id="stage-speech"><span>03</span><div><strong>连续语音</strong><small>3 帧稳定确认</small></div><b>等待</b></div></div></article>
+          <article class="card logic-card"><div class="card-title"><span>DetectionLogic</span><span class="muted">L1—L5</span></div><div class="logic-track"><div id="logic-l1"><i>L1</i><strong>连续高分</strong><small>等待</small></div><span></span><div id="logic-l2"><i>L2</i><strong>峰背比</strong><small>等待</small></div><span></span><div id="logic-l3"><i>L3</i><strong>冷却</strong><small>等待</small></div><span></span><div id="logic-l4"><i>L4</i><strong>多关键词</strong><small>通过</small></div><span></span><div id="logic-l5"><i>L5</i><strong>静音边界</strong><small>等待</small></div></div><div class="logic-result"><span>当前状态</span><strong id="logic-result">IGNORE</strong><small id="tail-state">尚未进入尾部推理</small></div></article>
+        </div>
+
+        <article class="card phase10-eval-card"><div class="card-title"><span>当前词表与本地验收</span><span class="muted">不是 held-out Test</span></div><div id="live-vocabulary" class="vocabulary-chips"></div><div class="button-row"><button class="btn secondary" id="feedback-correct">识别正确</button><button class="btn secondary" id="feedback-wrong">识别错误</button><button class="btn secondary" id="mic-acceptance-start">六词快速验收</button><button class="btn secondary" id="false-wake-toggle">开始背景误唤醒测试</button></div><div id="mic-acceptance-panel" class="phase10-acceptance hidden"><small>REAL_MIC_ACCEPTANCE · 每词 10 次</small><h3>请说：<span id="mic-acceptance-target">—</span></h3><p id="mic-acceptance-progress">0 / 10</p><div class="button-row"><button class="btn secondary" id="mic-result-correct">正确</button><button class="btn secondary" id="mic-result-wrong">识别成其它词</button><button class="btn secondary" id="mic-result-rejected">被拒绝</button><button class="btn primary" id="mic-acceptance-finish">完成并保存报告</button></div></div><label class="privacy-setting"><input type="checkbox" id="save-error-audio"> 保存错误样本用于改进模型（默认关闭）</label><small id="false-wake-status">False Wakes / Hour 尚未测量；它不同于离线 Background FAR。</small></article>
+
+          <article class="card history-card"><div class="card-title"><span>最近候选</span><div class="tabs" id="history-tabs"><button class="active" data-filter="ALL">全部</button><button data-filter="WAKE">WAKE</button><button data-filter="REJECT">REJECT</button></div></div><div class="history-head"><span>时间</span><span>唤醒词</span><span>最高分</span><span>阈值</span><span>结果</span><span>说明</span></div><div id="history-body" class="history-body"><div class="empty-state">开始监听后，完成的候选会出现在这里</div></div></article>
+      </section>
+
+      <section class="page" id="page-deployment">
+        <div class="page-intro"><div><h2>模型与部署</h2><p>检查冻结模型信息，并准备嵌入式部署文件。</p></div><span class="soft-badge">ESP32-S3 ready · 未实板验证</span></div>
+        <div class="model-gallery" id="deploy-models"></div>
+        <article class="card deploy-detail"><div><div class="card-title"><span>部署检查</span><span class="status-badge done">可生成</span></div><h3 id="deploy-title">Final Model B</h3><p>模型文件保持冻结；页面不会扫描训练目录或自动选择 checkpoint。</p><div class="detail-tags"><span>Full INT8</span><span id="deploy-size">110.17 KiB</span><span>ESP32-S3</span></div></div><div class="deploy-actions"><input id="deploy-output" value="outputs/esp32_deployment"><div class="button-row"><button class="btn secondary" id="inspect-model">验证完整性</button><button class="btn primary" id="deploy-model">生成部署包</button></div></div></article>
+        <article class="card action-card"><div><strong>显式模型激活</strong><p>训练或导入只产生 Candidate，不会自动替换当前模型。可随时回滚上一版本。</p></div><div class="button-row"><button class="btn secondary" id="rollback-model">回滚上一模型</button><button class="btn primary" id="activate-model">设为当前模型</button></div></article>
+        <article class="card hash-card"><span>SHA256</span><code id="deploy-sha">—</code><button class="copy-btn" id="copy-sha">复制</button></article>
+      </section>
+    </main>
+  </div>
+  <div class="modal-backdrop hidden" id="model-import-modal"><div class="modal"><div class="modal-head"><div><span class="eyebrow">MODEL REGISTRY</span><h3>导入已有 TFLite 模型</h3></div><button id="close-import-model">×</button></div><p class="modal-copy">模型会复制到项目的 <code>models/imported</code> 并记录 SHA256。导入不会改变 Model A/B。</p><label>显示名称<input id="import-name" placeholder="例如：Model C — Classroom"></label><div class="two-col"><label>Backend<select id="import-backend"><option value="repcnn">RepCNN rolling window</option><option value="microwakeword">microWakeWord native stream</option></select></label><label>冻结 Threshold<input id="import-threshold" type="number" min="0.000001" max="1" step="0.000001" value="0.5"></label></div><label class="file-drop">选择 `.tflite` 文件<input id="import-file" type="file" accept=".tflite,application/octet-stream"><span id="import-file-name">尚未选择文件</span></label><div class="modal-warning">上传 TFLite ≠ 新增可训练架构。继续训练还需要该模型对应的 Python backend、trainer 和训练配置。</div><div class="button-row modal-actions"><button class="btn secondary" id="cancel-import-model">取消</button><button class="btn primary" id="submit-import-model">校验并导入</button></div></div></div>
+  <div class="toast" id="toast"><strong></strong><span></span></div>
+  <script src="/app.js"></script>
+</body>
+</html>

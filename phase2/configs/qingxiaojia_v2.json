@@ -1,0 +1,45 @@
+{
+  "schema": "wakeword-studio.dataset-build-config/v2",
+  "project": "qingxiaojia_v2",
+  "wake_word": "你好，青小甲",
+  "seed": 20260830,
+  "output_root": "datasets/projects/qingxiaojia_v2",
+  "counts": {
+    "train": {"positive": 3000, "negative": 4800, "hard_negative": 2700, "ambient": 1500},
+    "validation": {"positive": 400, "negative": 640, "hard_negative": 360, "ambient": 200},
+    "test": {"positive": 400, "negative": 640, "hard_negative": 360, "ambient": 200}
+  },
+  "speech_family_ratios": {"kokoro": 0.5, "voxcpm15": 0.5},
+  "speaker_allocation": {
+    "train": {
+      "kokoro": ["zf_001", "zf_003", "zf_006", "zm_009", "zm_013", "zm_020"],
+      "voxcpm15": ["SSB0273", "SSB0632", "SSB0710", "SSB0197"]
+    },
+    "validation": {
+      "kokoro": ["zf_017", "zm_031"],
+      "voxcpm15": ["SSB0393", "SSB0434"]
+    },
+    "test": {
+      "kokoro": ["zf_021", "zm_041"],
+      "voxcpm15": ["SSB0737"]
+    }
+  },
+  "external_v1_test_speakers": ["kokoro:zm_053", "kokoro:zm_056", "melotts:ZH"],
+  "phrase_placement_ratios": {"front": 0.3, "middle": 0.4, "back": 0.3},
+  "duration_seconds": {"minimum": 1.5, "maximum": 5.0},
+  "noise_schedule": ["clean", "20", "10", "5", "0"],
+  "noise_categories": ["room", "office", "fan", "street", "tv_speech", "music", "device"],
+  "streaming_sampling": {
+    "architecture_change": false,
+    "exact_positive_phrase_interval": true,
+    "window_level_phrase_presence_alignment_ready": true,
+    "partial_phrase_policy": "ignore_band_first_round"
+  },
+  "preserve": {
+    "v1_manifest": "datasets/projects/qingxiaojia_v1/DatasetManifest.json",
+    "v1_manifest_sha256": "70b089652a7f8eb407c9d23ccc0efe7e33ce241fad2309f87f35702dc4752391",
+    "phase2b_baseline": true,
+    "phase2c_diagnostics": "outputs/diagnostics/phase2c_full"
+  },
+  "training_authorized": false
+}

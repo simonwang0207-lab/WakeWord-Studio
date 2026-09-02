@@ -1,0 +1,78 @@
+{
+  "schema": "wakeword-studio.microwakeword-v2-preflight/v1",
+  "status": "READY_AWAITING_START_V2_FORMAL_TRAINING",
+  "formal_training_started": false,
+  "planned_steps": 15000,
+  "batch_size": 64,
+  "nominal_sample_draws": 960000,
+  "train_samples": 12000,
+  "nominal_train_set_equivalents": 80.0,
+  "validation_interval_steps": 500,
+  "checkpoint_interval_steps": 500,
+  "dataset_manifest_sha256": "50e3857e9941d910b640039dd70e73c39e331cc368816c378849ca9774f1973c",
+  "training_config_sha256": "90a231ad1d83abb6e9475846b646939bdf4660c6067cf4d5dac8767a86e9ff1d",
+  "feature_summary_sha256": "f0f966b54fa673e290089504919a0c4f099e924b3b0c0991276aefe53c36108f",
+  "device": {
+    "selected": "CPU",
+    "tensorflow_version": "2.21.0",
+    "tensorflow_gpu_available": false,
+    "hardware_gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "hardware_gpu_free_mib_at_benchmark": 6020,
+    "vram_used_by_tensorflow": "not_applicable_cpu_run",
+    "total_ram_gib": 15.797,
+    "available_ram_gib_at_benchmark": 2.661,
+    "process_peak_working_set_mib": 740.426
+  },
+  "benchmark": {
+    "steps": 150,
+    "run_directory": "F:\\ZJU_intership\\task\\4\\WakeWord-Studio\\runs\\qingxiaojia\\microwakeword_tiny_v2\\20260829T150007Z_preflight_benchmark_150",
+    "mean_seconds_per_step": 0.09102083785702623,
+    "p95_seconds_per_step": 0.1005815100044856,
+    "validation_seconds_mean": 0.5260360666652559,
+    "checkpoint_seconds_mean": 0.1307210250015487,
+    "best_weight_save_seconds_mean": 0.06329310000000987,
+    "estimated_formal_runtime_seconds": 1386.914073605398,
+    "estimated_formal_runtime_human": "00:23:07",
+    "loss_first_20_mean": 0.6820688873529435,
+    "loss_last_20_mean": 0.320697608590126,
+    "loss_decreased": true,
+    "loss_and_gradients_finite": true,
+    "optimizer_iterations": 150,
+    "validation_outputs_all_identical": false,
+    "validation_output_standard_deviation": 0.012976157070177425,
+    "strict_resume_checkpoint": "ckpt-75",
+    "strict_resume_verified": true
+  },
+  "streaming_window_alignment": {
+    "window_ms": 3000,
+    "train_and_validation_records_checked": 13600,
+    "positive_records_checked": 3400,
+    "negative_class_records_checked": 10200,
+    "positive_full_phrase_contained": 3380,
+    "positive_overlength_terminal_decision_windows": 20,
+    "alignment_failures": 0,
+    "negative_records_with_target_phrase_interval": 0,
+    "manual_rows": {"positive": 10, "negative": 10, "hard_negative": 10},
+    "held_out_test_loaded": false,
+    "audit_csv": "F:\\ZJU_intership\\task\\4\\WakeWord-Studio\\runs\\qingxiaojia\\microwakeword_tiny_v2\\preflight\\streaming_window_alignment_audit.csv"
+  },
+  "architecture": {
+    "family": "microWakeWord",
+    "model": "MixedNet",
+    "size": "Tiny",
+    "parameter_count": 19697,
+    "architecture_changed_from_v1": false,
+    "estimated_full_int8_streaming_tflite_bytes": 52840,
+    "estimated_full_int8_streaming_tflite_kib": 51.602,
+    "expected_size_requirement_kib": [50, 100]
+  },
+  "guard_evidence": {
+    "rejected_4s_attempt": "Stopped at step 0 because input length changed parameter count to 20225.",
+    "formal_config_uses_3s_and_19697_parameters": true,
+    "v2_test_used": false,
+    "v1_external_test_used": false,
+    "residual_python_processes_after_benchmark": 0,
+    "tests": "17 passed"
+  }
+}
+

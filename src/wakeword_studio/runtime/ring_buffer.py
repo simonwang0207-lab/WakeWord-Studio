@@ -8,9 +8,10 @@ from ..audio import TARGET_SAMPLE_RATE_HZ
 
 
 class PreRollRingBuffer:
-    def __init__(self, sample_rate: int = TARGET_SAMPLE_RATE_HZ, frame_ms: int = 30, seconds: float = 1.5):
+    def __init__(self, sample_rate: int = TARGET_SAMPLE_RATE_HZ, frame_ms: int = 30, seconds: float = 2.0):
         if not 1.0 <= seconds <= 2.0:
             raise ValueError("pre-roll must be between 1 and 2 seconds")
+        self.seconds = float(seconds)
         self.max_frames = int(np.ceil(seconds * 1000 / frame_ms))
         self.frames: deque[np.ndarray] = deque(maxlen=self.max_frames)
 

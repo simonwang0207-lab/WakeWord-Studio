@@ -1,0 +1,337 @@
+{
+  "schema": "wakeword-studio.onnx-test-vectors/v1",
+  "source_split": "validation",
+  "vector_count": 8,
+  "combined_file": "test_vectors.npz",
+  "vectors": [
+    {
+      "vector_id": "vector_00_background_ordinary",
+      "input_file": "vector_00_background_ordinary_input.npy",
+      "input_shape": [
+        99,
+        40
+      ],
+      "input_dtype": "float32",
+      "validation_index": 900,
+      "sample_id": "base-validation-ordinary_background-background-000000-v0",
+      "ground_truth_class_id": 0,
+      "ground_truth": "background",
+      "expected": {
+        "teacher_six_bcresnet": {
+          "expected_top1": 0,
+          "expected_class": "background",
+          "expected_scores": [
+            0.9993228912353516,
+            6.872404423319267e-09,
+            3.0031916509187795e-08,
+            7.930725409721617e-09,
+            0.0006770783220417798,
+            6.885488801344763e-08,
+            3.659716441006822e-08
+          ]
+        },
+        "teacher_six_convmixer": {
+          "expected_top1": 0,
+          "expected_class": "background",
+          "expected_scores": [
+            0.9950793981552124,
+            4.436004928720649e-06,
+            0.0011018805671483278,
+            4.455148427950917e-07,
+            0.003781822044402361,
+            5.173268164071487e-06,
+            2.680018405953888e-05
+          ]
+        }
+      }
+    },
+    {
+      "vector_id": "vector_01_qingxiaojia",
+      "input_file": "vector_01_qingxiaojia_input.npy",
+      "input_shape": [
+        99,
+        40
+      ],
+      "input_dtype": "float32",
+      "validation_index": 0,
+      "sample_id": "base-validation-positive-qingxiaojia-000000-v0",
+      "ground_truth_class_id": 1,
+      "ground_truth": "你好，青小甲",
+      "expected": {
+        "teacher_six_bcresnet": {
+          "expected_top1": 1,
+          "expected_class": "你好，青小甲",
+          "expected_scores": [
+            0.010142932645976543,
+            0.9889974594116211,
+            3.2060629564512055e-06,
+            5.486938789545093e-06,
+            5.096772838442121e-06,
+            1.1949760292395695e-08,
+            0.0008457378717139363
+          ]
+        },
+        "teacher_six_convmixer": {
+          "expected_top1": 1,
+          "expected_class": "你好，青小甲",
+          "expected_scores": [
+            0.021072078496217728,
+            0.9695301055908203,
+            0.003176275407895446,
+            0.0005767447873950005,
+            0.0035545961000025272,
+            0.00015077389252837747,
+            0.0019394095288589597
+          ]
+        }
+      }
+    },
+    {
+      "vector_id": "vector_02_doudou",
+      "input_file": "vector_02_doudou_input.npy",
+      "input_shape": [
+        99,
+        40
+      ],
+      "input_dtype": "float32",
+      "validation_index": 150,
+      "sample_id": "base-validation-positive-doudou-000000-v0",
+      "ground_truth_class_id": 2,
+      "ground_truth": "你好，豆豆",
+      "expected": {
+        "teacher_six_bcresnet": {
+          "expected_top1": 2,
+          "expected_class": "你好，豆豆",
+          "expected_scores": [
+            0.0003230751899536699,
+            0.00016240592231042683,
+            0.99921715259552,
+            4.315092610340798e-06,
+            7.728326636424754e-07,
+            0.00029220274882391095,
+            1.8149680869328222e-08
+          ]
+        },
+        "teacher_six_convmixer": {
+          "expected_top1": 2,
+          "expected_class": "你好，豆豆",
+          "expected_scores": [
+            2.252881313324906e-05,
+            0.0001936631597345695,
+            0.9987577199935913,
+            3.336243025842123e-05,
+            4.7595582145731896e-05,
+            0.0009380920673720539,
+            7.085247489158064e-06
+          ]
+        }
+      }
+    },
+    {
+      "vector_id": "vector_03_diandian",
+      "input_file": "vector_03_diandian_input.npy",
+      "input_shape": [
+        99,
+        40
+      ],
+      "input_dtype": "float32",
+      "validation_index": 300,
+      "sample_id": "base-validation-positive-diandian-000000-v0",
+      "ground_truth_class_id": 3,
+      "ground_truth": "你好，点点",
+      "expected": {
+        "teacher_six_bcresnet": {
+          "expected_top1": 3,
+          "expected_class": "你好，点点",
+          "expected_scores": [
+            0.03428513929247856,
+            4.928643306811864e-07,
+            3.0917905746719043e-07,
+            0.9655837416648865,
+            0.00012926149065606296,
+            4.790922147890342e-08,
+            1.0158795475945226e-06
+          ]
+        },
+        "teacher_six_convmixer": {
+          "expected_top1": 3,
+          "expected_class": "你好，点点",
+          "expected_scores": [
+            0.17751538753509521,
+            0.0003634302702266723,
+            0.000469576712930575,
+            0.8207241892814636,
+            0.00047738946159370244,
+            0.0002747478720266372,
+            0.00017524500435683876
+          ]
+        }
+      }
+    },
+    {
+      "vector_id": "vector_04_xiaorui",
+      "input_file": "vector_04_xiaorui_input.npy",
+      "input_shape": [
+        99,
+        40
+      ],
+      "input_dtype": "float32",
+      "validation_index": 450,
+      "sample_id": "base-validation-positive-xiaorui-000000-v0",
+      "ground_truth_class_id": 4,
+      "ground_truth": "你好，小瑞",
+      "expected": {
+        "teacher_six_bcresnet": {
+          "expected_top1": 4,
+          "expected_class": "你好，小瑞",
+          "expected_scores": [
+            0.018732912838459015,
+            3.808229394053342e-06,
+            4.954118139721686e-06,
+            4.038192400912521e-06,
+            0.9812341332435608,
+            1.0262400792271364e-05,
+            9.836676326813176e-06
+          ]
+        },
+        "teacher_six_convmixer": {
+          "expected_top1": 4,
+          "expected_class": "你好，小瑞",
+          "expected_scores": [
+            0.0031676015350967646,
+            4.90206184622366e-06,
+            2.045457404165063e-05,
+            9.503651381237432e-05,
+            0.9966754913330078,
+            2.6955531211569905e-05,
+            9.530803254165221e-06
+          ]
+        }
+      }
+    },
+    {
+      "vector_id": "vector_05_duoduo",
+      "input_file": "vector_05_duoduo_input.npy",
+      "input_shape": [
+        99,
+        40
+      ],
+      "input_dtype": "float32",
+      "validation_index": 600,
+      "sample_id": "base-validation-positive-duoduo-000000-v0",
+      "ground_truth_class_id": 5,
+      "ground_truth": "你好，多多",
+      "expected": {
+        "teacher_six_bcresnet": {
+          "expected_top1": 5,
+          "expected_class": "你好，多多",
+          "expected_scores": [
+            0.0065118116326630116,
+            3.5940240650234045e-07,
+            0.0014492892660200596,
+            1.3766668871539878e-07,
+            1.5171228824328864e-06,
+            0.9920344948768616,
+            2.3709703782515135e-06
+          ]
+        },
+        "teacher_six_convmixer": {
+          "expected_top1": 5,
+          "expected_class": "你好，多多",
+          "expected_scores": [
+            8.452812471659854e-05,
+            1.0063025683848537e-06,
+            2.9916889616288245e-05,
+            1.9770905055338517e-06,
+            2.3124628114601364e-06,
+            0.9998800754547119,
+            2.227319555458962e-07
+          ]
+        }
+      }
+    },
+    {
+      "vector_id": "vector_06_jizhiwa",
+      "input_file": "vector_06_jizhiwa_input.npy",
+      "input_shape": [
+        99,
+        40
+      ],
+      "input_dtype": "float32",
+      "validation_index": 750,
+      "sample_id": "base-validation-positive-jizhiwa-000000-v0",
+      "ground_truth_class_id": 6,
+      "ground_truth": "你好，吉智娃",
+      "expected": {
+        "teacher_six_bcresnet": {
+          "expected_top1": 6,
+          "expected_class": "你好，吉智娃",
+          "expected_scores": [
+            0.001908721518702805,
+            0.00022764023742638528,
+            1.0311272669039084e-10,
+            2.0873748951544258e-08,
+            1.2752015265959926e-07,
+            3.400615185000788e-07,
+            0.9978631138801575
+          ]
+        },
+        "teacher_six_convmixer": {
+          "expected_top1": 6,
+          "expected_class": "你好，吉智娃",
+          "expected_scores": [
+            0.12358886748552322,
+            0.01627594605088234,
+            0.0021748507861047983,
+            0.0005378922214731574,
+            0.0014800546923652291,
+            0.00732848234474659,
+            0.8486139178276062
+          ]
+        }
+      }
+    },
+    {
+      "vector_id": "vector_07_background_hard_negative",
+      "input_file": "vector_07_background_hard_negative_input.npy",
+      "input_shape": [
+        99,
+        40
+      ],
+      "input_dtype": "float32",
+      "validation_index": 1200,
+      "sample_id": "base-validation-hard_negative-background-000000-v0",
+      "ground_truth_class_id": 0,
+      "ground_truth": "background",
+      "expected": {
+        "teacher_six_bcresnet": {
+          "expected_top1": 2,
+          "expected_class": "你好，豆豆",
+          "expected_scores": [
+            0.13779155910015106,
+            0.00630150968208909,
+            0.8558818697929382,
+            1.4710265531903133e-05,
+            7.483548870368395e-06,
+            2.737090198934311e-06,
+            7.041086291792453e-08
+          ]
+        },
+        "teacher_six_convmixer": {
+          "expected_top1": 0,
+          "expected_class": "background",
+          "expected_scores": [
+            0.9981106519699097,
+            1.3232169294496998e-05,
+            0.00047894573071971536,
+            0.0001012852371786721,
+            2.8685881261480972e-05,
+            6.761915301467525e-06,
+            0.0012604022631421685
+          ]
+        }
+      }
+    }
+  ],
+  "TEST_AUDIO_READ": false
+}

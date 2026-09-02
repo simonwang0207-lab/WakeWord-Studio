@@ -1,0 +1,163 @@
+schema: wakeword-studio.teacher-demo/v1
+wake_phrase: "你好，青小甲"
+awake_prompt: "我醒来了"
+awake_wav: assets/i_am_awake.wav
+active_model_id: teacher_six_convmixer
+audio:
+  sample_rate_hz: 16000
+  channels: 1
+  dtype: int16
+  frame_ms: 30
+  pre_roll_seconds: 2.0
+models:
+  "Model A — MicroWakeWord Tiny":
+    id: model_a
+    display_name: Model A — microWakeWord Tiny
+    backend: microwakeword
+    path: artifacts/models/binary/microwakeword_mixednet_full_int8.tflite
+    threshold: 0.3671875
+    runtime_mode: native_streaming
+    smoothing: raw
+    supported_platforms: [ESP32-S3]
+    description: 轻量部署优先
+    architecture: microWakeWord / MixedNet
+    task_type: binary
+    version: phase2i-v3-frozen
+    num_classes: 1
+    status: HISTORICAL
+    hardware_runtime_verified: false
+    training:
+      dataset: datasets/projects/qingxiaojia_v2
+      script: phase2/scripts/run_microwakeword_v3_sequence_training.py
+      config: configs/models/microwakeword_tiny_v3_sequence.yaml
+      python: .envs/microwakeword/Scripts/python.exe
+    deployment:
+      format: Full INT8
+      bytes: 52840
+      kib: 51.6015625
+      sha256: 994f08b799364f02f6fc06273cccd4a155722af25f1b61a88f4e5b2621a2d41c
+      input_shape: [1, 3, 40]
+      input_dtype: int8
+      output_shape: [1, 1]
+      output_dtype: uint8
+  "Model B — RepCNN Performance":
+    id: model_b
+    display_name: Model B — RepCNN
+    backend: repcnn
+    path: artifacts/models/binary/repcnn_full_int8.tflite
+    threshold_freeze: artifacts/metadata/repcnn_threshold_freeze.json
+    threshold: 0.21875
+    runtime_mode: rolling_window
+    window_seconds: 2.0
+    hop_seconds: 0.20
+    smoothing: raw
+    supported_platforms: [ESP32-S3, 高资源 MCU]
+    description: 性能优先
+    architecture: RepCNN
+    task_type: binary
+    version: phase6-finalization-v2
+    num_classes: 1
+    status: HISTORICAL
+    hardware_runtime_verified: false
+    training:
+      dataset: datasets/projects/qingxiaojia_v3_fasttrack
+      script: phase4/scripts/run_repcnn_v2_fasttrack_training.py
+      config: configs/models/repcnn_performance_v2_fasttrack.yaml
+      python: .envs/livekit/Scripts/python.exe
+    deployment:
+      format: Full INT8
+      bytes: 112816
+      kib: 110.171875
+      sha256: 6acfecf7cc8651c1fba52809eee1d89abbcffa0a48bd46662b2e58ac23ce064f
+      input_shape: [1, 99, 40]
+      input_dtype: int8
+      output_shape: [1, 1]
+      output_dtype: int8
+      validation_recall: 0.810126582278481
+      validation_target_recall: 0.98
+      validation_target_met: false
+  "Historical BC-ResNet Binary":
+    id: bcresnet_binary_formal
+    display_name: BC-ResNet Binary Formal
+    backend: repcnn
+    path: artifacts/models/binary/bcresnet_binary_full_int8.tflite
+    threshold: 0.71875
+    runtime_mode: rolling_window
+    window_seconds: 2.0
+    hop_seconds: 0.20
+    smoothing: raw
+    supported_platforms: [TFLite runtime]
+    description: 公平对照历史二分类模型
+    architecture: BC-ResNet
+    task_type: binary
+    version: binary-formal-user-run-01
+    num_classes: 1
+    status: HISTORICAL
+    hardware_runtime_verified: false
+    deployment:
+      format: Full INT8
+      bytes: 108784
+      kib: 106.234375
+      sha256: 474ad90681a75acfd51fa41df1c69d43aa27ce1e2bf6f97054fa1529f370cc87
+      input_shape: [1, 99, 40]
+      input_dtype: int8
+      output_shape: [1, 1]
+      output_dtype: int8
+  "Historical ConvMixer Binary":
+    id: convmixer_binary_formal
+    display_name: ConvMixer Binary Formal
+    backend: repcnn
+    path: artifacts/models/binary/convmixer_binary_full_int8.tflite
+    threshold: 0.1484375
+    runtime_mode: rolling_window
+    window_seconds: 2.0
+    hop_seconds: 0.20
+    smoothing: raw
+    supported_platforms: [TFLite runtime]
+    description: 公平对照历史二分类模型
+    architecture: ConvMixer
+    task_type: binary
+    version: binary-formal-user-run-01
+    num_classes: 1
+    status: HISTORICAL
+    hardware_runtime_verified: false
+    deployment:
+      format: Full INT8
+      bytes: 59984
+      kib: 58.578125
+      sha256: 236893035d0806aef6b085079f5ac706403bfb2889f74881d6dda70b23cd1580
+      input_shape: [1, 99, 40]
+      input_dtype: int8
+      output_shape: [1, 1]
+      output_dtype: int8
+providers:
+  kokoro:
+    display_name: Kokoro
+    kind: tts
+    dependency: kokoro
+    python: .envs/kokoro/Scripts/python.exe
+    worker: phase1/scripts/generate_dataset.py
+    description: 多说话人中文本地 TTS
+    capabilities:
+      multi_speaker: true
+      gender_metadata: true
+      age_metadata: false
+      local_audio_import: false
+  local_folder:
+    display_name: 本地语音文件夹
+    kind: local_folder
+    worker: phase7/scripts/import_local_dataset.py
+    description: 导入用户已有的 16 kHz WAV；不会虚构年龄标签
+    capabilities:
+      multi_speaker: true
+      gender_metadata: true
+      age_metadata: true
+      local_audio_import: true
+detection:
+  consecutive_wake_frames: 2
+  peak_background_ratio: 1.20
+  background_alpha: 0.97
+  cooldown_seconds: 2.0
+  arbitration_margin: 0.05
+  pre_silence_frames: 3
+  post_silence_frames: 2

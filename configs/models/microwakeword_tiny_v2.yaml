@@ -1,0 +1,152 @@
+schema: wakeword-studio.microwakeword-training/v2
+wake_word: 你好，青小甲
+dataset_path: F:\ZJU_intership\task\4\WakeWord-Studio\datasets\projects\qingxiaojia_v2
+dataset_manifest: F:\ZJU_intership\task\4\WakeWord-Studio\datasets\projects\qingxiaojia_v2\DatasetManifest.json
+dataset_manifest_sha256: 50e3857e9941d910b640039dd70e73c39e331cc368816c378849ca9774f1973c
+features_root: F:\ZJU_intership\task\4\WakeWord-Studio\runs\qingxiaojia\microwakeword_tiny_v2\features_streaming_3s
+run_root: F:\ZJU_intership\task\4\WakeWord-Studio\runs\qingxiaojia\microwakeword_tiny_v2
+run_directory_pattern: '<UTC timestamp>'
+train_dir: null
+
+architecture:
+  family: microWakeWord
+  model: MixedNet
+  size: Tiny
+  parameter_count: 19697
+  pointwise_filters: 48,48,48,48
+  repeat_in_block: 1,1,1,1
+  mixconv_kernel_sizes: '[5],[7,11],[9,15],[23]'
+  residual_connection: 0,0,0,0
+  first_conv_filters: 32
+  first_conv_kernel_size: 5
+  stride: 3
+  pooled: 0
+  max_pool: 0
+  spatial_attention: 0
+
+frontend:
+  name: TensorFlow Lite Micro microfrontend
+  implementation: pymicro-features
+  implementation_version: 2.0.2
+  sample_rate_hz: 16000
+  channels: 1
+  sample_width_bytes: 2
+  feature_bins: 40
+  window_size_ms: 30
+  window_step_ms: 10
+  clip_duration_ms: 3000
+
+streaming_window_policy:
+  enabled: true
+  seed: 20260829
+  positive_policy: complete_phrase_when_it_fits_else_terminal_streaming_decision_window
+  negative_policy: target_phrase_interval_must_be_null
+  placement_policy: deterministic_random_within_front_middle_back_bands
+  padding_policy: zero_pad_outside_source_wav
+  audit_csv: F:\ZJU_intership\task\4\WakeWord-Studio\runs\qingxiaojia\microwakeword_tiny_v2\preflight\streaming_window_alignment_audit.csv
+
+feature_generation:
+  included_splits: [train, validation]
+  excluded_splits: [test]
+  feature_shard_size: 250
+
+seed: 20260829
+batch_size: 64
+training_steps: [6000, 6000, 3000]
+planned_steps: 15000
+learning_rates: [0.001, 0.0003, 0.0001]
+positive_class_weight: [1.0, 1.0, 1.0]
+negative_class_weight: [1.0, 1.0, 1.0]
+time_mask_max_size: [3, 3, 2]
+time_mask_count: [1, 1, 1]
+freq_mask_max_size: [3, 3, 2]
+freq_mask_count: [1, 1, 1]
+mix_up_augmentation_prob: [0.0, 0.0, 0.0]
+freq_mix_augmentation_prob: [0.0, 0.0, 0.0]
+
+class_sampling:
+  positive: 0.35
+  ordinary_negative: 0.25
+  hard_negative: 0.30
+  ambient: 0.10
+hard_negative_sampling:
+  enabled: true
+  sampling_weight: 0.30
+  policy: dedicated_provider_not_folded_into_ordinary_negative
+  tier_distribution_source: DatasetManifest
+
+eval_step_interval: 500
+checkpoint_interval: 500
+heartbeat_interval_steps: 25
+heartbeat_interval_seconds: 60
+checkpoint_selection:
+  split: validation
+  primary_metric: f1
+  tie_breaker: recall
+  threshold_during_training: 0.5
+early_stopping:
+  enabled: true
+  monitor: validation_f1
+  mode: max
+  min_delta: 0.002
+  patience_evaluations: 8
+  warmup_steps: 4000
+
+quantization:
+  enabled_after_training: true
+  format: full_int8_streaming_tflite
+  representative_split: validation
+  expected_size_range_kib: [50, 100]
+  expected_nominal_size_kib: 52
+  input_type: int8
+  output_type: uint8
+  output_dequantization: scale_times_raw_minus_zero_point
+
+validation_policy:
+  threshold_tuning_split: validation
+  checkpoint_selection_split: validation
+  v2_test_during_training: false
+  v2_test_usage: once_after_model_and_threshold_freeze
+  v1_external_test_usage: once_after_final_model_freeze
+  tune_from_v1_external_test: false
+  freeze_threshold_before_test: true
+
+features:
+  - name: positive
+    label: positive
+    features_dir: F:\ZJU_intership\task\4\WakeWord-Studio\runs\qingxiaojia\microwakeword_tiny_v2\features_streaming_3s\positive
+    sampling_weight: 0.35
+    penalty_weight: 1.0
+    truth: true
+    truncation_strategy: exact_manifest_aligned_window
+    type: mmap
+  - name: ordinary_negative
+    label: negative
+    features_dir: F:\ZJU_intership\task\4\WakeWord-Studio\runs\qingxiaojia\microwakeword_tiny_v2\features_streaming_3s\negative
+    sampling_weight: 0.25
+    penalty_weight: 1.0
+    truth: false
+    truncation_strategy: exact_manifest_aligned_window
+    type: mmap
+  - name: hard_negative
+    label: hard_negative
+    features_dir: F:\ZJU_intership\task\4\WakeWord-Studio\runs\qingxiaojia\microwakeword_tiny_v2\features_streaming_3s\hard_negative
+    sampling_weight: 0.30
+    penalty_weight: 1.0
+    truth: false
+    truncation_strategy: exact_manifest_aligned_window
+    type: mmap
+  - name: ambient
+    label: ambient
+    features_dir: F:\ZJU_intership\task\4\WakeWord-Studio\runs\qingxiaojia\microwakeword_tiny_v2\features_streaming_3s\ambient
+    sampling_weight: 0.10
+    penalty_weight: 1.0
+    truth: false
+    truncation_strategy: exact_manifest_aligned_window
+    type: mmap
+
+benchmark:
+  steps: 150
+  warmup_steps_excluded_from_timing: 10
+  validation_interval: 50
+  checkpoint_interval: 50

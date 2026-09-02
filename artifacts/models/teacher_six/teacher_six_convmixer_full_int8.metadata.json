@@ -1,0 +1,20 @@
+{
+  "schema": "wakeword-studio.release-model/v1",
+  "model_id": "teacher_six_convmixer",
+  "architecture": "ConvMixer",
+  "task_type": "multi_kws",
+  "input_shape": [1, 99, 40],
+  "output_shape": [1, 7],
+  "num_classes": 7,
+  "model_size_bytes": 60408,
+  "sha256": "acc517399e72a41f3161d700702fb71db4826face2be7184f90d91375034d476",
+  "threshold": 0.4,
+  "margin_threshold": 0.0,
+  "validation_summary": {"macro_recall": 0.9288888889, "macro_precision": 0.8877198296, "macro_f1": 0.9055625820, "micro_accuracy": 0.9053333333, "worst_keyword_recall": 0.8666666667, "background_false_accept_rate": 0.13},
+  "test_summary": {"macro_recall": 0.9422222222, "macro_precision": 0.8741064812, "macro_f1": 0.9047366540, "micro_accuracy": 0.8973333333, "worst_keyword_recall": 0.88, "background_false_accept_rate": 0.17},
+  "hardware_runtime_verified": false,
+  "role": "PRIMARY_CANDIDATE",
+  "active_at_snapshot": true,
+  "source_run": "runs/multikws/teacher_six/convmixer/formal/v2_12k_user_run_01",
+  "source_artifact": "export/teacher_six_convmixer_formal_full_int8.tflite"
+}

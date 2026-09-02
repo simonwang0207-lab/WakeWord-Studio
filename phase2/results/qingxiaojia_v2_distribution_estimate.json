@@ -1,0 +1,78 @@
+{
+  "train": {
+    "duration_seconds": {
+      "mean": 2.979033,
+      "std": 0.846882,
+      "min": 1.500063,
+      "max": 4.99775
+    },
+    "leading_seconds": {
+      "mean": 0.672887,
+      "std": 0.725587,
+      "min": 0.001625,
+      "max": 3.958063
+    },
+    "trailing_seconds": {
+      "mean": 0.567173,
+      "std": 0.58377,
+      "min": 0.001625,
+      "max": 3.363375
+    },
+    "phrase_placement": {
+      "front": 3150,
+      "middle": 4200,
+      "back": 3150
+    }
+  },
+  "validation": {
+    "duration_seconds": {
+      "mean": 3.023241,
+      "std": 0.843112,
+      "min": 1.5095,
+      "max": 4.992938
+    },
+    "leading_seconds": {
+      "mean": 0.648323,
+      "std": 0.751973,
+      "min": 0.001625,
+      "max": 3.7185
+    },
+    "trailing_seconds": {
+      "mean": 0.536721,
+      "std": 0.567966,
+      "min": 0.001625,
+      "max": 2.837875
+    },
+    "phrase_placement": {
+      "front": 420,
+      "middle": 560,
+      "back": 420
+    }
+  },
+  "test": {
+    "duration_seconds": {
+      "mean": 2.93751,
+      "std": 0.840337,
+      "min": 1.500891,
+      "max": 4.994125
+    },
+    "leading_seconds": {
+      "mean": 0.753038,
+      "std": 0.762577,
+      "min": 0.00175,
+      "max": 3.785
+    },
+    "trailing_seconds": {
+      "mean": 0.638581,
+      "std": 0.606141,
+      "min": 0.001875,
+      "max": 2.908375
+    },
+    "phrase_placement": {
+      "front": 420,
+      "middle": 560,
+      "back": 420
+    }
+  },
+  "duration_mean_max_gap_seconds": 0.085731
+}

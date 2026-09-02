@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 from pathlib import Path
 
 import numpy as np
@@ -27,6 +28,8 @@ from wakeword_studio.dataset.manifest import (
     DatasetRecord,
     SpeakerMetadata,
 )
+from wakeword_studio.dataset.planning import split_counts
+from wakeword_studio.dataset.product_plan import build_product_plan
 
 REPO_ID = "hexgrad/Kokoro-82M-v1.1-zh"
 VOICES = ["zf_001", "zf_003", "zf_006", "zf_017", "zf_021", "zm_009", "zm_013", "zm_020", "zm_031", "zm_041", "zm_053", "zm_056"]
@@ -74,8 +77,27 @@ def main() -> None:
     parser.add_argument("--wake-word", required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--per-label", type=int, default=10)
+    parser.add_argument(
+        "--targets-json",
+        help="Explicit positive/hard_negative/negative/ambient counts for product modes",
+    )
+    parser.add_argument("--product-mode", choices=("quick", "small", "formal", "custom"))
+    parser.add_argument("--custom-total", type=int)
+    parser.add_argument(
+        "--noise-augmentation", choices=("standard", "none"), default="standard"
+    )
     args = parser.parse_args()
-    if not 2 <= args.per_label <= len(VOICES):
+    mode_names = {"quick": "快速测试", "small": "小规模实验", "formal": "正式训练", "custom": "自定义"}
+    targets = (
+        build_product_plan(mode_names[args.product_mode], custom_total=args.custom_total).targets
+        if args.product_mode else json.loads(args.targets_json) if args.targets_json else None
+    )
+    if targets is not None:
+        required = {"positive", "negative", "hard_negative", "ambient"}
+        if set(targets) != required or any(int(value) < 0 for value in targets.values()):
+            raise ValueError(f"--targets-json must contain non-negative {sorted(required)}")
+        targets = {str(key): int(value) for key, value in targets.items()}
+    elif not 2 <= args.per_label <= len(VOICES):
         raise ValueError(f"--per-label must be between 2 and {len(VOICES)}")
     args.output_root.mkdir(parents=True, exist_ok=True)
     torch.manual_seed(20260829)
@@ -84,20 +106,59 @@ def main() -> None:
     model = KModel(repo_id=REPO_ID).to(device).eval()
     pipeline = KPipeline(lang_code="z", repo_id=REPO_ID, model=model)
     records: list[DatasetRecord] = []
-    for index, voice in enumerate(VOICES[: args.per_label]):
-        speed = SANITY_SPEEDS[index]
-        examples = (
-            ("positive", args.wake_word),
-            ("negative", DEFAULT_NEGATIVES[index % len(DEFAULT_NEGATIVES)]),
-            ("hard_negative", DEFAULT_HARD_NEGATIVES[index % len(DEFAULT_HARD_NEGATIVES)]),
+    if targets is None:
+        work = []
+        for index, voice in enumerate(VOICES[: args.per_label]):
+            split = "train" if index < args.per_label - 2 else "validation" if index == args.per_label - 2 else "test"
+            for item_label, item_text in (
+                ("positive", args.wake_word),
+                ("negative", DEFAULT_NEGATIVES[index % len(DEFAULT_NEGATIVES)]),
+                ("hard_negative", DEFAULT_HARD_NEGATIVES[index % len(DEFAULT_HARD_NEGATIVES)]),
+            ):
+                work.append((item_label, item_text, voice, SANITY_SPEEDS[index], split, index))
+    else:
+        # Speaker pools are exclusive per split so the generated Test set is frozen
+        # and cannot leak voices into Train/Validation.
+        voice_pools = {"train": VOICES[:8], "validation": VOICES[8:10], "test": VOICES[10:]}
+        text_pools = {
+            "positive": [args.wake_word],
+            "negative": DEFAULT_NEGATIVES,
+            "hard_negative": DEFAULT_HARD_NEGATIVES,
+        }
+        work = []
+        formal_targets = {"positive": 3800, "hard_negative": 3420, "negative": 6080, "ambient": 1900}
+        ratios = (
+            {"train": 15 / 19, "validation": 2 / 19, "test": 2 / 19}
+            if targets == formal_targets else
+            {"train": 1 / 3, "validation": 1 / 3, "test": 1 / 3}
+            if args.product_mode == "quick" else
+            {"train": 0.8, "validation": 0.1, "test": 0.1}
         )
-        for item_label, item_text in examples:
-            audio = synthesize(pipeline, item_text, voice, speed)
-            audio, acoustic = environment_augment(audio, rng, len(records))
+        for item_label, total in targets.items():
+            split_plan = split_counts(total, ratios)
+            for split, count in split_plan.items():
+                for index in range(count):
+                    voice_pool = voice_pools[split]
+                    voice = voice_pool[index % len(voice_pool)]
+                    text_pool = text_pools.get(item_label, [None])
+                    item_text = text_pool[index % len(text_pool)]
+                    speed = SANITY_SPEEDS[index % len(SANITY_SPEEDS)]
+                    work.append((item_label, item_text, voice, speed, split, index))
+    total_work = len(work)
+    for completed, (item_label, item_text, voice, speed, split, index) in enumerate(work, start=1):
+            if item_label == "ambient":
+                length = int(TARGET_SAMPLE_RATE_HZ * 2.0)
+                audio = rng.normal(0.0, 0.025, length).astype(np.float32)
+            else:
+                audio = synthesize(pipeline, str(item_text), voice, speed)
+            if args.noise_augmentation == "standard":
+                audio, acoustic = environment_augment(audio, rng, len(records))
+            else:
+                acoustic = AcousticMetadata(noise_id="clean", snr_db=None, reverb_id=None)
             acoustic.speaking_rate = speed
             directory = args.output_root / item_label
             directory.mkdir(parents=True, exist_ok=True)
-            path = directory / f"{item_label}_{index:03d}_{voice}.wav"
+            path = directory / f"{split}_{item_label}_{index:06d}_{voice}.wav"
             sf.write(path, audio, TARGET_SAMPLE_RATE_HZ, subtype=TARGET_PCM_SUBTYPE)
             relative = path.relative_to(args.output_root).as_posix()
             records.append(
@@ -105,7 +166,7 @@ def main() -> None:
                     record_id=f"auto-{len(records):06d}",
                     audio_path=relative,
                     label=item_label,
-                    split="train" if index < args.per_label - 2 else "validation" if index == args.per_label - 2 else "test",
+                    split=split,
                     text=item_text,
                     speaker=SpeakerMetadata(
                         speaker_id=voice,
@@ -122,7 +183,8 @@ def main() -> None:
                     sha256=hash_file(path),
                 )
             )
-        print(f"completed_voice={index + 1}/{args.per_label} records={len(records)}", flush=True)
+            if completed % 25 == 0 or completed == total_work:
+                print(f"completed_record={completed}/{total_work} records={len(records)}", flush=True)
     manifest = DatasetManifest(
         wake_word=args.wake_word,
         records=records,

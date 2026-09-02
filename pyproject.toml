@@ -5,13 +5,20 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "wakeword-studio"
 version = "0.1.0"
-description = "Phase 1 wake-word dataset, backend, and streaming runtime core"
+description = "Auditable Chinese wake-word data, training, evaluation, runtime, and deployment toolkit"
+readme = "README.md"
+license = {file = "LICENSE"}
 requires-python = ">=3.10"
-dependencies = ["numpy>=1.24", "scipy>=1.10", "soundfile>=0.12", "webrtcvad>=2.0.10"]
+dependencies = ["numpy>=1.24", "pypinyin>=0.50", "PyYAML>=6", "scipy>=1.10", "soundfile>=0.12", "webrtcvad>=2.0.10"]
 
 [project.optional-dependencies]
 demo = ["sounddevice>=0.5"]
-test = ["pytest>=7"]
+export = ["tf2onnx==1.17.0", "onnx==1.22.0", "onnxruntime==1.23.2"]
+runtime = [
+    "tensorflow==2.21.0",
+    "livekit-wakeword @ git+https://github.com/livekit/livekit-embedded-wakeword.git@726403d432d11d3a4327f0a367d43db78f4e3d78",
+]
+test = ["pytest>=7,<9"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -1,0 +1,19 @@
+{
+  "schema": "wakeword-studio.release-model/v1",
+  "model_id": "model_b",
+  "architecture": "RepCNN",
+  "task_type": "binary",
+  "input_shape": [1, 99, 40],
+  "output_shape": [1, 1],
+  "num_classes": 1,
+  "model_size_bytes": 112816,
+  "sha256": "6acfecf7cc8651c1fba52809eee1d89abbcffa0a48bd46662b2e58ac23ce064f",
+  "threshold": 0.21875,
+  "margin_threshold": null,
+  "validation_summary": {"recall": 0.8101265823, "precision": 0.6808510638, "f1": 0.7398843931, "fpr": 0.1, "worst_source_recall": 0.6875, "roc_auc": 0.9421782700, "pr_auc": 0.8082659979},
+  "test_summary": {"available_for_exact_release_artifact": false, "reason": "The frozen release metadata records Validation-only selection; historical RepCNN Test reports use a different frozen run."},
+  "hardware_runtime_verified": false,
+  "role": "HISTORICAL",
+  "source_run": "runs/qingxiaojia/repcnn_performance_v2_fasttrack/formal/user_run_01/phase6_finalization_v2",
+  "source_artifact": "qingxiaojia_repcnn_performance_v2_full_int8.tflite"
+}

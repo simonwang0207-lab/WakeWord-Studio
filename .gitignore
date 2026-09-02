@@ -14,9 +14,23 @@ venv/
 # IDE and OS state
 .idea/
 .vscode/
+.vs/
+.fleet/
+.ipynb_checkpoints/
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Local credentials and private keys (keep only redacted examples)
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+credentials.json
+secrets.json
 
 # Generated datasets, outputs, caches, and training runs
 datasets/
@@ -27,9 +41,17 @@ runs/
 phase0/artifacts/
 phase0/logs/
 phase1/artifacts/
+phase*/artifacts/
+phase*/logs/
 **/hf-cache/
 **/huggingface/
 **/.cache/
+**/TTS_CACHE/
+**/tts_cache/
+
+# Local third-party model/runtime cache. It is downloaded or generated locally
+# and is not part of this repository's source distribution.
+g2pW/
 
 # Models, checkpoints, feature stores, and numerical artifacts
 *.tflite
@@ -44,10 +66,30 @@ phase1/artifacts/
 *.npz
 checkpoint
 
+# Release copies are intentionally small and are verified by SHA256.
+!/artifacts/
+!/artifacts/models/
+!/artifacts/models/**/*.tflite
+!/artifacts/**/*.json
+!/artifacts/**/*.md
+
+# Keep the small model bundled with the ESP-IDF skeleton.
+!firmware/repcnn_esp32s3/main/model.tflite
+
+# Phase 11's small, checksum-verified ONNX board-delivery bundle is an
+# intentional release artifact. Keep the canonical directory and ZIP, while
+# excluding an accidentally extracted duplicate staging directory.
+deliverables/WakeWord_Models_ONNX_Board_Test/
+!deliverables/onnx_board_test/models/*.onnx
+!deliverables/onnx_board_test/verification/test_vectors/*.npy
+!deliverables/onnx_board_test/verification/test_vectors/*.npz
+
 # Training and TensorBoard logs
 *.log
 events.out.tfevents.*
 tensorboard/
+*.pid
+*.lock
 
 # Generated audio is data, except the small fixed acknowledgement asset
 *.wav
@@ -61,3 +103,8 @@ tensorboard/
 *.download
 *.crdownload
 *~
+
+# Local runtime feedback may contain machine/session information.
+runtime/*.jsonl
+runtime/*_feedback.json
+runtime/*_session.json

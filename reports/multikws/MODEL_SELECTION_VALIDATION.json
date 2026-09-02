@@ -1,0 +1,94 @@
+{
+  "schema": "wakeword-studio.multikws-model-selection-validation/v1",
+  "dataset": {
+    "id": "teacher_six_multikws_v2_formal_12k",
+    "dataset_sha256": "27c9d0ed7273bd81262009bd45e2431d8b8183796c1d9bee8a7e6ae66970d77c",
+    "manifest_sha256": "8c4f8008c6344efb575a491c19256686d8321896285b0519c90b8ce766695116",
+    "manifest_file_sha256": "ee31f0e94f16d58864b9db2125c1c4c8f99e5ca982e5e440796371cfd5afde46",
+    "split_counts": {
+      "train": 9000,
+      "validation": 1500,
+      "test": 1500
+    }
+  },
+  "class_names": [
+    "background",
+    "qingxiaojia",
+    "doudou",
+    "diandian",
+    "xiaorui",
+    "duoduo",
+    "jizhiwa"
+  ],
+  "models": {
+    "bcresnet": {
+      "role": "COMPUTE_LIGHT_BASELINE",
+      "run": "runs/multikws/teacher_six/bcresnet/formal/v2_12k_user_run_02",
+      "tflite": {
+        "path": "runs/multikws/teacher_six/bcresnet/formal/v2_12k_user_run_02/export/teacher_six_bcresnet_formal_full_int8.tflite",
+        "sha256": "1176f3752b0a7a7056efa8dad5a917f1177d50e3ebeef434d1a87af387a2070a",
+        "bytes": 108080,
+        "full_int8": true
+      },
+      "frozen_int8_threshold": 0.0,
+      "frozen_int8_margin_threshold": 0.2,
+      "validation_summary": {
+        "float": {
+          "macro_recall": 0.9444444444444445,
+          "macro_precision": 0.9125072711465556,
+          "macro_f1": 0.9270706787746995,
+          "micro_accuracy": 0.9173333333333333,
+          "worst_keyword_recall": 0.8733333333333333,
+          "background_false_accept_rate": 0.12333333333333334,
+          "background_rejection_rate": 0.8766666666666667
+        },
+        "int8": {
+          "macro_recall": 0.9,
+          "macro_precision": 0.8949379567656687,
+          "macro_f1": 0.8936609766622005,
+          "micro_accuracy": 0.882,
+          "worst_keyword_recall": 0.7866666666666666,
+          "background_false_accept_rate": 0.145,
+          "background_rejection_rate": 0.855
+        },
+        "sample_count": 1500
+      }
+    },
+    "convmixer": {
+      "role": "PRIMARY_CANDIDATE",
+      "run": "runs/multikws/teacher_six/convmixer/formal/v2_12k_user_run_01",
+      "tflite": {
+        "path": "runs/multikws/teacher_six/convmixer/formal/v2_12k_user_run_01/export/teacher_six_convmixer_formal_full_int8.tflite",
+        "sha256": "acc517399e72a41f3161d700702fb71db4826face2be7184f90d91375034d476",
+        "bytes": 60408,
+        "full_int8": true
+      },
+      "frozen_int8_threshold": 0.4,
+      "frozen_int8_margin_threshold": 0.0,
+      "validation_summary": {
+        "float": {
+          "macro_recall": 0.9244444444444445,
+          "macro_precision": 0.9283022204075674,
+          "macro_f1": 0.9254877374579425,
+          "micro_accuracy": 0.9273333333333333,
+          "worst_keyword_recall": 0.88,
+          "background_false_accept_rate": 0.06833333333333333,
+          "background_rejection_rate": 0.9316666666666666
+        },
+        "int8": {
+          "macro_recall": 0.9288888888888889,
+          "macro_precision": 0.8877198296379903,
+          "macro_f1": 0.9055625819710138,
+          "micro_accuracy": 0.9053333333333333,
+          "worst_keyword_recall": 0.8666666666666667,
+          "background_false_accept_rate": 0.13,
+          "background_rejection_rate": 0.87
+        },
+        "sample_count": 1500
+      }
+    }
+  },
+  "selection_source": "validation_only",
+  "TEST_READ": false,
+  "98PCT": "NOT_ACHIEVED"
+}

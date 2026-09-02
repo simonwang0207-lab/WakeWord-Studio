@@ -106,3 +106,16 @@ def test_training_and_inference_frontends_share_audio_contract(tmp_path: Path) -
     np.testing.assert_array_equal(training_audio, inference_audio)
     assert training_audio.dtype == np.float32
     assert len(training_audio) == 320
+
+
+def test_bad_wav_is_reported_without_discarding_valid_files(tmp_path: Path) -> None:
+    source = tmp_path / "source"
+    write_wav(source / "positive" / "valid.wav")
+    bad = source / "positive" / "broken.wav"
+    bad.write_bytes(b"not-a-wav")
+    adapter = DatasetAdapter()
+    manifest = adapter.import_folder(source, "你好，小智", tmp_path / "standardized")
+    assert len(manifest.records) == 1
+    assert manifest.records[0].text == "你好，小智"
+    assert adapter.last_import_errors[0]["audio_path"] == "positive/broken.wav"
+    assert bad.read_bytes() == b"not-a-wav"

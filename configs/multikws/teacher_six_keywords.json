@@ -1,0 +1,23 @@
+{
+  "schema": "wakeword-studio.multikws-vocabulary/v1",
+  "vocabulary_id": "teacher_six_keywords",
+  "version": 1,
+  "background": {
+    "keyword_id": "background",
+    "display_name": "Background / Other",
+    "normalized_text": "<background>",
+    "class_index": 0,
+    "aliases": ["other", "unknown", "ambient"],
+    "enabled": true,
+    "dataset": {"role": "background_other"}
+  },
+  "keywords": [
+    {"keyword_id":"qingxiaojia","display_name":"你好，青小甲","normalized_text":"你好青小甲","class_index":1,"aliases":[],"enabled":true,"dataset":{"language":"zh-CN"}},
+    {"keyword_id":"doudou","display_name":"你好，豆豆","normalized_text":"你好豆豆","class_index":2,"aliases":[],"enabled":true,"dataset":{"language":"zh-CN"}},
+    {"keyword_id":"diandian","display_name":"你好，点点","normalized_text":"你好点点","class_index":3,"aliases":[],"enabled":true,"dataset":{"language":"zh-CN"}},
+    {"keyword_id":"xiaorui","display_name":"你好，小瑞","normalized_text":"你好小瑞","class_index":4,"aliases":[],"enabled":true,"dataset":{"language":"zh-CN"}},
+    {"keyword_id":"duoduo","display_name":"你好，多多","normalized_text":"你好多多","class_index":5,"aliases":[],"enabled":true,"dataset":{"language":"zh-CN"}},
+    {"keyword_id":"jizhiwa","display_name":"你好，吉智娃","normalized_text":"你好吉智娃","class_index":6,"aliases":[],"enabled":true,"dataset":{"language":"zh-CN"}}
+  ],
+  "add_keyword_requires_retrain": true
+}

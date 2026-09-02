@@ -1,0 +1,19 @@
+{
+  "schema": "wakeword-studio.release-model/v1",
+  "model_id": "teacher_six_bcresnet",
+  "architecture": "BC-ResNet",
+  "task_type": "multi_kws",
+  "input_shape": [1, 99, 40],
+  "output_shape": [1, 7],
+  "num_classes": 7,
+  "model_size_bytes": 108080,
+  "sha256": "1176f3752b0a7a7056efa8dad5a917f1177d50e3ebeef434d1a87af387a2070a",
+  "threshold": 0.0,
+  "margin_threshold": 0.2,
+  "validation_summary": {"macro_recall": 0.9, "macro_precision": 0.8949379568, "macro_f1": 0.8936609767, "micro_accuracy": 0.882, "worst_keyword_recall": 0.7866666667, "background_false_accept_rate": 0.145},
+  "test_summary": {"macro_recall": 0.8988888889, "macro_precision": 0.8658738010, "macro_f1": 0.8794058881, "micro_accuracy": 0.8813333333, "worst_keyword_recall": 0.74, "background_false_accept_rate": 0.145},
+  "hardware_runtime_verified": false,
+  "role": "COMPUTE_LIGHT_BASELINE",
+  "source_run": "runs/multikws/teacher_six/bcresnet/formal/v2_12k_user_run_02",
+  "source_artifact": "export/teacher_six_bcresnet_formal_full_int8.tflite"
+}

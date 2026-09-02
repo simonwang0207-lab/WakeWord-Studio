@@ -1,0 +1,81 @@
+{
+  "schema": "wakeword-studio.fair-binary-kws/v1",
+  "seed": 20260830,
+  "experiment": {
+    "model_name": "bcresnet",
+    "task": "binary_kws",
+    "keyword": "qingxiaojia",
+    "phrase": "你好，青小甲",
+    "require_gpu_for_formal": true
+  },
+  "data": {
+    "source_dataset": "datasets/projects/qingxiaojia_v2",
+    "source_manifest_sha256": "50e3857e9941d910b640039dd70e73c39e331cc368816c378849ca9774f1973c",
+    "view_manifest": "datasets/projects/qingxiaojia_v3_fasttrack/DatasetManifest.json",
+    "view_manifest_sha256": "85c263d2a1cee7747230eba48fc1f6c7826fa7d2179b666399477ecacc67963f",
+    "feature_cache": "runs/qingxiaojia/repcnn_performance_v1/formal/user_run_01/feature_cache_train_validation_only",
+    "allowed_splits": ["train", "validation"],
+    "test_loaded": false
+  },
+  "frontend": {
+    "name": "TensorFlow Lite Micro microfrontend",
+    "implementation": "livekit_embedded_wakeword.MicroFrontend",
+    "sample_rate_hz": 16000,
+    "window_size_ms": 30,
+    "window_step_ms": 20,
+    "feature_bins": 40,
+    "input_shape": [99, 40],
+    "clip_duration_ms": 2000,
+    "normalization": "uint16_times_0.0390625_to_float32",
+    "pcan": true
+  },
+  "model": {
+    "architecture": "broadcasted_residual_network",
+    "channels": 40,
+    "depth": 8,
+    "width_multiplier": 1.0,
+    "subbands": 4,
+    "temporal_dilations": [1, 2, 4],
+    "dropout": 0.1,
+    "activation": "relu",
+    "output": "sigmoid_probability"
+  },
+  "objective": {
+    "type": "clip_level_focal_binary_crossentropy",
+    "gamma": 2.0,
+    "mixup_alpha": 0.2,
+    "stabilization_steps_without_mixup": 100
+  },
+  "sampling": {
+    "policy": "deterministic_hierarchical_least_exposed",
+    "batch_size": 32,
+    "batch_n_per_class": {"positive": 16, "negative": 4, "hard_negative": 8, "ambient": 4},
+    "required_speech_sources": ["kokoro", "voxcpm15"],
+    "required_hard_phrases": []
+  },
+  "optimizer": {"name": "AdamW", "weight_decay": 0.01},
+  "formal_training": {
+    "phase_steps": [8000, 1000, 1000],
+    "planned_total_steps": 10000,
+    "base_learning_rate": 0.0001,
+    "phase_lr_scales": [1.0, 0.1, 0.01],
+    "phase1_warmup_fraction": 0.2,
+    "phase1_hold_fraction": 0.3333333333333333,
+    "max_negative_weight": 5.0,
+    "validation_interval": 500,
+    "checkpoint_max_to_keep": 3,
+    "early_stopping": {"enabled": true, "minimum_step": 8000, "patience_evaluations": 4},
+    "checkpoint_selection": {
+      "maximum_overall_fpr": 0.1,
+      "formula": "Choose the Validation-only threshold with overall_fpr <= 0.10; then maximize lexicographically (worst_source_recall, overall_recall, -source_gap, f1, precision, -overall_fpr). Rank checkpoints by the same tuple."
+    }
+  },
+  "quantization": {
+    "format": "full_int8_tflite",
+    "representative_splits": ["train", "validation"],
+    "input_type": "int8",
+    "output_type": "int8",
+    "expected_input_shape": [1, 99, 40],
+    "expected_output_shape": [1, 1]
+  }
+}

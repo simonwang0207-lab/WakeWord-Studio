@@ -1,0 +1,16 @@
+{
+  "schema": "wakeword-studio.release-model-manifest/v1",
+  "snapshot_date": "2026-09-02",
+  "default_active_model": "teacher_six_convmixer",
+  "models": [
+    {"model_id": "model_a", "artifact": "artifacts/models/binary/microwakeword_mixednet_full_int8.tflite", "metadata": "artifacts/models/binary/microwakeword_mixednet_full_int8.metadata.json"},
+    {"model_id": "model_b", "artifact": "artifacts/models/binary/repcnn_full_int8.tflite", "metadata": "artifacts/models/binary/repcnn_full_int8.metadata.json"},
+    {"model_id": "bcresnet_binary_formal", "artifact": "artifacts/models/binary/bcresnet_binary_full_int8.tflite", "metadata": "artifacts/models/binary/bcresnet_binary_full_int8.metadata.json"},
+    {"model_id": "convmixer_binary_formal", "artifact": "artifacts/models/binary/convmixer_binary_full_int8.tflite", "metadata": "artifacts/models/binary/convmixer_binary_full_int8.metadata.json"},
+    {"model_id": "teacher_six_bcresnet", "artifact": "artifacts/models/teacher_six/teacher_six_bcresnet_full_int8.tflite", "metadata": "artifacts/models/teacher_six/teacher_six_bcresnet_full_int8.metadata.json"},
+    {"model_id": "teacher_six_convmixer", "artifact": "artifacts/models/teacher_six/teacher_six_convmixer_full_int8.tflite", "metadata": "artifacts/models/teacher_six/teacher_six_convmixer_full_int8.metadata.json"}
+  ],
+  "training_data_included": false,
+  "checkpoints_included": false,
+  "git_lfs_required": false
+}

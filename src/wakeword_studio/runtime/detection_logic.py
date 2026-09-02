@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from typing import Any
 
 
 @dataclass(slots=True)
@@ -30,6 +31,11 @@ class DetectionDecision:
     l4_passed: bool
     l5_state: str
     wake_event: bool
+    rejection_reason: str
+    top2_keyword: str | None = None
+    top2_score: float = 0.0
+    margin: float = 0.0
+    background_score: float = 0.0
 
 
 class DetectionLogic:
@@ -45,7 +51,13 @@ class DetectionLogic:
         self.pending_keyword: str | None = None
         self.pending_post_silence = 0
 
-    def update(self, scores: dict[str, float], speech: bool, now: float | None = None) -> DetectionDecision:
+    def update(
+        self,
+        scores: dict[str, float],
+        speech: bool,
+        now: float | None = None,
+        inference: Any | None = None,
+    ) -> DetectionDecision:
         now = time.monotonic() if now is None else now
         if speech:
             if self.silence_frames >= self.config.pre_silence_frames:
@@ -79,16 +91,62 @@ class DetectionLogic:
         self.streaks = {name: (streak if name == keyword else 0) for name in set(self.streaks) | {keyword}}
         l1 = streak >= self.config.consecutive_wake_frames
         l2 = ratio >= self.config.peak_background_ratio
-        l4 = score - second >= self.config.arbitration_margin
+        top2_keyword: str | None = None
+        background_score = 0.0
+        margin = score - second
+        model_rejection: str | None = None
+        if inference is not None:
+            read = lambda key, default=None: (
+                inference.get(key, default) if isinstance(inference, dict) else getattr(inference, key, default)
+            )
+            predicted_id = str(read("predicted_keyword_id", keyword))
+            keyword = predicted_id if predicted_id != "background" else keyword
+            score = float(read("top1_score", score))
+            second = float(read("top2_score", second))
+            top2_keyword = str(read("top2_keyword_id", "")) or None
+            margin = float(read("margin", score - second))
+            background_score = float(read("background_score", 0.0))
+            if not bool(read("accepted", True)):
+                model_rejection = str(read("rejection_reason", "L4_ARBITRATION_FAILED"))
+        # Multi-KWS operating points are already frozen per model.  The legacy
+        # arbitration_margin remains in force only for binary/multi-score callers.
+        l4 = (
+            model_rejection is None
+            if inference is not None
+            else margin >= self.config.arbitration_margin
+        )
+        if model_rejection is not None:
+            # Rejected Multi-KWS windows must not accumulate temporal evidence
+            # that could make the next accepted window fire immediately.
+            streak = 0
+            l1 = False
+            self.streaks.clear()
 
         if l1 and l2 and cooldown == 0.0 and l4 and self.had_pre_silence:
             self.pending_keyword = keyword
             self.pending_post_silence = 0
             self.had_pre_silence = False
-        decision = DetectionDecision(keyword, score, streak, l1, ratio, l2, cooldown, l4, "pending_post_silence" if self.pending_keyword else "waiting", False)
+        if model_rejection:
+            reason = model_rejection
+        elif cooldown > 0.0:
+            reason = "COOLDOWN"
+        elif not l1:
+            reason = "TEMPORAL_EVIDENCE_INSUFFICIENT"
+        elif not l2:
+            reason = "BACKGROUND_RATIO_FAILED"
+        elif not l4:
+            reason = "LOW_MARGIN"
+        else:
+            reason = "POST_SILENCE_PENDING"
+        decision = DetectionDecision(
+            keyword, score, streak, l1, ratio, l2, cooldown, l4,
+            "pending_post_silence" if self.pending_keyword else "waiting", False,
+            reason, top2_keyword, second, margin, background_score,
+        )
         if self.config.post_silence_frames == 0 and self.pending_keyword:
             decision.wake_event = True
             decision.l5_state = "passed"
+            decision.rejection_reason = "ACCEPTED"
             self._enter_cooldown(now)
         return decision
 
@@ -103,7 +161,10 @@ class DetectionLogic:
                 event = True
                 l5 = "passed"
                 self._enter_cooldown(now)
-        return DetectionDecision(keyword, 0.0, 0, False, 0.0, False, cooldown, True, l5, event)
+        return DetectionDecision(
+            keyword, 0.0, 0, False, 0.0, False, cooldown, True, l5, event,
+            "ACCEPTED" if event else "POST_SILENCE_PENDING",
+        )
 
     def _enter_cooldown(self, now: float) -> None:
         self.cooldown_until = now + self.config.cooldown_seconds

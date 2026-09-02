@@ -3,11 +3,13 @@ from __future__ import annotations
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 from wakeword_studio.backends.base import BackendEvaluation, ExportArtifact, WakeWordBackend
 from wakeword_studio.runtime.detection_logic import DetectionConfig, DetectionLogic
 from wakeword_studio.runtime.gates import ConsecutiveSpeechGate
 from wakeword_studio.runtime.ring_buffer import PreRollRingBuffer
+from wakeword_studio.runtime.engine import StreamingWakeWordEngine
 
 
 class FakeBackend(WakeWordBackend):
@@ -52,3 +54,21 @@ def test_preroll_keeps_onset_and_three_vad_frames() -> None:
     assert len(audio) == 50 * 480
     assert audio[0] == 10
     assert audio[-1] == 59
+
+
+def test_streaming_engine_enforces_preroll_and_tail_contract(monkeypatch) -> None:
+    class FakeVadGate:
+        def __init__(self, **kwargs):
+            self.kwargs = kwargs
+
+        def process(self, frame):
+            return False
+
+    monkeypatch.setattr("wakeword_studio.runtime.engine.WebRTCVadGate", FakeVadGate)
+    engine = StreamingWakeWordEngine(FakeBackend(), frame_ms=30)
+    assert engine.pre_roll.seconds == 2.0
+    assert engine.release_after_silence_frames == 27
+    with pytest.raises(ValueError, match="pre-roll"):
+        StreamingWakeWordEngine(FakeBackend(), pre_roll_seconds=0.9)
+    with pytest.raises(ValueError, match="Tail"):
+        StreamingWakeWordEngine(FakeBackend(), tail_inference_seconds=0.7)

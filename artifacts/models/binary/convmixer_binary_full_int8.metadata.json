@@ -1,0 +1,19 @@
+{
+  "schema": "wakeword-studio.release-model/v1",
+  "model_id": "convmixer_binary_formal",
+  "architecture": "ConvMixer",
+  "task_type": "binary",
+  "input_shape": [1, 99, 40],
+  "output_shape": [1, 1],
+  "num_classes": 1,
+  "model_size_bytes": 59984,
+  "sha256": "236893035d0806aef6b085079f5ac706403bfb2889f74881d6dda70b23cd1580",
+  "threshold": 0.1484375,
+  "margin_threshold": null,
+  "validation_summary": {"recall": 0.8670886076, "precision": 0.6972010178, "f1": 0.7729196051, "fpr": 0.0991666667, "worst_source_recall": 0.7638888889, "roc_auc": 0.9446334388, "pr_auc": 0.8479191176},
+  "test_summary": {"status": "NOT_RUN_FOR_THIS_FORMAL_RESULT", "test_loaded": false},
+  "hardware_runtime_verified": false,
+  "role": "HISTORICAL",
+  "source_run": "runs/qingxiaojia/convmixer_binary/formal/user_run_01",
+  "source_artifact": "export/qingxiaojia_convmixer_formal_full_int8.tflite"
+}

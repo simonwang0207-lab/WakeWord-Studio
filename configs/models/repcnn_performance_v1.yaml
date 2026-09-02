@@ -1,0 +1,128 @@
+schema: wakeword-studio.repcnn-performance-training/v1
+model_name: qingxiaojia_repcnn_performance_v1
+target_phrases: ["你好，青小甲"]
+
+dataset_manifest: F:\ZJU_intership\task\4\WakeWord-Studio\datasets\projects\qingxiaojia_v2\DatasetManifest.json
+dataset_manifest_sha256: 50e3857e9941d910b640039dd70e73c39e331cc368816c378849ca9774f1973c
+data_dir: F:\ZJU_intership\task\4\WakeWord-Studio\datasets\projects\qingxiaojia_v2
+output_dir: F:\ZJU_intership\task\4\WakeWord-Studio\runs\qingxiaojia\repcnn_performance_v1
+seed: 20260830
+weight_decay: 0.01
+
+frozen_data_contract:
+  allowed_splits: [train, validation]
+  held_out_test_loaded: false
+  test_directed_tuning: false
+  wav_copy_policy: read_manifest_paths_in_place
+
+augmentation:
+  clip_duration: 2.0
+  batch_size: 32
+  rounds: 1
+  background_paths: []
+  rir_paths: []
+  window_size_ms: 30
+  window_step_ms: 20
+  num_channels: 40
+
+frontend:
+  name: TensorFlow Lite Micro microfrontend
+  implementation: livekit_embedded_wakeword.MicroFrontend
+  sample_rate_hz: 16000
+  window_size_ms: 30
+  window_step_ms: 20
+  feature_bins: 40
+  input_shape: [99, 40]
+  normalization: uint16_times_0.0390625_to_float32
+  pcan: true
+  lower_band_limit_hz: 125.0
+  upper_band_limit_hz: 7500.0
+
+model:
+  model_type: repcnn
+  model_size: xxlarge
+  filters: 64
+  n_blocks: 11
+  temporal_dilation_cycle: [1, 2, 4]
+  dropout: 0.1
+  sigmoid_head_initializer: zeros_for_stable_unsaturated_start
+  training_branches: [dilated_depthwise_3x3_bn, depthwise_1x1_bn, identity_bn]
+  deployment_fusion: single_depthwise_3x3_plus_pointwise_1x1_per_block
+  output: sigmoid_probability
+
+objective:
+  type: clip_level_focal_binary_crossentropy
+  gamma: 2.0
+  positive_target: 1.0
+  negative_target: 0.0
+  hard_negative_target: 0.0
+  ambient_target: 0.0
+  mixup_alpha: 0.2
+  label_smoothing: 0.05
+  rationale: native_repcnn_global_average_pooling_produces_one_clip_score
+
+sampling:
+  batch_n_per_class:
+    positive: 16
+    negative: 4
+    hard_negative: 8
+    ambient: 4
+  source_balancing_within_label: uniform_records_from_frozen_manifest
+  hard_negative_policy: explicit_negative_provider
+
+tiny_overfit:
+  samples:
+    positive: 8
+    negative: 6
+    hard_negative: 8
+    ambient: 4
+  steps: 150
+  learning_rate: 0.003
+  label_smoothing: 0.0
+  mixup: false
+  batchnorm_calibration_passes: 1
+  batchnorm_calibration_momentum: 0.0
+  minimum_score_delta: 0.02
+
+benchmark:
+  steps: 180
+  learning_rate: 0.001
+  max_negative_weight: 1.0
+  mixup_alpha: 0.0
+  label_smoothing: 0.0
+  spec_augment: false
+  pool_per_class: 64
+  validation_per_class: 20
+  validation_steps: [60, 120, 180]
+  checkpoint_steps: [90, 180]
+  strict_resume_step: 90
+
+formal_training:
+  primary_steps: 6000
+  refinement_steps: 600
+  fine_tuning_steps: 600
+  planned_total_steps: 7200
+  learning_rates: [0.0005, 0.00005, 0.000005]
+  stabilization_steps_without_mixup_or_specaugment: 500
+  max_negative_weight: 5.0
+  validation_interval: 250
+  checkpoint_interval: 500
+  early_stopping:
+    enabled: true
+    monitor: validation_f1
+    mode: max
+    min_delta: 0.002
+    patience_evaluations: 10
+    warmup_steps: 2000
+
+quantization:
+  format: full_int8_tflite
+  representative_splits: [train, validation]
+  input_type: int8
+  output_type: int8
+  output_dequantization: scale_times_raw_minus_zero_point
+  expected_reference_bytes: 112808
+  expected_reference_kib: 110.164
+
+preflight_outputs:
+  root: F:\ZJU_intership\task\4\WakeWord-Studio\runs\qingxiaojia\repcnn_performance_v1\preflight

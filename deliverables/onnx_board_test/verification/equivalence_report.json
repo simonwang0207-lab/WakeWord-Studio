@@ -1,0 +1,224 @@
+{
+  "schema": "wakeword-studio.onnx-equivalence-report/v1",
+  "source_split": "validation",
+  "selection": "first 14 samples per class in Validation cache order",
+  "sample_count": 98,
+  "validation_indices": [
+    900,
+    901,
+    902,
+    903,
+    904,
+    905,
+    906,
+    907,
+    908,
+    909,
+    910,
+    911,
+    912,
+    913,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    150,
+    151,
+    152,
+    153,
+    154,
+    155,
+    156,
+    157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
+    300,
+    301,
+    302,
+    303,
+    304,
+    305,
+    306,
+    307,
+    308,
+    309,
+    310,
+    311,
+    312,
+    313,
+    450,
+    451,
+    452,
+    453,
+    454,
+    455,
+    456,
+    457,
+    458,
+    459,
+    460,
+    461,
+    462,
+    463,
+    600,
+    601,
+    602,
+    603,
+    604,
+    605,
+    606,
+    607,
+    608,
+    609,
+    610,
+    611,
+    612,
+    613,
+    750,
+    751,
+    752,
+    753,
+    754,
+    755,
+    756,
+    757,
+    758,
+    759,
+    760,
+    761,
+    762,
+    763
+  ],
+  "class_counts": {
+    "background": 14,
+    "你好，青小甲": 14,
+    "你好，豆豆": 14,
+    "你好，点点": 14,
+    "你好，小瑞": 14,
+    "你好，多多": 14,
+    "你好，吉智娃": 14
+  },
+  "models": {
+    "teacher_six_bcresnet": {
+      "sample_count": 98,
+      "top1_agreement": 1.0,
+      "max_abs_error": 4.172325134277344e-07,
+      "mean_abs_error": 1.8117633615588602e-08,
+      "mean_cosine_similarity": 1.0,
+      "minimum_cosine_similarity": 0.9999999403953552,
+      "per_class": {
+        "background": {
+          "sample_count": 14,
+          "top1_agreement": 1.0,
+          "max_abs_error": 2.980232238769531e-07,
+          "mean_abs_error": 2.21019540447287e-08
+        },
+        "你好，青小甲": {
+          "sample_count": 14,
+          "top1_agreement": 1.0,
+          "max_abs_error": 4.172325134277344e-07,
+          "mean_abs_error": 1.6592755613942245e-08
+        },
+        "你好，豆豆": {
+          "sample_count": 14,
+          "top1_agreement": 1.0,
+          "max_abs_error": 4.172325134277344e-07,
+          "mean_abs_error": 2.0847878090535232e-08
+        },
+        "你好，点点": {
+          "sample_count": 14,
+          "top1_agreement": 1.0,
+          "max_abs_error": 2.980232238769531e-07,
+          "mean_abs_error": 1.544147210097435e-08
+        },
+        "你好，小瑞": {
+          "sample_count": 14,
+          "top1_agreement": 1.0,
+          "max_abs_error": 2.980232238769531e-07,
+          "mean_abs_error": 1.8489918929276428e-08
+        },
+        "你好，多多": {
+          "sample_count": 14,
+          "top1_agreement": 1.0,
+          "max_abs_error": 2.980232238769531e-07,
+          "mean_abs_error": 2.320535408273372e-08
+        },
+        "你好，吉智娃": {
+          "sample_count": 14,
+          "top1_agreement": 1.0,
+          "max_abs_error": 1.7881393432617188e-07,
+          "mean_abs_error": 1.014409534150218e-08
+        }
+      },
+      "onnx_vs_int8_tflite_top1_agreement": 0.9489795918367347
+    },
+    "teacher_six_convmixer": {
+      "sample_count": 98,
+      "top1_agreement": 1.0,
+      "max_abs_error": 2.384185791015625e-07,
+      "mean_abs_error": 1.3769280826636532e-08,
+      "mean_cosine_similarity": 1.0,
+      "minimum_cosine_similarity": 0.9999998807907104,
+      "per_class": {
+        "background": {
+          "sample_count": 14,
+          "top1_agreement": 1.0,
+          "max_abs_error": 2.384185791015625e-07,
+          "mean_abs_error": 1.3964927880749656e-08
+        },
+        "你好，青小甲": {
+          "sample_count": 14,
+          "top1_agreement": 1.0,
+          "max_abs_error": 2.384185791015625e-07,
+          "mean_abs_error": 1.098901414309239e-08
+        },
+        "你好，豆豆": {
+          "sample_count": 14,
+          "top1_agreement": 1.0,
+          "max_abs_error": 2.384185791015625e-07,
+          "mean_abs_error": 1.633328139405421e-08
+        },
+        "你好，点点": {
+          "sample_count": 14,
+          "top1_agreement": 1.0,
+          "max_abs_error": 1.1920928955078125e-07,
+          "mean_abs_error": 1.4742473908313514e-08
+        },
+        "你好，小瑞": {
+          "sample_count": 14,
+          "top1_agreement": 1.0,
+          "max_abs_error": 1.1920928955078125e-07,
+          "mean_abs_error": 1.2856542497274859e-08
+        },
+        "你好，多多": {
+          "sample_count": 14,
+          "top1_agreement": 1.0,
+          "max_abs_error": 2.384185791015625e-07,
+          "mean_abs_error": 1.2423054585042337e-08
+        },
+        "你好，吉智娃": {
+          "sample_count": 14,
+          "top1_agreement": 1.0,
+          "max_abs_error": 1.7881393432617188e-07,
+          "mean_abs_error": 1.5075672266107176e-08
+        }
+      },
+      "onnx_vs_int8_tflite_top1_agreement": 0.9897959183673469
+    }
+  },
+  "TEST_AUDIO_READ": false
+}

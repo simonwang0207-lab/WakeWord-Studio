@@ -1,0 +1,39 @@
+{
+  "schema": "wakeword-studio.dataset-freeze/v1",
+  "status": "FROZEN_LISTENING_PASSED",
+  "frozen_at": "2026-08-29T22:25:25.6529323+08:00",
+  "dataset_root": "F:\\ZJU_intership\\task\\4\\WakeWord-Studio\\datasets\\projects\\qingxiaojia_v2",
+  "manifest_path": "F:\\ZJU_intership\\task\\4\\WakeWord-Studio\\datasets\\projects\\qingxiaojia_v2\\DatasetManifest.json",
+  "manifest_sha256": "50e3857e9941d910b640039dd70e73c39e331cc368816c378849ca9774f1973c",
+  "total_samples": 15200,
+  "split_counts": {
+    "train": 12000,
+    "validation": 1600,
+    "test": 1600
+  },
+  "speaker_split": {
+    "train": {
+      "kokoro": ["zf_001", "zf_003", "zf_006", "zm_009", "zm_013", "zm_020"],
+      "voxcpm15": ["SSB0197", "SSB0273", "SSB0632", "SSB0710"]
+    },
+    "validation": {
+      "kokoro": ["zf_017", "zm_031"],
+      "voxcpm15": ["SSB0393", "SSB0434"]
+    },
+    "test": {
+      "kokoro": ["zf_021", "zm_041"],
+      "voxcpm15": ["SSB0737"]
+    }
+  },
+  "source_split_counts": {
+    "train": {"kokoro": 5250, "voxcpm15": 5250, "procedural_ambient": 1500},
+    "validation": {"kokoro": 700, "voxcpm15": 700, "procedural_ambient": 200},
+    "test": {"kokoro": 700, "voxcpm15": 700, "procedural_ambient": 200}
+  },
+  "speaker_leakage": 0,
+  "source_group_leakage": 0,
+  "listening_review_samples": 15,
+  "listening_review_status": "PASSED",
+  "training_mutation_policy": "Dataset files and DatasetManifest are immutable during v2 training.",
+  "v1_external_test_manifest_sha256": "70b089652a7f8eb407c9d23ccc0efe7e33ce241fad2309f87f35702dc4752391"
+}

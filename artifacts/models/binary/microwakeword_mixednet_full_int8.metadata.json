@@ -1,0 +1,19 @@
+{
+  "schema": "wakeword-studio.release-model/v1",
+  "model_id": "model_a",
+  "architecture": "microWakeWord / MixedNet",
+  "task_type": "binary",
+  "input_shape": [1, 3, 40],
+  "output_shape": [1, 1],
+  "num_classes": 1,
+  "model_size_bytes": 52840,
+  "sha256": "994f08b799364f02f6fc06273cccd4a155722af25f1b61a88f4e5b2621a2d41c",
+  "threshold": 0.3671875,
+  "margin_threshold": null,
+  "validation_summary": {"recall": 0.52, "precision": 0.7222222222, "f1": 0.6046511628, "fpr": 0.0666666667, "roc_auc": 0.7846135417, "pr_auc": 0.6055853934},
+  "test_summary": {"recall": 0.59, "precision": 0.7444795, "f1": 0.6582985, "fpr": 0.0675, "roc_auc": 0.82870208, "pr_auc": 0.69874107},
+  "hardware_runtime_verified": false,
+  "role": "HISTORICAL",
+  "source_run": "runs/qingxiaojia/microwakeword_tiny_v3_sequence/formal/20260829T162135Z/phase2i_v3_frozen_final",
+  "source_artifact": "final_model/tflite_stream_state_internal_quant/stream_state_internal_quant.tflite"
+}

@@ -1,0 +1,75 @@
+{
+  "schema": "wakeword-studio.multikws-experiment/v1",
+  "experiment_id": "teacher_six_formal_candidate",
+  "seed": 20260901,
+  "vocabulary": "configs/multikws/teacher_six_keywords.json",
+  "dataset": {
+    "profile": "formal",
+    "dataset_id": "teacher_six_multikws_v1_formal",
+    "manifest_profile": "formal_candidate",
+    "experiment_stage": "first_formal_baseline",
+    "output_root": "datasets/projects/teacher_six_multikws_v1_formal",
+    "positive_per_keyword": 400,
+    "background_speech_count": 1200,
+    "hard_negative_count": 600,
+    "ambient_count": 600,
+    "split_weights": {"train": 2, "validation": 1, "test": 1},
+    "speech_source_mix": {"kokoro": 0.5, "voxcpm15": 0.5},
+    "speech_sources": {
+      "kokoro": {
+        "provider": "kokoro",
+        "repo_id": "hexgrad/Kokoro-82M-v1.1-zh",
+        "lang_code": "z",
+        "speaker_splits": {
+          "train": ["zf_001", "zm_009", "zf_003", "zm_013", "zf_006", "zm_031", "zm_041", "zm_053"],
+          "validation": ["zf_017", "zm_056"],
+          "test": ["zm_020", "zf_021"]
+        }
+      },
+      "voxcpm15": {
+        "provider": "voxcpm15",
+        "python_executable": "../.vcp15/Scripts/python.exe",
+        "repo_src": "phase2/artifacts/permissive_multispeaker_poc/voxcpm15/repo/src",
+        "model_dir": "phase2/artifacts/permissive_multispeaker_poc/voxcpm15/model",
+        "reference_manifest": "phase2/artifacts/permissive_multispeaker_poc/aishell3_references/reference_manifest.json",
+        "reference_speaker_splits": {
+          "train": ["SSB0197", "SSB0273", "SSB0632", "SSB0710"],
+          "validation": ["SSB0393", "SSB0434"],
+          "test": ["SSB0737"]
+        },
+        "cfg_value": 2.0,
+        "inference_timesteps": 10,
+        "max_len": 512
+      }
+    },
+    "background_phrases": ["今天天气不错", "请打开客厅的灯", "播放一首音乐", "现在几点了"],
+    "hard_negative_phrases": ["你好豆", "你好点", "你好多", "你好小锐", "青小甲你好", "你好吉娃"],
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "subtype": "PCM_16",
+    "augmentation": {
+      "speed_factors": [0.90, 0.97, 1.04, 1.10],
+      "gain_db_range": [-4.0, 3.0],
+      "leading_silence_ms_range": [40, 220],
+      "trailing_silence_ms_range": [40, 250],
+      "reverb_probability": 0.3333333333,
+      "far_field_probability": 0.3333333333,
+      "reverb_delay_ms": 55,
+      "reverb_decay": 0.17,
+      "far_field_gain": 0.55,
+      "snr_db_values": [5, 10, 15, 20],
+      "noise_types": ["office","fan_ac","keyboard","tv_speech","babble","street","car","classroom","cafe","device_mic"]
+    },
+    "age_metadata_policy": "not_verified_unless_provider_supplies_it"
+  },
+  "frontend": {"name":"TFLM_microfrontend","input_shape":[99,40],"clip_duration_ms":2000,"sample_rate_hz":16000},
+  "models": {
+    "bcresnet": {"architecture":"broadcasted_residual_network","channels":40,"depth":8,"width_multiplier":1.0,"subbands":4,"temporal_dilations":[1,2,4],"dropout":0.1,"activation":"relu"},
+    "convmixer": {"architecture":"acoustic_convmixer","hidden_dim":48,"depth":6,"kernel_size":[7,5],"patch_size":[3,2],"stride":[2,2],"dropout":0.1,"activation":"relu"}
+  },
+  "training": {"objective":"sparse_categorical_crossentropy","label_smoothing":0.0,"class_weight":false,"optimizer":"AdamW","learning_rate":0.001,"weight_decay":0.0001,"batch_size":32,"max_steps":2000,"validation_interval":100,"early_stopping_patience":5,"sampler":{"kind":"deterministic_epoch_shuffle","drop_last":false},"require_gpu_for_formal":true},
+  "calibration": {"source":"validation_only","global_top1_threshold":true,"global_margin_threshold":true,"per_keyword_threshold":false},
+  "quantization": {"method":"full_int8_ptq","input_type":"int8","output_type":"int8"},
+  "hardware_runtime_verified": false,
+  "sizing_basis": "4800 clips; candidate selected after quick local Kokoro throughput audit, not a universal formal-size claim"
+}

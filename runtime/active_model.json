@@ -1,0 +1,10 @@
+{
+  "schema": "wakeword-studio.active-model/v1",
+  "active_model_id": "teacher_six_convmixer",
+  "previous_model_id": "teacher_six_bcresnet",
+  "activated_at": "2026-09-01T13:51:30.487961+00:00",
+  "history": [
+    "teacher_six_convmixer",
+    "teacher_six_bcresnet"
+  ]
+}

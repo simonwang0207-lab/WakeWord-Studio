@@ -1,0 +1,144 @@
+schema: wakeword-studio.microwakeword-sequence-training/v1
+wake_word: 你好，青小甲
+dataset_path: F:\ZJU_intership\task\4\WakeWord-Studio\datasets\projects\qingxiaojia_v2
+dataset_manifest: F:\ZJU_intership\task\4\WakeWord-Studio\datasets\projects\qingxiaojia_v2\DatasetManifest.json
+dataset_manifest_sha256: 50e3857e9941d910b640039dd70e73c39e331cc368816c378849ca9774f1973c
+features_root: F:\ZJU_intership\task\4\WakeWord-Studio\runs\qingxiaojia\microwakeword_tiny_v2\features_streaming_3s
+run_root: F:\ZJU_intership\task\4\WakeWord-Studio\runs\qingxiaojia\microwakeword_tiny_v3_sequence
+seed: 20260829
+
+frozen_variables:
+  dataset: qingxiaojia_v2
+  train_validation_test_speaker_split: unchanged
+  frontend: unchanged_from_v2
+  augmentation: unchanged_from_v2
+  sampling_ratios: unchanged_from_v2
+  int8_export: unchanged_from_v2
+  only_changed_variable: training_objective
+
+architecture:
+  family: microWakeWord
+  model: MixedNet
+  size: Tiny
+  parameter_count: 19697
+  pointwise_filters: 48,48,48,48
+  repeat_in_block: 1,1,1,1
+  mixconv_kernel_sizes: '[5],[7,11],[9,15],[23]'
+  residual_connection: 0,0,0,0
+  first_conv_filters: 32
+  first_conv_kernel_size: 5
+  stride: 3
+  pooled: 0
+  max_pool: 0
+  spatial_attention: 0
+
+frontend:
+  name: TensorFlow Lite Micro microfrontend
+  implementation: pymicro-features
+  implementation_version: 2.0.2
+  sample_rate_hz: 16000
+  channels: 1
+  sample_width_bytes: 2
+  feature_bins: 40
+  window_size_ms: 30
+  window_step_ms: 10
+  clip_duration_ms: 3000
+  stored_feature_frames: 297
+
+sequence_objective:
+  type: frame_weighted_binary_crossentropy_plus_hard_negative_max_penalty
+  decision_frame_step_ms: 30
+  positive_target_frames: 3
+  positive_target_duration_ms: 90
+  positive_target_start: first_decision_at_or_after_phrase_end
+  positive_pre_phrase_target: 0
+  positive_post_region_target: 0
+  negative_sequence_target: 0
+  hard_negative_sequence_target: 0
+  ambient_sequence_target: 0
+  positive_frame_weight: 32.0
+  other_frame_weight: 1.0
+  hard_negative_frame_weight: 1.0
+  hard_negative_max_penalty_weight: 0.5
+  hard_negative_max_penalty: negative_bce_of_sequence_max_score
+  left_context_feature_frames: 253
+  tail_padding_feature_frames: 9
+  deployment_consecutive_frames: 3
+  deployment_consecutive_duration_ms: 90
+
+class_sampling:
+  positive: 0.35
+  ordinary_negative: 0.25
+  hard_negative: 0.30
+  ambient: 0.10
+
+augmentation:
+  time_mask_max_size: 3
+  time_mask_count: 1
+  freq_mask_max_size: 3
+  freq_mask_count: 1
+  mix_up_augmentation_prob: 0.0
+  freq_mix_augmentation_prob: 0.0
+
+batch_size: 64
+planned_steps: 15000
+training_steps: [6000, 6000, 3000]
+learning_rates: [0.001, 0.0003, 0.0001]
+eval_step_interval: 500
+checkpoint_interval: 500
+heartbeat_interval_steps: 25
+early_stopping:
+  enabled: true
+  monitor: validation_sequence_f1
+  mode: max
+  min_delta: 0.002
+  patience_evaluations: 8
+  warmup_steps: 4000
+
+validation_policy:
+  split: validation
+  threshold_during_training: 0.5
+  sequence_score: max_over_time_of_consecutive_3_frame_minimum
+  trigger: any_3_consecutive_scores_at_or_above_threshold
+  retain_roc_auc: true
+  retain_pr_auc: true
+  retain_frame_diagnostics: true
+  v2_test_during_preflight: false
+  v1_external_test_during_preflight: false
+
+tiny_overfit:
+  samples: 24
+  positive: 8
+  hard_negative: 8
+  ordinary_negative: 4
+  ambient: 4
+  steps: 250
+  learning_rate: 0.003
+  augmentation_enabled: false
+  batchnorm_calibration_passes: 100
+  batchnorm_calibration_source: same_24_train_samples_no_gradient
+  minimum_positive_end_increase: 0.15
+  minimum_positive_pre_phrase_decrease: 0.05
+  minimum_hard_negative_max_decrease: 0.05
+
+benchmark:
+  steps: 150
+  warmup_steps_excluded_from_timing: 10
+  validation_steps: [75, 150]
+  checkpoint_steps: [75, 150]
+  strict_resume_step: 75
+
+quantization:
+  format: full_int8_streaming_tflite
+  output_dequantization: scale_times_raw_minus_zero_point
+  expected_size_range_kib: [50, 100]
+  expected_nominal_bytes: 52840
+  expected_nominal_size_kib: 51.602
+
+outputs:
+  root: F:\ZJU_intership\task\4\WakeWord-Studio\runs\qingxiaojia\microwakeword_tiny_v3_sequence\preflight
+  target_audit_csv: target_audit_frames.csv
+  target_audit_summary_csv: target_audit_samples.csv
+  tiny_overfit_report: tiny_overfit_report.json
+  score_trace_csv: tiny_overfit_score_traces.csv
+  benchmark_report: benchmark_report.json

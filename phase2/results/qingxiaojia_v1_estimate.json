@@ -1,0 +1,173 @@
+{
+  "schema": "wakeword-studio.dataset-build-estimate/v1",
+  "project": "qingxiaojia_v1",
+  "wake_word": "你好，青小甲",
+  "output_root": "datasets/projects/qingxiaojia_v1",
+  "audio_contract": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_width_bytes": 2
+  },
+  "targets": {
+    "positive": 2000,
+    "negative": 4000,
+    "hard_negative": 2000,
+    "ambient": 1000
+  },
+  "total_samples": 9000,
+  "split_counts_by_label": {
+    "positive": {
+      "train": 1600,
+      "validation": 200,
+      "test": 200
+    },
+    "negative": {
+      "train": 3200,
+      "validation": 400,
+      "test": 400
+    },
+    "hard_negative": {
+      "train": 1600,
+      "validation": 200,
+      "test": 200
+    },
+    "ambient": {
+      "train": 800,
+      "validation": 100,
+      "test": 100
+    }
+  },
+  "source_groups_by_split": {
+    "train": [
+      "kokoro:zf_001",
+      "kokoro:zf_003",
+      "kokoro:zf_006",
+      "kokoro:zf_017",
+      "kokoro:zf_021",
+      "kokoro:zm_009",
+      "kokoro:zm_013",
+      "kokoro:zm_020",
+      "kokoro:zm_031"
+    ],
+    "validation": [
+      "kokoro:zm_041"
+    ],
+    "test": [
+      "kokoro:zm_053",
+      "kokoro:zm_056",
+      "melotts:ZH"
+    ]
+  },
+  "speaker_source_group_exclusive": true,
+  "test_source_families": [
+    "kokoro",
+    "melotts"
+  ],
+  "hard_negative_curriculum": {
+    "unique_phrases": 12,
+    "tier_counts": {
+      "1": 6,
+      "2": 4,
+      "3": 2
+    },
+    "phrases": [
+      {
+        "text": "你好，星小甲",
+        "tier": 1,
+        "reason": "middle-syllable contrast xing1 versus qing1"
+      },
+      {
+        "text": "你好，请小甲",
+        "tier": 1,
+        "reason": "qing-tone contrast qing3 versus qing1"
+      },
+      {
+        "text": "你好，金小甲",
+        "tier": 1,
+        "reason": "middle-syllable contrast jin1 versus qing1"
+      },
+      {
+        "text": "你好，青小佳",
+        "tier": 1,
+        "reason": "final-tone contrast jia1 versus jia3"
+      },
+      {
+        "text": "你好，青小杰",
+        "tier": 1,
+        "reason": "final-syllable contrast jie2 versus jia3"
+      },
+      {
+        "text": "你好，青小架",
+        "tier": 1,
+        "reason": "final-tone contrast jia4 versus jia3"
+      },
+      {
+        "text": "你好吗，青小甲",
+        "tier": 2,
+        "reason": "inserted syllable near greeting"
+      },
+      {
+        "text": "你好，小甲",
+        "tier": 2,
+        "reason": "missing qing syllable"
+      },
+      {
+        "text": "你好，青甲",
+        "tier": 2,
+        "reason": "missing xiao syllable"
+      },
+      {
+        "text": "青小甲",
+        "tier": 2,
+        "reason": "missing greeting"
+      },
+      {
+        "text": "你好，小安",
+        "tier": 3,
+        "reason": "other wake-like name"
+      },
+      {
+        "text": "你好，小瑞",
+        "tier": 3,
+        "reason": "other wake-like name"
+      }
+    ]
+  },
+  "noise_categories": [
+    "clean",
+    "room",
+    "office",
+    "fan",
+    "keyboard",
+    "street",
+    "tv_speech",
+    "music"
+  ],
+  "snr_db": [
+    20,
+    10,
+    5,
+    0
+  ],
+  "age_proxies": [
+    null,
+    "higher_pitch_and_faster",
+    "lower_pitch_and_slower"
+  ],
+  "verified_age_groups": [],
+  "estimated_audio_duration_seconds": 19200.0,
+  "estimated_audio_duration_hours": 5.333,
+  "estimated_standardized_wav_mib": 586.3,
+  "estimated_total_artifacts_gib": 0.973,
+  "estimated_generation_minutes": 68.6,
+  "runtime_assumptions": {
+    "tts_base_utterances": 729,
+    "tts_utterances_per_minute": 15,
+    "augmentations_per_minute": 600,
+    "fixed_overhead_minutes": 5,
+    "artifact_size_multiplier": 1.7
+  },
+  "warnings": [
+    "No verified/reported age groups are available from the TTS sources; acoustic age proxies must not be reported as real age coverage."
+  ]
+}

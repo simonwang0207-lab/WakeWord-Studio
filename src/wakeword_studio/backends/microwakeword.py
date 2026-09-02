@@ -15,6 +15,95 @@ from ..dataset.manifest import DatasetManifest
 from ..frontends import load_inference_audio
 
 
+def _generate_features_for_clip(audio_samples: np.ndarray) -> np.ndarray:
+    """Run the same 16 kHz/10 ms microfrontend used by formal Model A evaluation."""
+
+    from pymicro_features import MicroFrontend
+
+    samples = np.asarray(audio_samples).reshape(-1)
+    if samples.dtype in (np.float32, np.float64):
+        samples = np.clip(samples * 32768.0, -32768, 32767).astype(np.int16)
+    elif samples.dtype != np.int16:
+        samples = samples.astype(np.int16)
+
+    audio_bytes = samples.tobytes()
+    frontend = MicroFrontend()
+    process_samples = getattr(
+        frontend,
+        "ProcessSamples",
+        getattr(frontend, "process_samples", None),
+    )
+    if process_samples is None:
+        raise RuntimeError("Unsupported pymicro-features MicroFrontend API")
+
+    features: list[object] = []
+    audio_index = 0
+    packet_bytes = 160 * 2
+    # Keep the upstream microWakeWord boundary rule byte-for-byte compatible.
+    while audio_index + packet_bytes < len(audio_bytes):
+        result = process_samples(audio_bytes[audio_index : audio_index + packet_bytes])
+        audio_index += int(result.samples_read) * 2
+        if result.features:
+            features.append(result.features)
+    return np.asarray(features, dtype=np.float32).reshape(-1, 40)
+
+
+class _TFLiteStreamingModel:
+    """Minimal deployment adapter matching the frozen evaluator's TFLite path."""
+
+    def __init__(self, model_path: Path, *, stride: int = 3):
+        import tensorflow as tf
+
+        self.interpreter = tf.lite.Interpreter(model_path=str(model_path))
+        self.interpreter.allocate_tensors()
+        inputs = self.interpreter.get_input_details()
+        outputs = self.interpreter.get_output_details()
+        if len(inputs) != 1 or len(outputs) != 1:
+            raise RuntimeError("Model A deployment must have exactly one input and output")
+        self.input = inputs[0]
+        self.output = outputs[0]
+        self.input_feature_slices = int(self.input["shape"][1])
+        self.stride = int(stride)
+        if self.input["shape"].tolist() != [1, 3, 40]:
+            raise RuntimeError(f"Unexpected Model A input shape: {self.input['shape'].tolist()}")
+        if self.output["shape"].tolist() != [1, 1]:
+            raise RuntimeError(f"Unexpected Model A output shape: {self.output['shape'].tolist()}")
+        if np.dtype(self.input["dtype"]) != np.dtype(np.int8):
+            raise RuntimeError("Model A deployment input must be INT8")
+        if np.dtype(self.output["dtype"]) != np.dtype(np.uint8):
+            raise RuntimeError("Model A deployment output must be UINT8")
+        self.input_scale, self.input_zero_point = self.input["quantization"]
+        self.output_scale, self.output_zero_point = self.output["quantization"]
+        if self.input_scale <= 0 or self.output_scale <= 0:
+            raise RuntimeError("Model A deployment lacks scalar quantization metadata")
+
+    def predict_clip(self, audio: np.ndarray, step_ms: int = 10) -> list[float]:
+        if int(step_ms) != 10:
+            raise ValueError("Frozen Model A frontend requires a 10 ms feature step")
+        return self.predict_spectrogram(_generate_features_for_clip(audio))
+
+    def predict_spectrogram(self, spectrogram: np.ndarray) -> list[float]:
+        features = np.asarray(spectrogram)
+        if np.issubdtype(features.dtype, np.uint16):
+            features = features.astype(np.float32) * 0.0390625
+        else:
+            features = features.astype(np.float32, copy=False)
+
+        limits = np.iinfo(self.input["dtype"])
+        predictions: list[float] = []
+        for last_index in range(self.input_feature_slices, len(features) + 1, self.stride):
+            chunk = features[last_index - self.input_feature_slices : last_index]
+            quantized = np.rint(chunk / self.input_scale + self.input_zero_point)
+            quantized = np.clip(quantized, limits.min, limits.max).astype(self.input["dtype"])
+            self.interpreter.set_tensor(
+                self.input["index"], quantized.reshape(self.input["shape"])
+            )
+            self.interpreter.invoke()
+            raw = int(np.asarray(self.interpreter.get_tensor(self.output["index"])).reshape(-1)[0])
+            predictions.append(float(self.output_scale) * (raw - int(self.output_zero_point)))
+        return predictions
+
+
 class MicroWakeWordBackend(WakeWordBackend):
     def __init__(self, keyword: str = "你好，青小甲", upstream_root: Path | None = None):
         self.keyword = keyword
@@ -88,10 +177,9 @@ class MicroWakeWordBackend(WakeWordBackend):
         return ExportArtifact(path=path, bytes=path.stat().st_size, full_int8=True)
 
     def load(self, model_path: Path) -> None:
-        from microwakeword.inference import Model
-
         self.model_path = model_path.resolve()
-        self._model = Model(str(self.model_path), stride=3)
+        if not self.model_path.is_file():
+            raise FileNotFoundError(self.model_path)
         self.reset_stream()
 
     def reset_stream(self) -> None:
@@ -99,19 +187,15 @@ class MicroWakeWordBackend(WakeWordBackend):
         self._feature_cursor = 0
         self._feature_remainder = np.empty((0, 40), dtype=np.float32)
         if self.model_path is not None:
-            from microwakeword.inference import Model
-
-            self._model = Model(str(self.model_path), stride=3)
+            self._model = _TFLiteStreamingModel(self.model_path, stride=3)
 
     def stream_scores(self, pcm16: np.ndarray) -> dict[str, float]:
         if self._model is None:
             raise RuntimeError("Call load() first")
-        from microwakeword.audio.audio_utils import generate_features_for_clip
-
         frame = np.asarray(pcm16, dtype=np.int16).reshape(-1)
         self._audio = np.concatenate((self._audio, frame))
         # Recompute the frontend track and emit only newly stable 10 ms feature rows.
-        features = generate_features_for_clip(self._audio.astype(np.float32) / 32768.0, step_ms=10)
+        features = _generate_features_for_clip(self._audio)
         new_features = features[self._feature_cursor :]
         self._feature_cursor = len(features)
         pending = np.concatenate((self._feature_remainder, new_features), axis=0)
