@@ -7,7 +7,7 @@ import pytest
 
 from wakeword_studio.backends.base import BackendEvaluation, ExportArtifact, WakeWordBackend
 from wakeword_studio.runtime.detection_logic import DetectionConfig, DetectionLogic
-from wakeword_studio.runtime.gates import ConsecutiveSpeechGate
+from wakeword_studio.runtime.gates import ConsecutiveSpeechGate, WebRTCVadGate
 from wakeword_studio.runtime.ring_buffer import PreRollRingBuffer
 from wakeword_studio.runtime.engine import StreamingWakeWordEngine
 
@@ -29,6 +29,11 @@ def test_vad_three_frame_gate_is_independent() -> None:
     assert gate.update(True) == (1, False)
     assert gate.update(True) == (2, False)
     assert gate.update(True) == (3, True)
+
+
+def test_webrtc_vad_runtime_dependency_can_initialize() -> None:
+    gate = WebRTCVadGate(frame_ms=30)
+    assert gate.process(np.zeros(480, dtype=np.int16)) is False
 
 
 def test_detection_l1_to_l5_and_cooldown() -> None:

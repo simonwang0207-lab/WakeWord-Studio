@@ -6,9 +6,11 @@
 
 | 组件 | 用途 | 当前使用方式 | 上游许可/状态 |
 |---|---|---|---|
-| TensorFlow | TFLite 推理、训练和导出 | Python dependency，不在本仓库复制其源码或 wheel | Apache-2.0；以安装版本自带许可证为准 |
-| LiveKit Embedded Wakeword | Binary 模型前端/后端与训练能力 | `pyproject.toml` 固定到上游 commit；不 vendor 上游仓库 | 上游仓库声明 Apache-2.0 |
-| NumPy / SciPy / SoundFile / PyYAML / pypinyin / webrtcvad | 数值、音频、配置和中文处理 | Python dependency | 分别遵循各包安装版本的许可证 |
+| LiteRT (`ai-edge-litert`) | 已发布 TFLite 模型的本地推理 | Python runtime dependency，不在本仓库复制其源码或 wheel | Apache-2.0；以安装版本自带许可证为准 |
+| pymicro-features | 运行时 16 kHz/40-channel 声学前端 | Python runtime dependency，不在本仓库复制其源码或 wheel | Apache-2.0；以安装版本自带许可证为准 |
+| TensorFlow | 模型训练、量化和导出；普通实时运行不需要 | 可选的 Python training dependency，不在本仓库复制其源码或 wheel | Apache-2.0；以安装版本自带许可证为准 |
+| LiveKit Embedded Wakeword | Binary 模型训练与历史兼容能力 | `pyproject.toml` 的 `training` extra 固定到上游 commit；不 vendor 上游仓库 | 上游仓库声明 Apache-2.0 |
+| NumPy / SciPy / SoundFile / PyYAML / pypinyin / webrtcvad-wheels | 数值、音频、配置、中文处理和语音活动检测 | Python dependency；`webrtcvad-wheels` 提供 `webrtcvad` 导入接口 | 分别遵循各包安装版本的许可证 |
 | tf2onnx / ONNX / ONNX Runtime | Phase 11 FP32 ONNX 导出与验证 | optional `export` dependencies | 分别遵循各包安装版本的许可证 |
 
 ## 数据生成与 reference 来源

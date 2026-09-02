@@ -15,13 +15,20 @@ WakeWord-Studio 是一个面向中文离线唤醒词的本地工具箱，覆盖�
 
 ## 快速开始
 
-推荐使用 Python 3.11。在 PowerShell 中执行：
+推荐使用 Python 3.11，并安装到独立 Conda 环境。不要在 Anaconda `base` 中安装运行依赖。
+
+如果还没有下载项目，请先在准备存放项目的**父目录**执行：
 
 ```powershell
 git clone https://github.com/simonwang0207-lab/WakeWord-Studio.git
 cd WakeWord-Studio
-py -3.11 -m venv .venv
-.\.venv\Scripts\Activate.ps1
+```
+
+如果已经打开了 `WakeWord-Studio` 源码目录，请跳过上面的 `git clone` 和 `cd`，避免在仓库内部再次克隆一份同名项目。然后执行：
+
+```powershell
+conda create -n wakeword-studio-runtime python=3.11 -y
+conda activate wakeword-studio-runtime
 python -m pip install --upgrade pip
 python -m pip install -e ".[runtime,demo]"
 python .\run_studio.py
@@ -38,7 +45,15 @@ python -m pip install -e ".[runtime,demo,test]"
 python -m pytest -q
 ```
 
-基础安装不会下载训练数据，也不会配置 Kokoro、VoxCPM、CUDA 或 WSL。上述重型组件只在重新生成数据或正式训练时需要。
+实时运行使用轻量 LiteRT，不需要安装完整 TensorFlow。基础安装也不会下载训练数据，或配置 Kokoro、VoxCPM、CUDA 和 WSL。
+
+只有开发训练代码时才额外安装 TensorFlow：
+
+```powershell
+python -m pip install -e ".[runtime,demo,training]"
+```
+
+正式数据生成和 GPU 训练仍需要项目对应的独立环境与外部数据，不能只靠这一条命令完成。
 
 ## Teacher-Six 模型
 

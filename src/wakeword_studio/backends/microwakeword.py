@@ -12,49 +12,21 @@ import numpy as np
 
 from .base import BackendEvaluation, ExportArtifact, WakeWordBackend
 from ..dataset.manifest import DatasetManifest
-from ..frontends import load_inference_audio
+from ..frontends import generate_pymicro_features, load_inference_audio
+from ..tflite_runtime import create_tflite_interpreter
 
 
 def _generate_features_for_clip(audio_samples: np.ndarray) -> np.ndarray:
     """Run the same 16 kHz/10 ms microfrontend used by formal Model A evaluation."""
 
-    from pymicro_features import MicroFrontend
-
-    samples = np.asarray(audio_samples).reshape(-1)
-    if samples.dtype in (np.float32, np.float64):
-        samples = np.clip(samples * 32768.0, -32768, 32767).astype(np.int16)
-    elif samples.dtype != np.int16:
-        samples = samples.astype(np.int16)
-
-    audio_bytes = samples.tobytes()
-    frontend = MicroFrontend()
-    process_samples = getattr(
-        frontend,
-        "ProcessSamples",
-        getattr(frontend, "process_samples", None),
-    )
-    if process_samples is None:
-        raise RuntimeError("Unsupported pymicro-features MicroFrontend API")
-
-    features: list[object] = []
-    audio_index = 0
-    packet_bytes = 160 * 2
-    # Keep the upstream microWakeWord boundary rule byte-for-byte compatible.
-    while audio_index + packet_bytes < len(audio_bytes):
-        result = process_samples(audio_bytes[audio_index : audio_index + packet_bytes])
-        audio_index += int(result.samples_read) * 2
-        if result.features:
-            features.append(result.features)
-    return np.asarray(features, dtype=np.float32).reshape(-1, 40)
+    return generate_pymicro_features(audio_samples, window_step_ms=10)
 
 
 class _TFLiteStreamingModel:
     """Minimal deployment adapter matching the frozen evaluator's TFLite path."""
 
     def __init__(self, model_path: Path, *, stride: int = 3):
-        import tensorflow as tf
-
-        self.interpreter = tf.lite.Interpreter(model_path=str(model_path))
+        self.interpreter = create_tflite_interpreter(model_path=model_path)
         self.interpreter.allocate_tensors()
         inputs = self.interpreter.get_input_details()
         outputs = self.interpreter.get_output_details()

@@ -11,6 +11,8 @@ from pathlib import Path
 
 import numpy as np
 
+from .tflite_runtime import create_tflite_interpreter
+
 
 @dataclass(frozen=True, slots=True)
 class ModelInfo:
@@ -31,9 +33,7 @@ def inspect_tflite_model(path: Path) -> ModelInfo:
     path = path.resolve()
     if not path.is_file():
         raise FileNotFoundError(path)
-    import tensorflow as tf
-
-    interpreter = tf.lite.Interpreter(model_path=str(path))
+    interpreter = create_tflite_interpreter(model_path=path)
     interpreter.allocate_tensors()
     inputs = interpreter.get_input_details()
     outputs = interpreter.get_output_details()

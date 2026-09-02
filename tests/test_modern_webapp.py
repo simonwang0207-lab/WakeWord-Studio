@@ -13,7 +13,10 @@ from wakeword_studio.webapp import StudioController
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-HAS_TENSORFLOW = importlib.util.find_spec("tensorflow") is not None
+HAS_TFLITE_RUNTIME = (
+    importlib.util.find_spec("ai_edge_litert") is not None
+    or importlib.util.find_spec("tensorflow") is not None
+)
 
 
 @pytest.fixture()
@@ -39,7 +42,7 @@ def test_bootstrap_is_registry_driven_and_formal_plan_is_real(controller: Studio
     assert boot["state"]["status"] == "STOPPED"
 
 
-@pytest.mark.skipif(not HAS_TENSORFLOW, reason="model loading runs in .envs/livekit")
+@pytest.mark.skipif(not HAS_TFLITE_RUNTIME, reason="TFLite runtime is not installed")
 def test_model_b_can_start_and_stop_without_changing_frozen_artifact(controller: StudioController) -> None:
     model = controller.models.by_id("model_b")
     controller.active_models._state["active_model_id"] = "model_b"
@@ -53,7 +56,7 @@ def test_model_b_can_start_and_stop_without_changing_frozen_artifact(controller:
     assert hashlib.sha256(model.model_path.read_bytes()).hexdigest() == before
 
 
-@pytest.mark.skipif(not HAS_TENSORFLOW, reason="model inspection runs in .envs/livekit")
+@pytest.mark.skipif(not HAS_TFLITE_RUNTIME, reason="TFLite runtime is not installed")
 def test_model_inspection_reports_frozen_final_b2(controller: StudioController) -> None:
     info = controller.inspect_model("model_b")
     assert info["kib"] == pytest.approx(110.171875)

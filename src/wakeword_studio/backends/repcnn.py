@@ -11,7 +11,9 @@ import numpy as np
 
 from .base import BackendEvaluation, ExportArtifact, WakeWordBackend
 from ..dataset.manifest import DatasetManifest
+from ..frontends import PymicroFrontend
 from ..runtime.score_smoothing import RollingScoreSmoother
+from ..tflite_runtime import create_tflite_interpreter
 
 
 class RepCNNBackend(WakeWordBackend):
@@ -81,10 +83,7 @@ class RepCNNBackend(WakeWordBackend):
         self.model_path = model_path.resolve()
         if not self.model_path.is_file():
             raise FileNotFoundError(self.model_path)
-        import tensorflow as tf
-        from livekit.embedded_wakeword.models.feature_extractor import MicroFrontend
-
-        self._interpreter = tf.lite.Interpreter(model_path=str(self.model_path))
+        self._interpreter = create_tflite_interpreter(model_path=self.model_path)
         self._interpreter.allocate_tensors()
         inputs = self._interpreter.get_input_details()
         outputs = self._interpreter.get_output_details()
@@ -100,7 +99,7 @@ class RepCNNBackend(WakeWordBackend):
             raise RuntimeError("Live RepCNN model input must be full INT8")
         if np.dtype(self._output["dtype"]) != np.dtype(np.int8):
             raise RuntimeError("Live RepCNN model output must be full INT8")
-        self._frontend = MicroFrontend(
+        self._frontend = PymicroFrontend(
             sample_rate=self.sample_rate_hz,
             window_size_ms=30,
             window_step_ms=20,

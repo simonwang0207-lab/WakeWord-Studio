@@ -11,6 +11,8 @@ import numpy as np
 
 from .base import BackendEvaluation, ExportArtifact, WakeWordBackend
 from ..dataset.manifest import DatasetManifest
+from ..frontends import PymicroFrontend
+from ..tflite_runtime import create_tflite_interpreter
 
 
 @dataclass(frozen=True, slots=True)
@@ -111,10 +113,7 @@ class MultiKWSBackend(WakeWordBackend):
         self.model_path = Path(model_path).resolve()
         if not self.model_path.is_file():
             raise FileNotFoundError(self.model_path)
-        import tensorflow as tf
-        from livekit.embedded_wakeword.models.feature_extractor import MicroFrontend
-
-        self._interpreter = tf.lite.Interpreter(model_path=str(self.model_path))
+        self._interpreter = create_tflite_interpreter(model_path=self.model_path)
         self._interpreter.allocate_tensors()
         inputs = self._interpreter.get_input_details()
         outputs = self._interpreter.get_output_details()
@@ -131,7 +130,7 @@ class MultiKWSBackend(WakeWordBackend):
             raise RuntimeError("Multi-KWS input must be Full INT8")
         if np.dtype(self._output["dtype"]) not in (np.dtype(np.int8), np.dtype(np.uint8)):
             raise RuntimeError("Multi-KWS output must be quantized int8/uint8")
-        self._frontend = MicroFrontend(
+        self._frontend = PymicroFrontend(
             sample_rate=self.sample_rate_hz,
             window_size_ms=30,
             window_step_ms=20,
