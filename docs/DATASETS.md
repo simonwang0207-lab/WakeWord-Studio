@@ -2,7 +2,7 @@
 
 ## 1. 为什么 GitHub 不包含训练音频
 
-本仓库的 GitHub 快照面向源码、实验协议、配置、报告和小型部署模型。完整数据目录包含数 GiB WAV、特征缓存、partial records 与本机 TTS cache，不适合普通 Git，也可能涉及语音来源许可与隐私边界。因此 `.gitignore` 排除 `datasets/`、音频格式、NPZ/NPY 和 phase artifacts；本地文件不删除。
+本仓库的 GitHub 快照面向源码、实验协议、配置、报告和小型部署模型。完整数据目录包含数 GiB WAV、特征缓存、partial records 与本机 TTS cache，不适合普通 Git，也可能涉及语音来源许可与隐私边界。因此 `.gitignore` 排除 `datasets/`、音频格式、NPZ/NPY 和 phase artifacts；
 
 ## 2. Teacher-Six 12K 正式数据集
 
@@ -71,7 +71,7 @@ Git 中不保留：
 6. 用 `phase9/scripts/extract_multikws_features.py` 只提取 Train/Validation 特征；
 7. 在重建完成后比较 dataset、manifest logical hash 与记录分布。
 
-不要把本报告中的原开发机路径当作必需路径，也不要在没有合法 source/reference 的情况下伪造 speaker 或年龄 metadata。
+不要把本报告中的原开发机路径当作必需路径。
 
 ## 6. Test 口径
 
