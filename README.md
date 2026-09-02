@@ -4,6 +4,21 @@ WakeWord-Studio 是一个面向中文离线唤醒词的本地工具箱，覆盖�
 
 仓库已经包含可运行的模型权重。完成依赖安装后，无需重新训练即可启动 Web UI，并使用默认的 Teacher-Six ConvMixer 模型体验六提示词识别。
 
+## Web UI 预览
+
+<table>
+  <tr>
+    <td width="50%" align="center"><strong>实时唤醒</strong><br><img src="docs/images/webui/realtime-wakeword.png" alt="WakeWord-Studio 实时唤醒界面"></td>
+    <td width="50%" align="center"><strong>数据集生成</strong><br><img src="docs/images/webui/dataset-generation.png" alt="WakeWord-Studio 数据集生成界面"></td>
+  </tr>
+  <tr>
+    <td width="50%" align="center"><strong>模型训练</strong><br><img src="docs/images/webui/model-training.png" alt="WakeWord-Studio 模型训练界面"></td>
+    <td width="50%" align="center"><strong>模型部署</strong><br><img src="docs/images/webui/model-deployment.png" alt="WakeWord-Studio 模型部署界面"></td>
+  </tr>
+</table>
+
+界面覆盖数据准备、训练任务管理、浏览器麦克风测试和冻结模型部署。具体操作及当前能力边界见 [Web UI 使用指南](docs/USER_GUIDE.md)。
+
 ## 主要功能
 
 - 使用一个模型区分背景和多个中文唤醒词；
