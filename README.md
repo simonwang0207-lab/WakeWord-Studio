@@ -36,6 +36,8 @@ python .\run_studio.py
 
 浏览器会自动打开 <http://127.0.0.1:8765>。如果没有自动打开，可以手动访问该地址。
 
+数据生成、训练 run、实时识别和部署包的具体操作及保存位置，见 [Web UI 使用指南](docs/USER_GUIDE.md)。
+
 第一次使用实时识别时，需要允许浏览器访问麦克风。默认活动模型为 `teacher_six_convmixer`，权重已经放在 `artifacts/models/teacher_six/`。
 
 运行测试：
@@ -169,6 +171,7 @@ WakeWord-Studio/
 
 ## 相关文档
 
+- [Web UI 使用指南](docs/USER_GUIDE.md)
 - [模型文件与校验信息](artifacts/README.md)
 - [数据集与复现说明](docs/DATASETS.md)
 - [Teacher-Six 模型评估](reports/multikws/README.md)
