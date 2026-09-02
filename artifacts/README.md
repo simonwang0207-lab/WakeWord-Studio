@@ -1,7 +1,6 @@
 # Release Artifacts
 
-本目录保存适合普通 Git 分发的小型冻结 artifact。以下模型均由 WakeWord-Studio 使用项目数据训练得到，不是从互联网直接下载的中文成品唤醒模型。原始 WAV、checkpoint、feature cache 与完整 run 留在本地，不进入 GitHub。
-
+本目录保存适合普通 Git 分发的小型冻结 artifact。以下模型均由 WakeWord-Studio 使用项目数据训练得到，不是直接下载的中文成品唤醒模型。
 ## 发布模型
 
 | Model ID | 文件 | 任务 | 角色 | 大小 | SHA256 |
@@ -27,5 +26,3 @@
 - Keras weights/checkpoint：不包含；
 - TTS 下载缓存与虚拟环境：不包含；
 - ESP32-S3 实板验证：尚未完成，所有 metadata 均为 `hardware_runtime_verified=false`。
-
-六个发布模型合计不足 0.5 MiB，不需要 Git LFS。
