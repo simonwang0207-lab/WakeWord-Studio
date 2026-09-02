@@ -115,6 +115,124 @@ Kokoro 不属于普通运行依赖。只有本机已经准备好 Kokoro 包、�
 
 GitHub 仓库不附带 Kokoro/VoxCPM 权重、缓存或第三方语音 reference。若页面只显示“本地语音文件夹”，这是正常现象，不代表 Web UI 安装失败。
 
+
+### 配置已有的 Kokoro 环境
+
+Kokoro 环境和模型缓存不必放在 WakeWord-Studio 项目目录中。项目只需要知道 Kokoro 环境所使用的 Python 解释器路径。
+
+首先激活已有的 Kokoro 环境，并查看 Python 的真实位置：
+
+```powershell
+conda activate 你的Kokoro环境名
+python -c "import sys; print(sys.executable)"
+```
+
+例如，Conda 环境可能输出：
+
+```text
+D:\anaconda12.7\envs\kokoro\python.exe
+```
+
+普通 Python 虚拟环境可能位于：
+
+```text
+F:\TTS\kokoro_env\Scripts\python.exe
+```
+
+然后打开：
+
+```text
+configs/demo/teacher_demo.yaml
+```
+
+找到：
+
+```yaml
+providers:
+  kokoro:
+    display_name: Kokoro
+    kind: tts
+    dependency: kokoro
+    python: .envs/kokoro/Scripts/python.exe
+```
+
+将 `python` 改成实际解释器的绝对路径。Windows 下建议使用正斜杠：
+
+```yaml
+providers:
+  kokoro:
+    display_name: Kokoro
+    kind: tts
+    dependency: kokoro
+    python: D:/anaconda12.7/envs/kokoro/python.exe
+```
+
+也可以使用带单引号的反斜杠路径：
+
+```yaml
+    python: 'F:\TTS\kokoro_env\Scripts\python.exe'
+```
+
+修改后验证该解释器能够导入 Kokoro 和 PyTorch：
+
+```powershell
+& 'D:\anaconda12.7\envs\kokoro\python.exe' -c "import kokoro, torch; print('Kokoro 环境正常'); print('CUDA=', torch.cuda.is_available())"
+```
+
+如果输出类似下面内容，说明 Python 环境可用：
+
+```text
+Kokoro 环境正常
+CUDA= True
+```
+
+`CUDA=False` 不代表 Kokoro 无法运行，只表示当前环境将使用 CPU，数据生成速度通常会更慢。
+
+### 配置已有的模型缓存
+
+Kokoro 模型缓存也不必放在项目目录中。默认通常使用当前 Windows 用户的 Hugging Face 缓存目录，例如：
+
+```text
+C:\Users\你的用户名\.cache\huggingface
+```
+
+如果模型已经位于默认缓存目录，一般不需要额外配置。
+
+如果缓存位于其他位置，可以在启动 WakeWord-Studio 前设置 `HF_HOME`：
+
+```powershell
+conda activate wakeword-studio-runtime
+$env:HF_HOME = 'F:\ModelCache\huggingface'
+python .\run_studio.py
+```
+
+这个设置只对当前 PowerShell 窗口及其启动的子进程生效，不会移动或复制模型文件。
+
+配置完成并重新启动 Web UI 后，打开“数据集”页面。“语音来源”中应当出现 `Kokoro`。建议先点击“生成前检查”，确认通过后再开始生成。
+
+### 本地配置注意事项
+
+`configs/demo/teacher_demo.yaml` 是 Git 跟踪文件。个人电脑上的绝对路径通常不适合提交到公共仓库。
+
+提交代码前检查：
+
+```powershell
+git status --short
+```
+
+如果出现：
+
+```text
+M configs/demo/teacher_demo.yaml
+```
+
+表示该文件包含本地修改。除非准备把它改成适用于所有用户的通用配置，否则不要执行：
+
+```powershell
+git add configs/demo/teacher_demo.yaml
+```
+
+其他用户需要根据自己的 Conda、虚拟环境和模型缓存位置配置对应路径。
 ## 5. 模型训练
 
 ### 5.1 当前支持范围
